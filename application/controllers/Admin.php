@@ -1,0 +1,132 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Admin extends CI_Controller
+{
+
+	private $admin_user = false;
+
+	function __construct()
+	{
+		parent::__construct();
+		if(empty($account_id = $this->account->isLogged()))
+		{
+			exit;
+		}
+		$account = $this->account->getAccountById($this->account->isLogged());
+		if($account->a_admin == 1)
+		{
+			$this->admin_user = $account;
+		}
+		else
+		{
+			exit;
+		}
+	}
+	
+	function index()
+	{
+		$data['carts'] = $this->admin->getAllCarts(10);
+		$data['accounts'] = $this->admin->getAllAccounts(10);
+		$data['statuses'] = $this->cart->getCartStatuses();
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/index', $data);
+		$this->load->view('admin/footer');
+	}
+
+	function showAccounts()
+	{
+		$data['accounts'] = $this->admin->getAllAccounts();
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/accounts', $data);
+		$this->load->view('admin/footer');
+	}
+
+	function showAccount()
+	{
+		$account_id = $this->input->get('account_id');
+		$data['accounts'] = $this->admin->getAccountBy($account_id);
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/account', $data);
+		$this->load->view('admin/footer');
+	}
+
+	function showOrders()
+	{
+		$data['carts'] = $this->admin->getAllCarts();
+		$data['statuses'] = $this->cart->getCartStatuses();
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/orders', $data);
+		$this->load->view('admin/footer');
+	}
+
+	function showOrder()
+	{
+		$cart_id = $this->input->get('cart_id');
+		$data['order'] = $this->cart->getCart($cart_id);
+		$data['statuses'] = $this->cart->getCartStatuses();
+
+		$this->load->view('admin/header');
+		$this->load->view('admin/order', $data);
+		$this->load->view('admin/footer');
+	}
+
+	function updateCart()
+	{
+
+		$status = $this->input->post('status');
+		$shipping = $this->input->post('shipping');
+
+		$fields = [];
+		$fields['status'] = ($status) ? $status : null;
+		$fields['shipping'] = ($shipping) ? $shipping : null;
+
+		$upd = $this->cart->updateStatus($fields);
+
+		echo json_encode( array("data" => array('success' => $upd)));
+
+	}
+
+	function doUpdateItem()
+	{
+		$item_id = $this->input->post('item_id');
+		$price = $this->input->post('item_price');
+		$qty = $this->input->post('item_qty');
+		$size = $this->input->post('item_size');
+
+		$data = array(
+			'first_name' => $item_id,
+			'last_name'  => $price,
+			'email'      => $qty,
+			'active'     => $size
+		);
+
+		$upd = $this->admin->updateItem($item_id, $data);
+		echo json_encode( array("data" => array('success' => $upd)));
+	}
+
+	function doUpdateAccount()
+	{
+		$a_id = $this->input->post('a_id');
+		$first_name = $this->input->post('first_name');
+		$last_name = $this->input->post('last_name');
+		$email = $this->input->post('email');
+		$active = $this->input->post('active');
+
+		$data = array(
+			'first_name' => $first_name,
+			'last_name'  => $last_name,
+			'email'      => $email,
+			'active'     => $active
+		);
+
+		$upd = $this->account->updateAccount($a_id, $data);
+		echo json_encode( array("data" => array('success' => $upd)));
+	}
+
+}
