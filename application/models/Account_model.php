@@ -38,6 +38,8 @@ class Account_model extends CI_Model{
 			$user_id = $data['user']->id;
 		}
 
+        $user_id = $this->data->cleanData( $user_id );
+
 		$this->db->where('a_ig_id',$user_id);
 		return $this->db->get('ss_accounts')->row();
 	}
@@ -46,6 +48,7 @@ class Account_model extends CI_Model{
 	{
 		if($limit)
 		{
+            $limit = $this->data->cleanData( $limit );
 			$this->db->limit($limit);
 			$this->db->order_by('a_id',"desc");
 		}
@@ -184,6 +187,10 @@ class Account_model extends CI_Model{
 
 	function updateToken($id, $token)
 	{
+
+        $id 	= $this->data->cleanData( $id );
+        $token 	= $this->data->cleanData( $token );
+
 		$this->db->where('a_id', $id);
 		$this->db->update('ss_accounts', array('s_token' => $token));
 	}
@@ -198,12 +205,17 @@ class Account_model extends CI_Model{
 
 	function getAccountById($account_id)
 	{
+        $account_id 	= $this->data->cleanData( $account_id );
+
 		$this->db->where('a_id', $account_id);
 		return $this->db->get('ss_accounts')->row();
 	}
 
 	function updateAccount($a_id, $data)
 	{
+        $a_id 	= $this->data->cleanData( $a_id );
+        $data 	= $this->data->cleanData( $data );
+
 		$this->db->where('a_id', $a_id);
 		return $this->db->update('ss_accounts', $data);
 	}

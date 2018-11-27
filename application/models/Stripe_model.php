@@ -9,8 +9,14 @@
 include STRIPE_LIB;
 
 class Stripe_model extends CI_Model{
+
+    function getAccountByStripeId($stripe_id)
+    {
+        $this->db->where('stripe_id', $stripe_id);
+        return $this->db->get('ss_accounts')->row();
+    }
 	
-	function createAccount($email)
+	function createStripeAccount($email, $country)
 	{
 		$stripe = new \Stripe\Stripe;
 		$stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
@@ -27,16 +33,18 @@ class Stripe_model extends CI_Model{
                     $description = $cart->uc_full_name;
                 }
 
-		$cus = new \Stripe\Customer;
-		return $cus->create(
+		$acct = new \Stripe\Account;
+		return $acct->create(
 			array(
-				'email' => $email,
-				'description' => $description
+				'email'         => $email,
+				'description'   => $description,
+                'country'       => $country,
+                'type'          => 'custom'
 			)
 		);
 	}
 
-	function processPayment($token, $amount, $stripe_email = "")
+	function processPayment($token, $amount, $country, $stripe_email = "")
 	{
 		$stripe = new \Stripe\Stripe;
 		$stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
@@ -56,7 +64,7 @@ class Stripe_model extends CI_Model{
             try{
 				if(!empty($stripe_email))
 				{
-					$this->createAccount( $stripe_email );
+					$this->createStripeAccount( $stripe_email, $country );
 				}
 			}
 			catch(Exception $e)
@@ -81,6 +89,7 @@ class Stripe_model extends CI_Model{
 		}
 		catch(Exception $e)
 		{
+		    $status = new stdClass();
 			$status->failure_code = $e->getMessage();
 		}                
                 
@@ -109,13 +118,20 @@ class Stripe_model extends CI_Model{
 					{
 						if(!empty($photo->stripe_user_id))
 						{
-                            $payout = $this->sendPayout($pay, $photo->stripe_user_id);
+                            $payout = $this->sendPayout($pay, $photo->stripe_user_id, "PHOTO :" .$item->c_p_id, $photo->a_currency);
+                            if($payout !== true)
+                            {
+                                $success = false;
+                            }
+                            else
+                            {
+                                $success = true;
+                            }
 						}
 						else
 						{
 							$this->sendMissingStripeIdEmail($photo->stripe_user_id);
 						}
-                        $success = true;
 					}
 					catch(Exception $e)
 					{
@@ -124,7 +140,7 @@ class Stripe_model extends CI_Model{
 						$status->failure_message[] = $photo->stripe_user_id . '|' . $e->getMessage();
 						$this->error->sendError(__FILE__,__LINE__,$e->getMessage());
 					}
-					$this->logPayout($pay, $item->c_a_id, $item->c_p_id,$item->uc_id,$item->c_qty,$success,$photo->stripe_user_id);
+					$this->logPayout($pay, $item->c_a_id, $item->c_p_id, $item->uc_id, $item->c_qty, $success, $photo->stripe_user_id);
 				}
 			}
 			
@@ -138,15 +154,25 @@ class Stripe_model extends CI_Model{
 		}
 	}
 	
-        function sendPayout($amount,$stripe_id)
-        {   
-            $payout = new \Stripe\Payout();
-            $payout->create(array(
-                    "amount" => ($amount*100),
-                    "currency" => "usd",
-            ), array("stripe_account" => $stripe_id));
+        function sendPayout($amount, $stripe_id, $description, $currency = "usd")
+        {
+            $payout = new \Stripe\Transfer;
+            try{
+                $payout->create(
+                    [
+                        "amount" => ($amount*100),
+                        "currency" => $currency,
+                        "destination" => $stripe_id,
+                        "description" => $description
+                    ]
+                );
+                return true;
+            }catch (Exception $e)
+            {
+                return $e->getMessage();
+            }
 
-            return $payout;
+            return false;
         }
 	
         function logPayout($amount,$account_id,$photo_id,$cart_id,$qty,$success,$ap_stripe_id="")
@@ -216,10 +242,12 @@ class Stripe_model extends CI_Model{
             $this->account->updateAccount($this->account->isLogged(), 
                 array(
                     'stripe_user_id'        => $data->stripe_user_id,
-                    'stripe_refresh_token'   => $data->refresh_token,
+                    'stripe_refresh_token'  => $data->refresh_token,
                     'stripe_access_token'   => $data->access_token
                 )
             );
             
         }
+
+
 }

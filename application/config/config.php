@@ -24,10 +24,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$local = '';
 
-$config['base_url'] = 'http://'. $local .'www.snaggedsocial.com';
-$config['site_url'] = 'http://'. $local .'www.snaggedsocial.com/index.php/';
+if(ENVIRONMENT == 'development')
+{
+    $config['base_url'] = 'http://local.snaggedsocial.com';
+    $config['site_url'] = 'http://local.snaggedsocial.com/index.php/';
+}else{
+    $config['base_url'] = 'http://www.snaggedsocial.com';
+    $config['site_url'] = 'http://www.snaggedsocial.com/index.php/';
+}
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -372,7 +379,7 @@ $config['encryption_key'] = '';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
+$config['sess_cookie_name'] = 'ciSSsession';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;

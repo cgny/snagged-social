@@ -12,6 +12,8 @@ class Admin extends CI_Controller
 		parent::__construct();
 		if(empty($account_id = $this->account->isLogged()))
 		{
+            $data['errors']['message'] = "Not loged in";
+            echo json_encode($data);
 			exit;
 		}
 		$account = $this->account->getAccountById($this->account->isLogged());
@@ -21,6 +23,8 @@ class Admin extends CI_Controller
 		}
 		else
 		{
+            $data['errors']['message'] = "No access";
+            echo json_encode($data);
 			exit;
 		}
 	}

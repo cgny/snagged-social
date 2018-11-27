@@ -568,7 +568,8 @@ jQuery(document).ready(function ($) {
           'first_name' : $('#first_name').val(),
           'last_name' : $('#last_name').val(),
           'phone' : $('#phone').val(),
-          'email' : $('#email').val()
+          'email' : $('#email').val(),
+          'currency' : $('#currency').val()
         };
 		
 		if (!formData.email) {
@@ -913,10 +914,11 @@ jQuery(document).ready(function ($) {
         }
         return total;
     }
-	
+
 	
 
     function getUserData() {
+
         var success = false;
         var formData = [];
         $.ajax({
@@ -946,8 +948,32 @@ jQuery(document).ready(function ($) {
 					email_field = "<input class='form-control' type='text' id='email' value='" + data.user.a_email +"' placeholder='Phone Number' />";
 				}
 				if (!data.user.card) {
-					email_field += "<br><b>Please enter click on \"Add Card\" under \"User\" to add your debit card in order to be paid</b><br>";
+					email_field += "<br><b>Please click \"Add Card\" under \"User\" to add your debit card in order to be paid</b><br>";
 				}
+
+				var country_field = "<select id='country'>";
+				var co_sel = "";
+				for(var x in data.countries)
+                {
+                    if(data.user.a_country == data.countries[x].county_code)
+                    {
+                        co_sel = "selected";
+                    }
+                    country_field += '<option value="'+ data.countries[x].county_code +'"  '+ co_sel +'>'+ data.countries[x].county_code +' - '+ data.countries[x].county_name +'</option>';
+                }
+                country_field += '</select>';
+
+                var currency_field = "<select id='currency'>";
+                var cu_sel = "";
+                for(var x in data.currencies)
+                {
+                    if(data.user.a_currency == x)
+                    {
+                        cu_sel = "selected";
+                    }
+                    currency_field += '<option value="'+ x +'" '+ cu_sel +'>'+ x +' - '+ data.currencies[x] +'</option>';
+                }
+                currency_field += '</select>';
 
                 var html = "<div class='col-xs-12 col-md-6'>"+
                            "<img src='" + data.user.a_ig_profile +"' /><br><br>"+
@@ -996,6 +1022,20 @@ jQuery(document).ready(function ($) {
 										 email_field+
 										 '</div>'+
 									 '</div>'+
+
+                                    '<div class="form-group">'+
+                                        '<label class="col-lg-3 control-label">Country</label>'+
+                                        '<div class="col-lg-9">'+
+                                        country_field+
+                                        '</div>'+
+                                    '</div>'+
+
+                                    '<div class="form-group">'+
+                                        '<label class="col-lg-3 control-label">Currency</label>'+
+                                        '<div class="col-lg-9">'+
+                                        currency_field+
+                                        '</div>'+
+                                    '</div>'+
 									 
 									 '<div class="form-group">'+
 										 '<label class="col-lg-3 control-label">Update</label>'+
@@ -1354,7 +1394,7 @@ jQuery(document).ready(function ($) {
             });
 	}
 	
-	function userNotLoged(args) {
+	function userNotLoged() {
 		alert('You have been logged out.');
 		window.location.assign(base_url);
 	}
