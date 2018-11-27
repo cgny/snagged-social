@@ -951,27 +951,37 @@ jQuery(document).ready(function ($) {
 					email_field += "<br><b>Please click \"Add Card\" under \"User\" to add your debit card in order to be paid</b><br>";
 				}
 
-				var country_field = "<select id='country'>";
-				var co_sel = "";
+				var country_field = "<select id='country' class='form-control'>";
+
+                console.log(data.countries);
 				for(var x in data.countries)
                 {
-                    if(data.user.a_country == data.countries[x].county_code)
+                    if(data.user.a_country == data.countries[x].country_code)
                     {
-                        co_sel = "selected";
+                        var co_sel = "selected";
                     }
-                    country_field += '<option value="'+ data.countries[x].county_code +'"  '+ co_sel +'>'+ data.countries[x].county_code +' - '+ data.countries[x].county_name +'</option>';
+                    else
+                    {
+                        var co_sel = "";
+                    }
+                    country_field += '<option value="'+ data.countries[x].country_code +'"  '+ co_sel +'>'+ data.countries[x].country_code +' - '+ data.countries[x].country_name +'</option>';
                 }
                 country_field += '</select>';
 
-                var currency_field = "<select id='currency'>";
-                var cu_sel = "";
-                for(var x in data.currencies)
+                var currency_field = "<select id='currency' class='form-control'>";
+
+                console.log(data.currencies);
+                for(var x in data.currencies.currency)
                 {
                     if(data.user.a_currency == x)
                     {
-                        cu_sel = "selected";
+                        var cu_sel = "selected";
                     }
-                    currency_field += '<option value="'+ x +'" '+ cu_sel +'>'+ x +' - '+ data.currencies[x] +'</option>';
+                    else
+                    {
+                        var cu_sel = "";
+                    }
+                    currency_field += '<option value="'+ x +'" '+ cu_sel +'>'+ x +' - '+ data.currencies.currency[x] +'</option>';
                 }
                 currency_field += '</select>';
 
@@ -1305,6 +1315,19 @@ jQuery(document).ready(function ($) {
             } else {
                 $('#media .row.photos').html('');
                 // display success message
+
+                var table = '<table class="table">' +
+                    '  <thead>' +
+                    '    <tr>' +
+                    '      <th scope="col">#</th>' +
+                    '      <th scope="col">First</th>' +
+                    '      <th scope="col">Last</th>' +
+                    '      <th scope="col">Handle</th>' +
+                    '    </tr>' +
+                    '  </thead>' +
+                    '  <tbody>';
+
+
                 for(var x in data.photos)
                 {
                     var img = '<div class="col-xs-12 col-sm-6 col-md-4 gallery_single_item" style="display:block">'+
@@ -1334,6 +1357,9 @@ jQuery(document).ready(function ($) {
                       {
                           img += '<div style="width:100%;clear:both"></div>';
                       }
+
+                      var table = '</tbody>' +
+                          '</table>';
                       
                     $('#media .row.photos').append(img);
                 }

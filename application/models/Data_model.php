@@ -16,12 +16,12 @@ class Data_model extends CI_Model{
         {
             foreach($data as $k => $v)
             {
-                $data[$k] =  $this->db->escape($v);
+                $data[$k] =  $this->db->escape_str($v);
             }
         }
         else
         {
-            $data = $this->db->escape($data);
+            $data = $this->db->escape_str($data);
         }
         return $data;
     }

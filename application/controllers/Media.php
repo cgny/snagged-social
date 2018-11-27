@@ -48,7 +48,8 @@ class Media extends CI_Controller
 	function getGallery()
 	{
 		header('Access-Control-Allow-Origin: http://www.snaggedsocial.com');
-		
+
+        $error = false;
 		$result = $this->media->getSSMedia();
 		$data['errors']['message'] = $error;
 		$data['success'] = true;

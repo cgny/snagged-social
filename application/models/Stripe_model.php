@@ -114,12 +114,13 @@ class Stripe_model extends CI_Model{
 				$pay = (($item->c_qty * $photo->p_price) - (($item->c_qty * $photo->p_price) * BUSINESS_FEE ));
 				if($payout)
 				{
+                    $transfer_err = "";
 					try
 					{
 						if(!empty($photo->stripe_user_id))
 						{
                             $payout = $this->sendPayout($pay, $photo->stripe_user_id, "PHOTO :" .$item->c_p_id, $photo->a_currency);
-                            if($payout !== true)
+                            if(empty($payout))
                             {
                                 $success = false;
                             }
@@ -135,12 +136,12 @@ class Stripe_model extends CI_Model{
 					}
 					catch(Exception $e)
 					{
-                        $success = -1;												
-                        $this->sendMissingStripeIdEmail($photo->stripe_user_id);
+                        $transfer_err = $e->getMessage();
+                        $success = -1;
 						$status->failure_message[] = $photo->stripe_user_id . '|' . $e->getMessage();
 						$this->error->sendError(__FILE__,__LINE__,$e->getMessage());
 					}
-					$this->logPayout($pay, $item->c_a_id, $item->c_p_id, $item->uc_id, $item->c_qty, $success, $photo->stripe_user_id);
+					$this->logPayout($pay, $item->c_a_id, $item->c_p_id, $item->uc_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
 				}
 			}
 			
@@ -157,34 +158,34 @@ class Stripe_model extends CI_Model{
         function sendPayout($amount, $stripe_id, $description, $currency = "usd")
         {
             $payout = new \Stripe\Transfer;
-            try{
-                $payout->create(
-                    [
-                        "amount" => ($amount*100),
-                        "currency" => $currency,
-                        "destination" => $stripe_id,
-                        "description" => $description
-                    ]
-                );
-                return true;
-            }catch (Exception $e)
+            $payout->create(
+                [
+                    "amount" => ($amount*100),
+                    "currency" => $currency,
+                    "destination" => $stripe_id,
+                    "description" => $description
+                ]
+            );
+
+            if(empty($payout))
             {
-                return $e->getMessage();
+                throw new Exception("Unsuccessul Transfer");
             }
 
-            return false;
+            return $payout;
         }
 	
-        function logPayout($amount,$account_id,$photo_id,$cart_id,$qty,$success,$ap_stripe_id="")
+        function logPayout($amount, $account_id, $photo_id, $cart_id, $qty, $success, $transfer_err, $ap_stripe_id="")
         {
             $insert = array(
-                "ap_a_id" => $account_id,
-                "ap_c_id" => $cart_id,
-                "ap_p_id" => $photo_id,
-                "ap_qty" => $qty,
-                "ap_amount" => $amount,
-                "ap_stripe_id" => $ap_stripe_id,
-                "ap_success" => $success
+                "ap_a_id"       => $account_id,
+                "ap_c_id"       => $cart_id,
+                "ap_p_id"       => $photo_id,
+                "ap_qty"        => $qty,
+                "ap_amount"     => $amount,
+                "ap_stripe_id"  => $ap_stripe_id,
+                "ap_success"    => $success,
+                "ap_error"      => $transfer_err
             );
             $this->db->insert("ss_payments",$insert);
         }
