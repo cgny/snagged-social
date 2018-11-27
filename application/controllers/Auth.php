@@ -18,7 +18,6 @@ class Auth extends CI_Controller {
 	public function index()
 	{
 		$code = $this->input->get('code');
-		echo $code;
 		if(empty($code))
 		{
 		    $cart_id = $this->session->userdata['cart_id'];
@@ -32,9 +31,9 @@ class Auth extends CI_Controller {
 			$data = $this->url->requestToken($code);
 			if(isset($data->access_token))
 			{
-                $this->session->userdata['token'] = $data->access_token;
-                $this->session->userdata['user'] = $data->user;
-                $this->session->userdata['user_id'] = $this->account->saveAccount();
+                $_SESSION['token'] = $data->access_token;
+                $_SESSION['user'] = $data->user;
+                $_SESSION['user_id'] = $this->account->saveAccount();
 				$this->cart->updateCartAccountId();
 			}
 			redirect(site_url());
