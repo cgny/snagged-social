@@ -346,10 +346,14 @@
                                             }
                                             $country_field .= '</select>';
 
-                                            $currency_field = "<select id='country' class='form-control'>";
+                                            $currency_field = "<select id='currency' class='form-control'>";
                                             foreach($currencies['currency'] as $code => $currency)
                                             {
                                                 if($user->a_currency == $currency)
+                                                {
+                                                    $cu_sel = "selected";
+                                                }
+                                                elseif( empty( $user->a_currency) && $currency == "USD")
                                                 {
                                                     $cu_sel = "selected";
                                                 }
@@ -386,14 +390,14 @@
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Business Name (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='business_name' value='<?php echo  $user->a_busines_name; ?>' placeholder='Business Name' />
+                                                        <input class='form-control' type='text' id='business_name' value='<?php echo  $user->a_business_name; ?>' placeholder='Business Name' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Business Url (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='business_url' value='<?php echo  $user->a_busines_url; ?>' placeholder='Business Url' />
+                                                        <input class='form-control' type='text' id='business_url' value='<?php echo  $user->a_business_url; ?>' placeholder='Business Url' />
                                                     </div>
                                                 </div>
 
