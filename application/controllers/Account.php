@@ -135,21 +135,17 @@ class Account extends CI_Controller
 
         $update = $this->data->cleanData($data);
 		$success = false;
-		
-		if(!empty($accountId = $this->account->isLogged()))
+        $account_id = "";
+		if(!empty($account_id = $this->account->isLogged()))
 		{
-			if(!empty($account_id = $this->account->isLogged()))
-			{
-				$success = $this->account->updateAccount($account_id, $update);
-
-                $account = $this->account->getAccountById ( $accountId );
-                if(empty($account->stripe_id))
-                {
-                    $this->stripe->createStripeAccount( $account->a_email );
-                }
-			}
+            $success = $this->account->updateAccount($account_id, $update);
+            $account = $this->account->getAccountById ( $account_id );
+            if(empty($account->stripe_id))
+            {
+                $this->stripe->createStripeAccount( $account->a_email );
+            }
 		}
-		echo json_encode(array('success' => $success));
+		echo json_encode(array('success' => $success, "account_id" => $account_id));
 	}
 
 	function getMySales()

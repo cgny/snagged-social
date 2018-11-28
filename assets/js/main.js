@@ -19,8 +19,8 @@ jQuery(document).ready(function ($) {
       
       if(surl[1] == "media")
       { 
-        loadMedia();
-        getUserData();
+        //loadMedia();
+        //getUserData();
       }
       else if(surl[1] == "instagram")
       {
@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
         $('li').removeClass('active');
     });
 
-    loadMedia();
+    //loadMedia();
     checkWidth();
     $(window).resize(function(){
         checkWidth();
@@ -267,8 +267,8 @@ jQuery(document).ready(function ($) {
         $('.help-block').remove();
 
         // process the form
-        loadMedia();
-        getUserData();
+        //loadMedia();
+        //getUserData();
         e.preventDefault();
 
     });
@@ -1104,7 +1104,7 @@ jQuery(document).ready(function ($) {
                     $('#message-field').find('.col-lg-10').append('<span class="help-block">' + data.errors.message + '</span>');
                 }
             } else {
-                $('#media .row.photos').html('');
+                $('#user_images .row.photos').html('');
                 // display success message
 
                 var table = "<div id='all_photos'>" +
