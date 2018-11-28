@@ -1109,7 +1109,7 @@ jQuery(document).ready(function ($) {
 
                 var table = "<div id='all_photos'>" +
                             "<div class='col-lg-12'>" +
-                            "<div id='collapsePhotos' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>" +
+                            "<div id='collapsePhotos' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:1000px;overflow-y: scroll;margin-bottom:10px'>" +
                             '<table class="table table-striped">' +
                             "<thead>"+
                                 '<tr>'+
@@ -1128,7 +1128,7 @@ jQuery(document).ready(function ($) {
                 {
                     table += '<tr>'+
                                 '<td> '+ data.photos[x].p_id +'</td>'+
-                                '<td> <img class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""> </td>'+
+                                '<td> <img style="width:250px" class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""> </td>'+
                                 '<td> <input type="text" id="photo_price_'+ data.photos[x].p_id +'" data-p_id="'+ data.photos[x].p_id +'" value="'+ data.photos[x].p_price +'" /> <button data-p_id="'+ data.photos[x].p_id +'" class="update_price">Update</button> </td>'+
                                 '<td> <button data-p_ig_id="'+ data.photos[x].p_id +'" class="resync_photo">Resync from Instagram</button> </td>'+
                                 '<td> <button data-p_ig_id="'+ data.photos[x].p_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>'+
