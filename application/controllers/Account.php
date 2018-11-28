@@ -75,7 +75,8 @@ class Account extends CI_Controller
 		$stripeToken    = $this->data->cleanData( $this->input->post('stripeToken') );
 		$last4          = $this->data->cleanData( $this->input->post('last4') );
 
-		echo $this->account->addCard($stripeToken, $last4, $account_id);
+		$result = $this->account->addCard($stripeToken, $last4, $account_id);
+		echo json_encode( $result );
 	}
         
 	function addBank()

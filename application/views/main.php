@@ -384,12 +384,9 @@
                                                     </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-lg-3 control-label">Business Name</label>
+                                                    <label class="col-lg-3 control-label">Business Name (Can be your name)</label>
                                                     <div class="col-lg-9">
                                                         <input class='form-control' type='text' id='business_name' value='<?php $user->a_busines_name; ?>' placeholder='Business Name' />
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        Can be your name
                                                     </div>
                                                 </div>
 
@@ -459,7 +456,7 @@
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Date Of Birth M-D-Y</label>
                                                     <div class="col-lg-9">
-                                                        <select class='form-control col-lg-4' type='text' id='dob_m'>
+                                                        <select class='form-control' style="width:33%" type='text' id='dob_m'>
                                                             <?php
                                                                 for($x=1;$x<13;$x++)
                                                                 {
@@ -467,7 +464,7 @@
                                                                 }
                                                             ?>
                                                         </select>
-                                                        <select class='form-control col-lg-4' type='text' id='dob_d'>
+                                                        <select class='form-control' style="width:33%" type='text' id='dob_d'>
                                                             <?php
                                                             for($x=1;$x<32;$x++)
                                                             {
@@ -475,7 +472,7 @@
                                                             }
                                                             ?>
                                                         </select>
-                                                        <select class='form-control col-lg-4' type='text' id='dob_y'>
+                                                        <select class='form-control' style="width:33%" type='text' id='dob_y'>
                                                             <?php
                                                             for($x=( date("Y") - 17);$x>1910;$x--)
                                                             {
@@ -726,7 +723,7 @@
                                                     <div class="form-group">
 									        <label class="col-lg-2 control-label">Current Card</label>
 									        <div class="col-lg-3">
-                                                                                    <span id="last4"></span>
+                                                <span id="last4"><?php echo $user->stripe_card_num; ?></span>
 									        </div>
 								        </div>
 

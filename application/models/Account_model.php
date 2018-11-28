@@ -93,37 +93,44 @@ class Account_model extends CI_Model{
 	{
 		\Stripe\Stripe::setApiKey(STRIPE_SECRET_TEST_KEY);
 		$acct_info = $this->getAccountById($account_id);
+
+        $result['success'] = false;
+        $result['error'] = true;
+
 		if(empty($acct_info->stripe_id)){
+
 			try{
-				$customer = \Stripe\Customer::create(array(
-					'email' => $acct_info->a_email,
-					'card' => $stripeToken,
-					'description' => $acct_info->a_ig_username
-				));
-				$cards = \Stripe\Customer::retrieve($customer->id)->sources->all(
-					array(
-						'count'=>3
-					)
-				);
-                                
-				$card_info = $cards['data'][0];
-				$card = $card_info->id;
-				$type = $card_info->brand;
+                $result['error'] = "No email";
+				if( !empty($acct_info->a_email) )
+				{
+                    $customer = $this->stripe->createStripeAccount( $acct_info->a_email );
 
+                    $cards = \Stripe\Customer::retrieve($customer->id)->sources->all(
+                        array(
+                            'count'=>3
+                        )
+                    );
 
-				$this->db->where('a_id',$account_id);
-				$this->db->update('ss_accounts', array(
-						'stripe_id' => $customer->id,
-						'stripe_card_num' => $last4,
-						'stripe_card_id' => $stripeToken,
-						'stripe_card_type' => $type
-					)
-				);
+                    $card_info = $cards['data'][0];
+                    $card = $card_info->id;
+                    $type = $card_info->brand;
+
+                    $this->db->where('a_id',$account_id);
+                    $this->db->update('ss_accounts', array(
+                            'stripe_id' => $customer->id,
+                            'stripe_card_num' => $last4,
+                            'stripe_card_id' => $stripeToken,
+                            'stripe_card_type' => $type
+                        )
+                    );
+                    $result['success'] = true;
+				}
 
 			} catch( \Error $e) {
-				echo $e->getMessage();
+				$result['error'] = $e->getMessage();
 				$this->Error->getException(__FUNCTION__,__LINE__,__FILE__,$e,true);
 			}
+
 		}else{
 
 			try{
@@ -143,27 +150,33 @@ class Account_model extends CI_Model{
 						'stripe_card_type' => $type
 					)
 				);
+                $result['success'] = "Retrieved";
 
 			} catch (Stripe\InvalidRequestError $e) {
 				// Invalid parameters were supplied to Stripe's API
+                $result['error'] = $e->getMessage();
 
 			} catch (Stripe\AuthenticationError $e) {
 				// Authentication with Stripe's API failed
 				// (maybe you changed API keys recently)
+                $result['error'] = $e->getMessage();
+
 			} catch (Stripe\ApiConnectionError $e) {
 				// Network communication with Stripe failed
+                $result['error'] = $e->getMessage();
 
 			} catch (\Error $e) {
 				// Display a very generic error to the user, and maybe send
 				// yourself an email
+                $result['error'] = $e->getMessage();
 				
 			} catch (Exception $e) {
 				// Something else happened, completely unrelated to Stripe
-				echo $e->getMessage();
+                $result['error'] = $e->getMessage();
 			}
 
 		}
-		return true;
+		return $result;
 	}
 
 
