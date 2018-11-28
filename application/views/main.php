@@ -366,7 +366,7 @@
                                         <div class='col-xs-12 col-md-6'>
                                         <img src='<?php  echo $user->a_ig_profile; ?>' /><br><br>
                                         <h4><?php  echo $user->a_ig_username; ?> </h4><br>
-                                        <form method="post" action="/account/getUserData" data-id="<?php $this->session->userdata['user']->id ?>">
+                                        <form method="post" action="<?php echo site_url('/account/update'); ?>" data-id="<?php $user->a_ig_id ?>">
                                             <div class="panel-body">
 
                                                 <div class="form-group">
@@ -384,7 +384,7 @@
                                                     </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-lg-3 control-label">Business Name (optional))</label>
+                                                    <label class="col-lg-3 control-label">Business Name (optional)</label>
                                                     <div class="col-lg-9">
                                                         <input class='form-control' type='text' id='business_name' value='<?php echo  $user->a_busines_name; ?>' placeholder='Business Name' />
                                                     </div>
@@ -454,9 +454,9 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-lg-3 control-label">Date Of Birth M-D-Y</label>
+                                                    <label class="col-lg-3 control-label">Date Of Birth <br> M-D-Y</label>
                                                     <div class="col-lg-9">
-                                                        <select class='form-control' style="width:33%" type='text' id='dob_m'>
+                                                        <select class='form-control' style="width:33%;float:left" type='text' id='dob_m'>
                                                             <?php
                                                                 for($x=1;$x<13;$x++)
                                                                 {
@@ -469,7 +469,7 @@
                                                                 }
                                                             ?>
                                                         </select>
-                                                        <select class='form-control' style="width:33%" type='text' id='dob_d'>
+                                                        <select class='form-control' style="width:33%;float:left" type='text' id='dob_d'>
                                                             <?php
                                                             for($x=1;$x<32;$x++)
                                                             {
@@ -482,7 +482,7 @@
                                                             }
                                                             ?>
                                                         </select>
-                                                        <select class='form-control' style="width:33%" type='text' id='dob_y'>
+                                                        <select class='form-control' style="width:33%;float:left" type='text' id='dob_y'>
                                                             <?php
                                                             for($x=( date("Y") - 17);$x>1910;$x--)
                                                             {
