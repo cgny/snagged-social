@@ -80,6 +80,7 @@
 
              $.post('<?php echo site_url(); ?>/account/addCard',{stripeToken:stripeToken,last4:last4},function(data){
                  $('#stripeToken').remove();
+                 console.log(data.success);
                  if (data.success == true) {
                      $("#add_card_form_errors").html('Added Successfuly!').css({'color':'green'});
                      $('do_addCard').removeClass('btn-primary').addClass('btn btn-success').text('Reload').attr('id','refresh');
