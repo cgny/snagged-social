@@ -136,7 +136,7 @@ class Stripe_model extends CI_Model{
 					{
 						if(!empty($photo->stripe_user_id))
 						{
-                            $payout = $this->sendPayout($pay, $photo->stripe_user_id, "PHOTO :" .$item->c_p_id, $photo->a_currency);
+                            $payout = $this->sendPayout($pay, $photo->stripe_user_id, "PHOTO x (". $item->c_qty .") :" .$item->c_p_id, $photo->a_currency);
                             if(empty($payout))
                             {
                                 $success = false;
