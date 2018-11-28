@@ -70,8 +70,6 @@ class Account extends CI_Controller
 			exit;
 		}
 
-		require(STRIPE_LIB);
-
 		$stripeToken    = $this->data->cleanData( $this->input->post('stripeToken') );
 		$last4          = $this->data->cleanData( $this->input->post('last4') );
 
