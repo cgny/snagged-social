@@ -94,7 +94,9 @@ class Account_model extends CI_Model{
 
 	function addCard($stripeToken,$last4,$account_id)
 	{
-		\Stripe\Stripe::setApiKey(STRIPE_SECRET_TEST_KEY);
+        $stripe = new \Stripe\Stripe;
+        $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
+
 		$acct_info = $this->getAccountById($account_id);
 
         $result['success'] = false;
@@ -106,7 +108,7 @@ class Account_model extends CI_Model{
                 $result['error'] = "No email";
 				if( !empty($acct_info->a_email) )
 				{
-                    $customer = $this->stripe->createStripeAccount( $acct_info->a_email );
+                    $customer = $this->stripe->createStripeAccount( $acct_info->a_email, $stripe );
 
                     $cards = \Stripe\Customer::retrieve($customer->id)->sources->all(
                         array(
@@ -118,12 +120,16 @@ class Account_model extends CI_Model{
                     $card = $card_info->id;
                     $type = $card_info->brand;
 
+                    $cu = Stripe\Customer::retrieve($acct_info->stripe_id);
+                    $cu->default_card = $card;
+                    $cu->save();
+
                     $this->db->where('a_id',$account_id);
                     $this->db->update('ss_accounts', array(
                             'stripe_id' => $customer->id,
-                            'stripe_card_num' => $last4,
-                            'stripe_card_id' => $stripeToken,
-                            'stripe_card_type' => $type
+                            'stripe_card_num' 	=> $last4,
+                            'stripe_card_id' 	=> $card,
+                            'stripe_card_type' 	=> $type
                         )
                     );
                     $result['success'] = true;
@@ -148,9 +154,9 @@ class Account_model extends CI_Model{
 
 				$this->db->where('a_id',$account_id);
 				$this->db->update('ss_accounts', array(
-						'stripe_card_num' => $last4,
-						'stripe_card_id' => $card,
-						'stripe_card_type' => $type
+						'stripe_card_num' 	=> $last4,
+						'stripe_card_id' 	=> $card,
+						'stripe_card_type' 	=> $type
 					)
 				);
                 $result['success'] = "Retrieved";
