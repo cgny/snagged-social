@@ -133,9 +133,9 @@ class Account extends CI_Controller
 			'a_dob_y'         => $dob_y,
 		);
 
-        $update = $this->data->cleanData($data);
-		$success = false;
-        $account_id = "";
+        $update = $this->data->cleanData( $data );
+        $user = $success = false;
+        
 		if(!empty($account_id = $this->account->isLogged()))
 		{
             $success = $this->account->updateAccount($account_id, $update);
@@ -144,8 +144,28 @@ class Account extends CI_Controller
             {
                 $this->stripe->createStripeAccount( $account->a_email );
             }
+            $user = $this->account->getUser();
+
+            $user->card = false;
+            if($user->stripe_id)
+            {
+                $user->card = true;
+            }
+
+            unset($user->a_ig_id);
+            unset($user->a_last_login);
+            unset($user->a_password);
+            unset($user->a_last_login);
+            unset($user->a_token);
+            unset($user->stripe_card_id);
+            unset($user->stripe_card_num);
+            unset($user->stripe_card_type);
+            unset($user->stripe_id);
+            unset($user->stripe_user_id);
+            unset($user->stripe_access_token);
+            unset($user->stripe_refresh_token);
 		}
-		echo json_encode(array('success' => $success, "account_id" => $account_id));
+		echo json_encode(array('success' => $success, "account_id" => $account_id, "account" => $user));
 	}
 
 	function getMySales()

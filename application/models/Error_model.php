@@ -11,7 +11,7 @@ class Error_model extends CI_Model{
 			return false;
 
 		}
-		if($error['code'] == 500)
+		if(!empty($error['message']))
 		{
 			mail('christian@cgnewyork.com','SS error',$error['message']);
 		}
