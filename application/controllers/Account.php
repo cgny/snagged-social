@@ -104,6 +104,7 @@ class Account extends CI_Controller
 		$currency       = $this->input->post('currency');
 		$country        = $this->input->post('country');
 		$business_name  = $this->input->post('business_name');
+		$business_url  = $this->input->post('business_url');
 		$address_1      = $this->input->post('address_1');
 		$address_2      = $this->input->post('address_2');
 		$city           = $this->input->post('city');
@@ -122,6 +123,7 @@ class Account extends CI_Controller
 			'a_currency'      => $currency,
 			'a_country'       => $country,
 			'a_business_name' => $business_name,
+			'a_business_url'  => $business_url,
 			'a_address_1'     => $address_1,
 			'a_address_2'     => $address_2,
 			'a_city'          => $city,
