@@ -73,12 +73,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-$data = array(
-	"h" => "localhost",
-	"u" => "root",
-	"p" => "Domain1010!",
-	"d" => "ss"
+$local = array(
+	"hostname" => "localhost",
+	"username" => "root",
+	"password" => "Domain10!",
+	"database" => "db711156557"
 );
+
+$live = array(
+    'hostname' => 'db711156557.db.1and1.com',
+    'username' => 'dbo711156557',
+    'password' => '@Dom@in1010!!',
+    'database' => 'db711156557',
+    );
 
 /*
  *
@@ -96,10 +103,6 @@ $data = array(
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'db711156557.db.1and1.com',
-	'username' => 'dbo711156557',
-	'password' => '@Dom@in1010!!',
-	'database' => 'db711156557',
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
@@ -116,3 +119,13 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+
+if(ENVIRONMENT == 'development')
+{
+    $db['default'] = array_merge($db['default'],$local);
+}
+else
+{
+    $db['default'] = array_merge($db['default'],$live);
+}

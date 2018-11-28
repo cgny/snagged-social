@@ -18,14 +18,22 @@ defined('SHOW_DEBUG_BACKTRACE') OR define('SHOW_DEBUG_BACKTRACE', TRUE);
  * Instagram
  */
 
-$local = "";
 $root = "";
+
+if(ENVIRONMENT == 'development')
+{
+    $domain = "local.snaggedsocial.com/";
+    $local = "";
+}else{
+    $domain = "www.snaggedsocial.com/";
+    $local = "";
+}
 
 defined('IG_CLIENT_ID') OR define('IG_CLIENT_ID', 'd1a16a1571694762a579068848cf9a67');
 defined('IG_CLIENT_SECRET') OR define('IG_CLIENT_SECRET', 'c469488648f14bb1b18e7b9e40f84872');
-defined('BASE_URL') OR define('BASE_URL', 'http://'. $local .'www.snaggedsocial.com/index.php');
+defined('BASE_URL') OR define('BASE_URL', 'http://'. $local . $domain .'index.php');
 defined('IG_REDIRECT') OR define('IG_REDIRECT', BASE_URL .'/Auth');
-defined('IG_TOKEN_REDIRECT') OR define('IG_TOKEN_REDIRECT', 'http://'. $local .'www.snaggedsocial.com/index.php/Auth/getToken');
+defined('IG_TOKEN_REDIRECT') OR define('IG_TOKEN_REDIRECT', 'http://'. $local . $domain .'index.php/Auth/getToken');
 defined('IG_AUTH_URL') OR define('IG_AUTH_URL', 'https://api.instagram.com/oauth/authorize/?client_id='. IG_CLIENT_ID .'&redirect_uri='. IG_REDIRECT .'&response_type=code');
 defined('IG_TOKEN_URL') OR define('IG_TOKEN_URL', 'https://api.instagram.com/oauth/access_token?');
 defined('IG_API_URL') OR define('IG_API_URL', 'https://api.instagram.com/v1');

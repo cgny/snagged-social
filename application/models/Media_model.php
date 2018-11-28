@@ -62,11 +62,11 @@ class Media_model extends CI_Model{
 		{
 			$this->db->limit($limit);		
 		}
-                $this->db->where('p_deleted',0);
-				if($price_set == true)
-				{
-					$this->db->where('p_price > ',0);
-				}
+        $this->db->where('p_deleted',0);
+        if($price_set == true)
+        {
+            $this->db->where('p_price > ',0);
+        }
 		$this->db->join("ss_accounts","ss_accounts.a_id = ss_photos.p_a_id");
 		$this->db->order_by('p_created','DESC');
 		return $this->db->get('ss_photos')->result();

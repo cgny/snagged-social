@@ -12,8 +12,9 @@ class Account extends CI_Controller
 		$this->load->database();
 		if(empty($this->account->isLogged()))
 		{
-                    echo -1;
-                    exit;
+            $data['errors']['message'] = "Not loged in";
+            echo json_encode($data);
+            exit;
 		}
 	}
 
@@ -44,11 +45,13 @@ class Account extends CI_Controller
 			unset($user->stripe_access_token);
 			unset($user->stripe_refresh_token);
 			
-			$data['user'] = $user;
-			$data['orders'] = $this->cart->getAllCarts(null,$a_id);
-			$data['sales'] = $this->account->findMySales();
-			$data['errors']['message'] = false;
-			$data['success'] = true;
+			$data['user']               = $user;
+			$data['orders']             = $this->cart->getAllCarts(null,$a_id);
+			$data['sales']              = $this->account->findMySales();
+			$data['countries']          = $this->data->getCountries();
+			$data['currencies']         = $this->data->getCurrencies();
+			$data['errors']['message']  = false;
+			$data['success']            = true;
 		}
 		echo json_encode($data);
 	}
@@ -69,8 +72,8 @@ class Account extends CI_Controller
 
 		require(STRIPE_LIB);
 
-		$stripeToken = $this->input->post('stripeToken');
-		$last4 = $this->input->post('last4');
+		$stripeToken    = $this->data->cleanData( $this->input->post('stripeToken') );
+		$last4          = $this->data->cleanData( $this->input->post('last4') );
 
 		echo $this->account->addCard($stripeToken, $last4, $account_id);
 	}
@@ -85,57 +88,60 @@ class Account extends CI_Controller
 
 		require(STRIPE_LIB);
 
-		$stripeToken = $this->input->post('stripeToken');
-		$last4 = $this->input->post('last4');
+        $stripeToken    = $this->data->cleanData( $this->input->post('stripeToken') );
+        $last4          = $this->data->cleanData( $this->input->post('last4') );
 
 		echo $this->account->addCard($stripeToken, $last4, $account_id);
 	}
 
 	function update()
 	{
-		$this->load->model('Stripe_model', 'stripe');
-                
 		$first_name = $this->input->post('first_name');
-		$last_name = $this->input->post('last_name');
-		$email = $this->input->post('email');
+		$last_name  = $this->input->post('last_name');
+		$email      = $this->input->post('email');
+        $phone      = $this->input->post('phone');
+		$currency   = $this->input->post('currency');
 
 		$data = array(
 			'first_name' => $first_name,
 			'last_name'  => $last_name,
-			'email'      => $email
+			'email'      => $email,
+			'currency'   => $currency
 		);
+
+		$data = $this->data->cleanData($data);
 
 		$success = false;
 		
 		if(!empty($accountId = $this->account->isLogged()))
 		{
-			$first_name = $this->input->post('first_name');
-			$last_name = $this->input->post('last_name');
-			$phone = $this->input->post('phone');
-			$email = $this->input->post('email');
-                        $account = $this->account->getAccountById($accountId);
+		    $account = $this->account->getAccountById($accountId);
 			if(!empty($account_id = $this->account->isLogged()))
 			{
 				$update = [];
 				if(!empty($first_name))
 				{
-					$update['a_first_name'] = $first_name;
+					$update['a_first_name'] = $data['first_name'];
 				}
 				if(!empty($last_name))
 				{
-					$update['a_last_name'] = $last_name;
+					$update['a_last_name'] = $data['last_name'];
 				}
 				if(!empty($phone))
 				{
-					$update['a_phone'] = $phone;
+					$update['a_phone'] = $data['phone'];
 				}
+                if(!empty($currency))
+                {
+                    $update['a_currency'] = $data['currency'];
+                }
 				if(!empty($email))
 				{
-					$update['a_email'] = $email;
-                                        if(empty($account->stripe_id))
-                                        {
-                                            $this->stripe->createAccount($email);
-                                        }
+					$update['a_email'] = $data['email'];
+                    if(empty($account->stripe_id))
+                    {
+                        $this->stripe->createStripeAccount($data['email']);
+                    }
 				}
 				if(empty($update))
 				{
@@ -154,15 +160,32 @@ class Account extends CI_Controller
 
 	}
         
-        function authorizeStripe()
+    function authorizeStripe()
+    {
+
+        $code = $this->data->cleanData( $this->input->get('code') );
+        $auth = $this->data->cleanData( $this->stripe->authorizeAccount($code) );
+
+        redirect(site_url());
+
+    }
+
+    function getCountries()
+    {
+        if(!empty($accountId = $this->account->isLogged()))
         {
-            $this->load->model('Stripe_model', 'stripe');
-                            
-            $code = $this->input->get('code');            
-            $auth = $this->stripe->authorizeAccount($code);
-            
-            redirect(site_url());
-            
+            //$data = $this->data->getCountries();
+            //echo json_encode( $data );
         }
+    }
+
+    function getCurrencies()
+    {
+        if(!empty($accountId = $this->account->isLogged()))
+        {
+            //$data = $this->data->getCurrencies();
+            //echo json_encode( $data );
+        }
+    }
 
 }

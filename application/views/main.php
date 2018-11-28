@@ -345,7 +345,7 @@
 	        <section id="authorize" class="tab-pane fade">
 		        <div class="container">
 			        <div class="space-20"></div>
-			        <h3>Bank Payouts</h3>
+			        <h3>Debit Card Payouts</h3>
 			        <div class="space-60"></div>
 			        <div class="row cardDetails">
 
@@ -354,7 +354,7 @@
 				        if($this->account->isLogged() == true){
 				        ?>
                                     
-                                    <!--
+
 
 				        <form action="<?php echo site_url('account/addCard'); ?>" class="form-horizontal" id="add_card" method="post">
 
@@ -435,41 +435,12 @@
 
 								        <button class="btn btn-primary" id="do_addCard"  onClick="return false;" type="submit">Add Card</button>
 								        &nbsp;&nbsp;&nbsp;&nbsp;
-                                                                        <span class="" id="add_card_form_errors">
+                                        <span class="" id="add_card_form_errors">
 
 								       </span>
                                                                         
-                                                                        -->
-						        </form>
-                                                        
-                                                        <?php
-                                                            $account = $this->account->getAccountById($this->account->isLogged());
-                                                            if(isset($account->stripe_user_id) && empty($account->stripe_user_id))
-                                                            {
-                                                        ?>
-                                                                        
-                                                        <div style="margin-left:50px">
-                                                            <h4>Authorize Payments to your account</h4>
-                                                            <br><br>
-                                                            
-                                                            <h5>Note, Stripe will ask you some questions. Please use the answers below.</h5>
-                                                            <p>1. Website - Please user ours, snaggedsocial.com.</p>
-                                                            <p>2. Job title - Sales</p>
-                                                            <p>3. Business Name - Your name</p>
-                                                            <p>4. Phone number - 1 732 555 1212</p>
-                                                            <a  style="/*display:none*/" id="stripe_auth" href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;client_id=ca_CzTJCigdOBc1LVtrqz4Zaid86b9eTMpH&amp;scope=read_write&amp;redirect_uri=http://localhost/www.snaggedsocial.com/index.php/account/authorizeStripe" class="connect-button">
-                                                               <div onClick="" class="btn btn-success">Authorize cash payouts with Stripe</div>
-                                                            </a>
-                                                        </div>
-                                                        <?php
-                                                        
-                                                            }
-                                                            else
-                                                            {
-                                                                echo " &nbsp;&nbsp;&nbsp;&nbsp; Payments have been authorized. Thank you.";
-                                                            }
-                                                        ?>
 
+						        </form>
 
 
 				        <?php } ?>

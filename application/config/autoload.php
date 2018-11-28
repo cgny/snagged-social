@@ -134,11 +134,12 @@ $autoload['language'] = array();
 */
 $autoload['model'] = array(
 	"Admin_model"   => "admin",
-	"Data_model"    => "auth",
+	"Data_model"    => "data",
 	"Account_model" => "account",
 	"Error_model"   => "error",
 	"Url_model"     => "url",
 	"Media_model"   => "media",
 	"Cart_model"    => "cart",
+	"Stripe_model"  => "stripe",
 	"Usps_model"    => "usps"
 );
