@@ -685,7 +685,7 @@
                                         <?php
 
                                     }else{
-                                        echo "<a href='". site_url() ."'> Login </a>";
+                                        echo "<a href='". site_url('Auth') ."'> Login </a>";
                                     }
                                 ?>
 
@@ -706,6 +706,14 @@
                             <div class="space-60"></div>
                             <div class="row photos">
 
+                                <?php
+
+                                if(empty($this->account->isLogged()))
+                                {
+                                    echo "<a href='". site_url('Auth') ."'> Login </a>";
+                                }
+
+                                ?>
 
                     </div>
                 </div>
@@ -818,7 +826,7 @@
 				        <?php
 
 				            } else {
-                                echo "<a href='". site_url() ."'> Login </a>";
+                                echo "<a href='". site_url('Auth') ."'> Login </a>";
                             }
 
                             ?>
