@@ -104,7 +104,7 @@ class Account_model extends CI_Model{
 		if(empty($acct_info->stripe_id)){
 
 			try{
-                $result['error'] = "No email";
+                $result['error']['message'] = "No email";
 				if( !empty($acct_info->a_email) )
 				{
                     $customer = $this->stripe->createStripeAccount( $acct_info->a_email, $stripe );
