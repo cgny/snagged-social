@@ -366,7 +366,7 @@
                                         <div class='col-xs-12 col-md-6'>
                                         <img src='<?php  echo $user->a_ig_profile; ?>' /><br><br>
                                         <h4><?php  echo $user->a_ig_username; ?> </h4><br>
-                                        <form method="post" action="/account/getUserData" data-id="<?php $this->session->userdata['user']->id ?>">
+                                        <form method="post" action="<?php echo site_url('/account/update'); ?>" data-id="<?php $user->a_ig_id ?>">
                                             <div class="panel-body">
 
                                                 <div class="form-group">
@@ -384,7 +384,7 @@
                                                     </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-lg-3 control-label">Business Name (optional))</label>
+                                                    <label class="col-lg-3 control-label">Business Name (optional)</label>
                                                     <div class="col-lg-9">
                                                         <input class='form-control' type='text' id='business_name' value='<?php echo  $user->a_busines_name; ?>' placeholder='Business Name' />
                                                     </div>
@@ -454,9 +454,9 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-lg-3 control-label">Date Of Birth M-D-Y</label>
+                                                    <label class="col-lg-3 control-label">Date Of Birth <br> M-D-Y</label>
                                                     <div class="col-lg-9">
-                                                        <select class='form-control' style="width:33%" type='text' id='dob_m'>
+                                                        <select class='form-control' style="width:33%;float:left" type='text' id='dob_m'>
                                                             <?php
                                                                 for($x=1;$x<13;$x++)
                                                                 {
@@ -469,7 +469,7 @@
                                                                 }
                                                             ?>
                                                         </select>
-                                                        <select class='form-control' style="width:33%" type='text' id='dob_d'>
+                                                        <select class='form-control' style="width:33%;float:left" type='text' id='dob_d'>
                                                             <?php
                                                             for($x=1;$x<32;$x++)
                                                             {
@@ -482,7 +482,7 @@
                                                             }
                                                             ?>
                                                         </select>
-                                                        <select class='form-control' style="width:33%" type='text' id='dob_y'>
+                                                        <select class='form-control' style="width:33%;float:left" type='text' id='dob_y'>
                                                             <?php
                                                             for($x=( date("Y") - 17);$x>1910;$x--)
                                                             {
@@ -523,7 +523,7 @@
                                             </form>
 
                                             <div id='orders'>
-                                                <div class='col-xs-12 col-md-6'>
+                                                <div class=' col-lg-12'>
                                                     <div id='collapseOrders' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
                                                         <h4>Personal Orders</h4>
                                                         <table class="table table-striped">
@@ -545,11 +545,11 @@
                                                             ?>
                                                             <tr>
                                                                 <td scope="row" class="view_user_cart" data-cart="<?php echo $order->uc_id; ?>"><?php echo $order->uc_id; ?></td>
-                                                                    <td> <?php echo $order->uc_created; ?> </td>
-                                                                    <td> <?php echo $order->uc_shipping; ?> </td>
-                                                                    <td> <?php echo $order->cs_status; ?> </td>
-                                                                    <td> <a href="<?php site_url('cart/receipt/'. $orders->uc_cart_id); ?>" target="_blank">View</a> </td>
-                                                                </tr>
+                                                                <td> <?php echo $order->uc_created; ?> </td>
+                                                                <td> <?php echo $order->uc_shipping; ?> </td>
+                                                                <td> <?php echo $order->cs_status; ?> </td>
+                                                                <td> <a href="<?php site_url('cart/receipt/'. $orders->uc_cart_id); ?>" target="_blank">View</a> </td>
+                                                            </tr>
                                                             <?php
                                                             }
                                                             ?>
@@ -561,7 +561,7 @@
                                             </div>
 
                                                 <div id='sales'>
-                                                    <div class='col-xs-12 col-md-6'>
+                                                    <div class='col-lg-12'>
                                                         <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
                                                             <h4>Items Sold</h4>
                                                             <table class="table table-striped">
@@ -621,12 +621,55 @@
                                 ?>
 
                             </div>
-                        <div id="user_images">
+                        <div class="col-lg-12" id="user_images">
                             <hr>
                             <h4>Images</h4>
                             <div class="clear"><br></div>
                             <div class="row photos">
 
+                                <div id='sales'>
+                                    <div class='col-lg-12'>
+                                        <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
+                                            <h4>Items Sold</h4>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Photo Id</th>
+                                                    <th scope="col">Img</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">IG Resync/Update</th>
+                                                    <th scope="col">Remove</th>
+                                                    <th scope="col">Link</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                <?php
+
+                                                $gallery_photos = $this->media->getSSMedia($user_id,false);
+                                                foreach($gallery_photos as $gallery_photo)
+                                                {
+
+                                                ?>
+                                                    <tr>
+                                                        <td> <?php echo $gallery_photo->p_id; ?> </td>
+                                                        <td> <img class="" data-p_id="<?php echo $gallery_photo->p_id; ?>" src="<?php echo $gallery_photo->p_url; ?>" alt=""> </td>
+                                                        <td> <input type="text" id="photo_price_'<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
+                                                        <td> <a href="<?php echo $gallery_photo->p_url; ?>" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
+                                                    </tr>
+                                                <?php
+                                                }
+                                                ?>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>

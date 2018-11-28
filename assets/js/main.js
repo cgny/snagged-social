@@ -1107,53 +1107,38 @@ jQuery(document).ready(function ($) {
                 $('#media .row.photos').html('');
                 // display success message
 
-                var table = '<table class="table">' +
-                    '  <thead>' +
-                    '    <tr>' +
-                    '      <th scope="col">#</th>' +
-                    '      <th scope="col">First</th>' +
-                    '      <th scope="col">Last</th>' +
-                    '      <th scope="col">Handle</th>' +
-                    '    </tr>' +
-                    '  </thead>' +
-                    '  <tbody>';
+                var table = '<table class="table table-striped">'+
+                            '<thead>'+
+                                '<tr>'+
+                                '<th scope="col">#</th>'+
+                                '<th scope="col">Photo Id</th>'+
+                                '<th scope="col">Img</th>'+
+                                '<th scope="col">Price</th>'+
+                                '<th scope="col">IG Resync/Update</th>'+
+                                '<th scope="col">Remove</th>'+
+                                '<th scope="col">Link</th>'+
+                            '  </tr>' +
+                            '</thead>' +
+                            '<tbody>';
 
 
                 for(var x in data.photos)
                 {
-                    var img = '<div class="col-xs-12 col-sm-6 col-md-4 gallery_single_item" style="display:block">'+
-                              '<div class="gallery_item">'+
-                              '<div class="gallery_photo">'+
-                                '<div>'+
-                                    '<a href="#" class="" data-toggle="pill">'+
-                                    '<img class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""><br>'+
-                                    '</a>'+
-                                    '<br>'+
-                                    'Price <input type="text" id="photo_price_'+ data.photos[x].p_id +'" data-p_id="'+ data.photos[x].p_id +'" value="'+ data.photos[x].p_price+'" /> &nbsp;&nbsp;'+
-                                    '<button data-p_id="'+ data.photos[x].p_id +'" class="update_price">Update</button> '+
-                                    '<br><br>'+
-                                '</div>'+
-                                '<div>'+
-                                  '<button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="resync_photo">Resync from Instagram</button> &nbsp;&nbsp;'+
-                                  '<button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-save select-remove is-button">Remove From Media</button>'+
-                                '</div>'+
-                              '</div>'+
-                              '<div class="gallery_icon">'+
-                              '<a href="'+ data.photos[x].p_url +'" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a>'+
-                              '</div>'+
-                              '</div>'+
-                              '</div>';
-                      
-                      if((parseFloat(x)+1) % 3 == 0)
-                      {
-                          img += '<div style="width:100%;clear:both"></div>';
-                      }
+                    table += '<tr>'+
+                                '<td> '+ data.photos[x].p_id +'</td>'+
+                                '<td> <img class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""> </td>'+
+                                '<td> <input type="text" id="photo_price_'+ data.photos[x].p_id +'" data-p_id="'+ data.photos[x].p_id +'" value="'+ data.photos[x].p_price +'" /> <button data-p_id="'+ data.photos[x].p_id +'" class="update_price">Update</button> </td>'+
+                                '<td> <button data-p_ig_id="'+ data.photos[x].p_id +'" class="resync_photo">Resync from Instagram</button> </td>'+
+                                '<td> <button data-p_ig_id="'+ data.photos[x].p_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>'+
+                                '<td> <a href=""'+ data.photos[x].p_url +'" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>'+
+                                '</tr>';
+                        }
 
-                      var table = '</tbody>' +
-                          '</table>';
-                      
-                    $('#media .row.photos').append(img);
-                }
+                table += '</tbody>' +
+                    '</table>';
+
+                $('#media .row.photos').append(img);
+
             }
         }).fail(function (data) {
             // for debug
