@@ -23,15 +23,15 @@ class Stripe_model extends CI_Model{
 
 		$account = $this->account->getAccountById( $this->account->isLogged() );
                 
-                if(!empty($account))
-                {
-                    $description = $account->a_first_name.' '.$account->a_last_name;
-                }
-                else 
-                {
-                    $cart = $this->cart->getCart()->row();
-                    $description = $cart->uc_full_name;
-                }
+        if(!empty($account))
+        {
+            $description = $account->a_first_name.' '.$account->a_last_name;
+        }
+        else
+        {
+            $cart = $this->cart->getCart()->row();
+            $description = $cart->uc_full_name;
+        }
 
 		$acct = new \Stripe\Account;
 		return $acct->create(
@@ -39,7 +39,8 @@ class Stripe_model extends CI_Model{
 				'email'         => $email,
 				'description'   => $description,
                 'country'       => $country,
-                'type'          => 'custom'
+                'type'          => 'custom',
+                'business_name' => ''
 			)
 		);
 	}
@@ -147,12 +148,9 @@ class Stripe_model extends CI_Model{
 			
 			// make new cart id
 			$this->cart->getCartId(true);
-			return $status;
+
 		}
-		else
-		{
-			return $status->failure_code;
-		}
+        return $status;
 	}
 	
         function sendPayout($amount, $stripe_id, $description, $currency = "usd")

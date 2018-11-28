@@ -569,7 +569,8 @@ jQuery(document).ready(function ($) {
           'last_name' : $('#last_name').val(),
           'phone' : $('#phone').val(),
           'email' : $('#email').val(),
-          'currency' : $('#currency').val()
+          'currency' : $('#currency').val(),
+          'country' : $('#country').val(),
         };
 		
 		if (!formData.email) {
@@ -600,6 +601,7 @@ jQuery(document).ready(function ($) {
             }
 			
 			$('#update_result').html(result).addClass(result_class);
+            window.load( base_url+'/#user-account' );
         }).fail(function (data) {
             // for debug
             ////console.log(data);
@@ -917,244 +919,9 @@ jQuery(document).ready(function ($) {
 
 	
 
-    function getUserData() {
-
-        var success = false;
-        var formData = [];
-        $.ajax({
-            type : 'POST',
-            url  : base_url + 'account/getUserData',
-            data : formData,
-            dataType : 'json',
-            encode : true
-        }).done(function (data) {
-            // handle errors
-            if (!data.success) {
-                if (data.errors.message) {
-                    $('#message-field').addClass('has-error');
-                    $('#message-field').find('.col-lg-10').append('<span class="help-block">' + data.errors.message + '</span>');
-                }
-            } else {
-                success = true;
-                
-                var e_set = "";
-                if(data.user.a_email.length == 0)
-                {
-                    e_set = "(Please add Email)";
-                }
-				
-				var email_field = "<h4>Please enter click on \"Add Card\" to add your email address in order to be paid<br><br>";
-				if (data.user.a_email) {
-					email_field = "<input class='form-control' type='text' id='email' value='" + data.user.a_email +"' placeholder='Phone Number' />";
-				}
-				if (!data.user.card) {
-					email_field += "<br><b>Please click \"Add Card\" under \"User\" to add your debit card in order to be paid</b><br>";
-				}
-
-				var country_field = "<select id='country' class='form-control'>";
-
-                console.log(data.countries);
-				for(var x in data.countries)
-                {
-                    if(data.user.a_country == data.countries[x].country_code)
-                    {
-                        var co_sel = "selected";
-                    }
-                    else
-                    {
-                        var co_sel = "";
-                    }
-                    country_field += '<option value="'+ data.countries[x].country_code +'"  '+ co_sel +'>'+ data.countries[x].country_code +' - '+ data.countries[x].country_name +'</option>';
-                }
-                country_field += '</select>';
-
-                var currency_field = "<select id='currency' class='form-control'>";
-
-                console.log(data.currencies);
-                for(var x in data.currencies.currency)
-                {
-                    if(data.user.a_currency == x)
-                    {
-                        var cu_sel = "selected";
-                    }
-                    else
-                    {
-                        var cu_sel = "";
-                    }
-                    currency_field += '<option value="'+ x +'" '+ cu_sel +'>'+ x +' - '+ data.currencies.currency[x] +'</option>';
-                }
-                currency_field += '</select>';
-
-                var html = "<div class='col-xs-12 col-md-6'>"+
-                           "<img src='" + data.user.a_ig_profile +"' /><br><br>"+
-                           "<h4>" + data.user.a_ig_username +"</h4><br>"+
-						   "<form onSubmit='return false;'>"+
-								'<div class="panel-body">'+		
-									 
-									 '<div class="form-group">'+
-										 '<label class="col-lg-3 control-label">Sales ('+ data.sales.length +')</label>'+
-										 '<div class="col-lg-9">'+
-										 '<button id="getSales" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSales" aria-expanded="false" aria-controls="collapseSales">View  </button> <br><br>'+
-										 '</div>'+
-									 '</div>'+
-									 
-									 '<div class="form-group">'+
-										 '<label class="col-lg-3 control-label">Orders ('+ data.orders.length +') </label>'+
-										 '<div class="col-lg-9">'+
-										'<button id="getOrders" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseOrders" aria-expanded="false" aria-controls="collapseOrders">View </button> <br><br>'+
-										 '</div>'+
-									 '</div>'+				   
-	 
-									 '<div class="form-group">'+
-										 '<label class="col-lg-3 control-label">First Name</label>'+
-										 '<div class="col-lg-9">'+
-										 "<input class='form-control' type='text' id='first_name' value='" + data.user.a_first_name +"' placeholder='First Name' />"+
-										 '</div>'+
-									 '</div>'+
-									 
-									 '<div class="form-group">'+
-										 '<label class="col-lg-3 control-label">Last Name</label>'+
-										 '<div class="col-lg-9">'+
-										 "<input class='form-control' type='text' id='last_name' value='" + data.user.a_last_name +"' placeholder='First Name' />"+
-										 '</div>'+
-									 '</div>'+
-									 
-									 '<div class="form-group">'+
-										 '<label class="col-lg-3 control-label">Phone Number</label>'+
-										 '<div class="col-lg-9">'+
-										 "<input class='form-control' type='text' id='phone' value='" + data.user.a_phone +"' placeholder='Phone Number' />"+
-										 '</div>'+
-									 '</div>'+
-									 
-									 '<div class="form-group">'+
-										 '<label class="col-lg-3 control-label">Email</label>'+
-										 '<div class="col-lg-9">'+
-										 email_field+
-										 '</div>'+
-									 '</div>'+
-
-                                    '<div class="form-group">'+
-                                        '<label class="col-lg-3 control-label">Country</label>'+
-                                        '<div class="col-lg-9">'+
-                                        country_field+
-                                        '</div>'+
-                                    '</div>'+
-
-                                    '<div class="form-group">'+
-                                        '<label class="col-lg-3 control-label">Currency</label>'+
-                                        '<div class="col-lg-9">'+
-                                        currency_field+
-                                        '</div>'+
-                                    '</div>'+
-									 
-									 '<div class="form-group">'+
-										 '<label class="col-lg-3 control-label">Update</label>'+
-										 '<div class="col-lg-9">'+
-										 "<button id='update_user'>Update</button> <span id='update_result'></span> <br><br>"+
-										 '</div>'+
-									 '</div>'+
-									 
-								 '</div>'+
-							'</form>';
-							
-                if(data.user.stripe_id)
-                {
-									 
-					html += '<div class="form-group">'+
-						'<label class="col-lg-3 control-label">Card Saved Ending</label>'+
-						'<div class="col-lg-9">'+
-					   data.user.stripe_card_num +
-						'</div>'+
-					'</div>';
-                }
-
-                html += "</div>";
-
-                var html2 = "<div id='orders'><div class='col-xs-12 col-md-6'>"+
-                            "<div id='collapseOrders' class='collapse col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>"+
-							"<h4>Orders</h4>"+
-                            '<table class="table table-striped">'+
-                            '<thead>'+
-                            '<tr>'+
-                            '<th scope="col">#</th>'+
-                            '<th scope="col">Created</th>'+
-                            '<th scope="col">Shipped</th>'+
-                            '<th scope="col">Status</th>'+
-                            '<th scope="col">Receipt</th>'+
-                            '</tr>'+
-                            '</thead>'+
-                            '<tbody>';
-                for(var x in data.orders)
-                {
-                    html2 += '<tr>'+
-                             '<td scope="row" class="view_user_cart" data-cart="'+ data.orders[x].uc_id+ '">'+ data.orders[x].uc_id+ '</td>'+
-                             '<td>'+ data.orders[x].uc_created+ '</td>'+
-                             '<td>'+ data.orders[x].uc_shipping+ '</td>'+
-                             '<td>'+ data.orders[x].cs_status+ '</td>'+
-                             '<td> <a href="/www.snaggedsocial.com/index.php/cart/receipt/'+ data.orders[x].uc_cart_id +'" target="_blank">View</a> </td>'+
-                             '</tr>';
-                }
-
-                html2 += "</tbody>"+
-                         "</table>"+
-                         "</div>"+
-                         "</div>"+
-                    "</div>";
-                 
-                 var html3 = "<div id='sales'>"+
-							"<div class='col-xs-12 col-md-6'>"+ 
-                            "<div id='collapseSales' class='collapse col-lg-12'  style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;'>"+
-							"<h4>Sales</h4>"+                           
-                            '<table class="table table-striped">'+
-                            '<thead>'+
-                            '<tr>'+
-                            '<th scope="col">#</th>'+
-                            '<th scope="col">Photo Id</th>'+
-                            '<th scope="col">Size</th>'+
-                            '<th scope="col">Qty</th>'+
-                            '<th scope="col">Purchased</th>'+
-                            '<th scope="col">Status</th>'+
-                            '<th scope="col">Profit</th>'+
-                            '<th scope="col">Payout</th>'+
-                            '</tr>'+
-                            '</thead>'+
-                            '<tbody>';
-                for(var x in data.sales)
-                {                    
-                    
-                    var success = "Not Sent";
-                    if(data.sales[x].ap_success == 1)
-                    {
-                        success = "Sent";
-                    }
-                    
-                    html3 += '<tr>'+
-                             '<td scope="row" class="view_user_cart" data-cart="'+ data.sales[x].uc_id+ '">'+ (+x+1) + '</td>'+
-                             '<td>'+ data.sales[x].p_id+ '</td>'+
-                             '<td>'+ data.sales[x].ps_size+ '</td>'+
-                             '<td>'+ data.sales[x].c_qty+ '</td>'+
-                             '<td>'+ data.sales[x].uc_payment_date+ '</td>'+
-                             '<td>'+ data.sales[x].cs_status+ '</td>'+
-                             '<td>'+ data.sales[x].ap_amount + '</td>'+
-                             '<td>'+ success + '</td>'+
-                             '</tr>';
-                }
-
-                html3 += "</tbody>"+
-                         "</table>"+
-                         "</div>"+
-                         "</div>"+
-                    "</div>";
-
-                var final = "<div class='row'>"+ html + html2 + html3 +"</div>";
-
-                $('#user_account').html(final);
-            }
-        }).fail(function (data) {
-            // for debug
-            ////console.log(data);
-            userNotLoged();
-        });
+    function getUserData()
+    {
+        return false;
     }
 	
 	function getUserOrders(args) {

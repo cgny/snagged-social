@@ -128,7 +128,7 @@ class Media extends CI_Controller
             }
 
             $save = false;
-            $msg = "Please add a debit card before adding media";
+            $msg = "Please add a debit card before adding media.";
 
             if(!empty($this->account->checkForCard()))
             {                    
