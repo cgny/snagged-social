@@ -545,11 +545,11 @@
                                                             ?>
                                                             <tr>
                                                                 <td scope="row" class="view_user_cart" data-cart="<?php echo $order->uc_id; ?>"><?php echo $order->uc_id; ?></td>
-                                                                    <td> <?php echo $order->uc_created; ?> </td>
-                                                                    <td> <?php echo $order->uc_shipping; ?> </td>
-                                                                    <td> <?php echo $order->cs_status; ?> </td>
-                                                                    <td> <a href="<?php site_url('cart/receipt/'. $orders->uc_cart_id); ?>" target="_blank">View</a> </td>
-                                                                </tr>
+                                                                <td> <?php echo $order->uc_created; ?> </td>
+                                                                <td> <?php echo $order->uc_shipping; ?> </td>
+                                                                <td> <?php echo $order->cs_status; ?> </td>
+                                                                <td> <a href="<?php site_url('cart/receipt/'. $orders->uc_cart_id); ?>" target="_blank">View</a> </td>
+                                                            </tr>
                                                             <?php
                                                             }
                                                             ?>
@@ -636,12 +636,11 @@
                                                 <tr>
                                                     <th scope="col">#</th>
                                                     <th scope="col">Photo Id</th>
-                                                    <th scope="col">Size</th>
-                                                    <th scope="col">Qty</th>
-                                                    <th scope="col">Purchased</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Profit</th>
-                                                    <th scope="col">Payout</th>
+                                                    <th scope="col">Img</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">IG Resync/Update</th>
+                                                    <th scope="col">Remove</th>
+                                                    <th scope="col">Link</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -654,13 +653,14 @@
                                                 {
 
                                                 ?>
-
-                                                <td> <img class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""> </td>
-                                                <td> <input type="text" id="photo_price_'+ data.photos[x].p_id +'" data-p_id="'+ data.photos[x].p_id +'" value="'+ data.photos[x].p_price+'" /> <button data-p_id="'+ data.photos[x].p_id +'" class="update_price">Update</button> </td>
-                                                <td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="resync_photo">Resync from Instagram</button> </td>
-                                                <td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
-                                                <td> <a href="'+ data.photos[x].p_url +'" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
-
+                                                    <tr>
+                                                        <td> <?php echo $gallery_photo->p_id; ?> </td>
+                                                        <td> <img class="" data-p_id="<?php echo $gallery_photo->p_id; ?>" src="<?php echo $gallery_photo->p_url; ?>" alt=""> </td>
+                                                        <td> <input type="text" id="photo_price_'<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
+                                                        <td> <a href="<?php echo $gallery_photo->p_url; ?>" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
+                                                    </tr>
                                                 <?php
                                                 }
                                                 ?>
