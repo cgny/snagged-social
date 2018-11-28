@@ -61,7 +61,7 @@ class Stripe_model extends CI_Model{
 		);
 	}
 
-	function processPayment($token, $amount, $country, $stripe_email = "")
+	function processPayment($token, $amount, $stripe_email = "")
 	{
 		$stripe = new \Stripe\Stripe;
 		$stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
