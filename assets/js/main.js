@@ -604,6 +604,7 @@ jQuery(document).ready(function ($) {
 		$('#email').removeClass('alert-danger');
 
 		var result = "Success";
+		var result_class = "";
 
         $.ajax({
             type : 'POST',
