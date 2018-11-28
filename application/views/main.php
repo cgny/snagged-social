@@ -685,7 +685,7 @@
                                         <?php
 
                                     }else{
-                                        echo "<script> window.open('". site_url() ."'); </script>";
+                                        echo "<a href='". site_url() ."'> Login </a>";
                                     }
                                 ?>
 
@@ -817,8 +817,8 @@
 
 				        <?php
 
-				            } else{
-                                echo "<script> window.open('". site_url() ."'); </script>";
+				            } else {
+                                echo "<a href='". site_url() ."'> Login </a>";
                             }
 
                             ?>
