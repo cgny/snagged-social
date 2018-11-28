@@ -639,7 +639,6 @@
                                             <table class="table table-striped">
                                                 <thead>
                                                 <tr>
-                                                    <th scope="col">#</th>
                                                     <th scope="col">Photo Id</th>
                                                     <th scope="col">Img</th>
                                                     <th scope="col">Price</th>
