@@ -71,6 +71,7 @@ class Account_model extends CI_Model{
 				"a_token" => $data['token']
 			);
 			$this->db->update('ss_accounts',$account);
+			$this->error->dbError();
 			$this->session->userdata['user']->admin = $user->row()->a_admin;
 			return $user->row()->a_id;
 		}
@@ -86,7 +87,9 @@ class Account_model extends CI_Model{
 			"a_created" => gmdate("Y-m-d H:i:s")
 		);
 		$this->db->insert('ss_accounts',$account);
-		return $this->db->insert_id();
+		$ins =  $this->db->insert_id();
+        $this->error->dbError();
+        return $ins;
 	}
 
 	function addCard($stripeToken,$last4,$account_id)
@@ -205,7 +208,9 @@ class Account_model extends CI_Model{
         $token 	= $this->data->cleanData( $token );
 
 		$this->db->where('a_id', $id);
-		$this->db->update('ss_accounts', array('s_token' => $token));
+        $upd = $this->db->update('ss_accounts', array('s_token' => $token));
+        $this->error->dbError();
+        return $upd;
 	}
 
 	function getDayDifference($to, $from)
@@ -230,7 +235,9 @@ class Account_model extends CI_Model{
         $data 	= $this->data->cleanData( $data );
 
 		$this->db->where('a_id', $a_id);
-		return $this->db->update('ss_accounts', $data);
+		$upd = $this->db->update('ss_accounts', $data);
+		$this->error->dbError();
+		return $upd;
 	}
 
 	function findMySales()
@@ -258,7 +265,7 @@ class Account_model extends CI_Model{
         
         function sendPayment()
         {
-            $this->stripe->sendPayout();
+            //$this->stripe->sendPayout();
         }
         
         function getPhotoOnAccount($photo_id)
