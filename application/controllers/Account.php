@@ -127,7 +127,7 @@ class Account extends CI_Controller
 			'a_city'          => $city,
 			'a_state'         => $state,
 			'a_postal_code'   => $postal_code,
-			'a_ein'           => $ein,
+			'a_tax_id'        => $ein,
 			'a_dob_m'         => $dob_m,
 			'a_dob_d'         => $dob_d,
 			'a_dob_y'         => $dob_y,
@@ -135,7 +135,7 @@ class Account extends CI_Controller
 
         $update = $this->data->cleanData( $data );
         $user = $success = false;
-        
+
 		if(!empty($account_id = $this->account->isLogged()))
 		{
             $success = $this->account->updateAccount($account_id, $update);
