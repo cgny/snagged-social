@@ -91,7 +91,7 @@ class Stripe_model extends CI_Model{
             try{
 				if(!empty($stripe_email))
 				{
-					$this->createStripeAccount( $stripe_email );
+					$this->createStripeAccount( $stripe_email, $stripe );
 				}
 			}
 			catch(Exception $e)
