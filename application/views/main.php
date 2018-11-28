@@ -302,12 +302,311 @@
 			</section>
 
 
-	<section id="media" class="tab-pane fade">
+	<section id="user-account" class="tab-pane fade">
                 <div class="container">
 	                <div class="space-20"></div>
 	                <h3>User Account</h3>
 	                <div class="space-60"></div>
                             <div id="user_account">
+
+
+                                <?php
+                                    if($this->account->isLogged() == true) {
+
+                                            $user       = $this->account->getUser();
+                                            $orders     = $this->cart->getAllCarts(null,$a_id);
+                                            $sales      = $this->account->findMySales();
+                                            $countries  = $this->data->getCountries();
+                                            $currencies = $this->data->getCurrencies();
+
+                                            $email_notice = "";
+                                            if(empty($user->a_email))
+                                            {
+                                                $email_notice = "Please add your email address. It is required for payouts.";
+                                            }
+
+                                            $card_notice = "";
+                                            if(empty($user->card))
+                                            {
+                                                $card_notice = "Please add your debit card. It is required for payouts.";
+                                            }
+
+                                            $country_field = "<select id='country' class='form-control'>";
+                                            foreach($countries as $county)
+                                            {
+                                                if($user->a_country == $county->country_code)
+                                                {
+                                                    $co_sel = "selected";
+                                                }
+                                                else
+                                                {
+                                                    $co_sel = "";
+                                                }
+                                                $country_field .= '<option value="'. $county->country_code .'"  '. $co_sel .'>'. $county->country_code .' - '.  $county->country_name .'</option>';
+                                            }
+                                            $country_field .= '</select>';
+
+                                            $currency_field = "<select id='country' class='form-control'>";
+                                            foreach($currencies['currency'] as $code => $currency)
+                                            {
+                                                if($user->a_currency == $currency)
+                                                {
+                                                    $cu_sel = "selected";
+                                                }
+                                                else
+                                                {
+                                                    $cu_sel = "";
+                                                }
+                                                $currency_field .= '<option value="'. $code .'"  '. $cu_sel .'>'. $code .' - '.  $currency .'</option>';
+                                            }
+                                            $currency_field .= '</select>';
+
+                                        ?>
+
+                                        <div class='col-xs-12 col-md-6'>
+                                        <img src='<?php  echo $user->a_ig_profile; ?>' /><br><br>
+                                        <h4><?php  echo $user->a_ig_username; ?> </h4><br>
+                                        <form method="post" action="/account/getUserData">
+                                            <div class="panel-body">
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">First Name</label>
+                                                    <div class="col-lg-9">
+                                                        "<input class='form-control' type='text' id='first_name' value='<?php $user->a_first_name; ?>' placeholder='First Name' />
+                                                        </div>
+                                                    </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Last Name</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='last_name' value='<?php $user->a_last_name; ?>' placeholder='First Name' />
+                                                        </div>
+                                                    </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Business Name</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='business_name' value='<?php $user->a_busines_name; ?>' placeholder='Business Name' />
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        Can be your name
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Business Url (optional)</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='business_url' value='<?php $user->a_busines_url; ?>' placeholder='Business Url' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Phone Number</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='phone' value='<?php $user->a_phone; ?>' placeholder='Phone Number' />
+                                                        </div>
+                                                    </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Email</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='email' value='<?php $user->a_email; ?>' placeholder='Email' />
+                                                        </div>
+                                                    </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Address Line 1</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='address_1' value='<?php $user->a_address_1; ?>' placeholder='Address' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Address Line 2 (optional)</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='address_2' value='<?php $user->a_address_2; ?>' placeholder='Additional Address' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">City</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='city' value='<?php $user->a_city; ?>' placeholder='City' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">State</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='state' value='<?php $user->a_state; ?>' placeholder='State' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Zip/ Postal Code</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='postal_code' value='<?php $user->a_postal_code; ?>' placeholder='Zip/ Postal Code' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">EIN Tax ID (optional)</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='ein' value='<?php $user->a_ein; ?>' placeholder='EIN Tax ID' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Date Of Birth M-D-Y</label>
+                                                    <div class="col-lg-9">
+                                                        <select class='form-control col-lg-4' type='text' id='dob_m'>
+                                                            <?php
+                                                                for($x=1;$x<13;$x++)
+                                                                {
+                                                                    echo "<option value='$x'>$x</option>";
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                        <select class='form-control col-lg-4' type='text' id='dob_d'>
+                                                            <?php
+                                                            for($x=1;$x<32;$x++)
+                                                            {
+                                                                echo "<option value='$x'>$x</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                        <select class='form-control col-lg-4' type='text' id='dob_y'>
+                                                            <?php
+                                                            for($x=( date("Y") - 17);$x>1910;$x--)
+                                                            {
+                                                                echo "<option value='$x'>$x</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Country</label>
+                                                    <div class="col-lg-9">
+                                                        <?php echo $country_field; ?>
+                                                        </div>
+                                                    </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Currency</label>
+                                                    <div class="col-lg-9">
+                                                        <?php echo $currency_field; ?>
+                                                        </div>
+                                                    </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Update</label>
+                                                    <div class="col-lg-9">
+                                                        <button id='update_user'>Update</button> <span id='update_result'></span> <br><br>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+
+                                            <div id='orders'>
+                                                <div class='col-xs-12 col-md-6'>
+                                                    <div id='collapseOrders' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>"+
+                                                        <h4>Personal Orders</h4>
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Created</th>
+                                                                <th scope="col">Shipped</th>
+                                                                <th scope="col">Status</th>
+                                                                <th scope="col">Receipt</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            <?php
+                                                            foreach($orders as $order)
+                                                            {
+
+                                                            ?>
+                                                            <tr>
+                                                                <td scope="row" class="view_user_cart" data-cart="<?php echo $order->uc_id; ?>"><?php echo $order->uc_id; ?></td>
+                                                                    <td> <?php echo $order->uc_created; ?> </td>
+                                                                    <td> <?php echo $order->uc_shipping; ?> </td>
+                                                                    <td> <?php echo $order->cs_status; ?> </td>
+                                                                    <td> <a href="<?php site_url('cart/receipt/'. $orders->uc_cart_id); ?>" target="_blank">View</a> </td>
+                                                                </tr>
+                                                            <?php
+                                                            }
+                                                            ?>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                                <div id='sales'>
+                                                    <div class='col-xs-12 col-md-6'>
+                                                        <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>"+
+                                                            <h4>Items Sold</h4>
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th scope="col">#</th>
+                                                                    <th scope="col">Photo Id</th>
+                                                                    <th scope="col">Size</th>
+                                                                    <th scope="col">Qty</th>
+                                                                    <th scope="col">Purchased</th>
+                                                                    <th scope="col">Status</th>
+                                                                    <th scope="col">Profit</th>
+                                                                    <th scope="col">Payout</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                <?php
+                                                            foreach($sales as $k => $sale)
+                                                                {
+
+                                                                    $success = "Not Sent";
+                                                                    if($sale->ap_success == 1)
+                                                                    {
+                                                                        $success = "Sent";
+                                                                    }
+
+                                                                    ?>
+                                                                    <tr>
+                                                                        '<td scope="row" class="view_user_cart" data-cart="<?php echo $sale->uc_id; ?>"><?php echo ($k+1);  ?></td>
+                                                                        <td> <?php echo $sale->p_id; ?> </td>
+                                                                        <td> <?php echo $sale->ps_size; ?> </td>
+                                                                        <td> <?php echo $sale->c_qty; ?> </td>
+                                                                        <td> <?php echo $sale->uc_payment_date; ?> </td>
+                                                                        <td> <?php echo $sale->cs_status; ?> </td>
+                                                                        <td> <?php echo $sale->ap_amount; ?> </td>
+                                                                        <td> <?php echo $success; ?> </td>
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                                ?>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                        </div>
+
+
+
+                                        <?php
+                                    }
+                                ?>
 
                             </div>
                         <div id="user_images">
@@ -324,25 +623,25 @@
 		</div>
 	</section>
 
-<!-- PHOTOS -->
-<section id="instagram" class="tab-pane fade">
-                <div class="container">
-	                <div class="space-20"></div>
-	                <h3>Your Instagram</h3>
-	                <div class="space-60"></div>
-                    <div class="space-60"></div>
-                    <div class="row photos">
+        <!-- PHOTOS -->
+        <section id="instagram" class="tab-pane fade">
+                        <div class="container">
+                            <div class="space-20"></div>
+                            <h3>Your Instagram</h3>
+                            <div class="space-60"></div>
+                            <div class="space-60"></div>
+                            <div class="row photos">
 
 
-			</div>
-		</div>
-	</section>
+                    </div>
+                </div>
+            </section>
 
-	        <!-- CARD -->
+                    <!-- CARD -->
 
 
 
-	        <section id="authorize" class="tab-pane fade">
+	        <section id="add-card" class="tab-pane fade">
 		        <div class="container">
 			        <div class="space-20"></div>
 			        <h3>Debit Card Payouts</h3>
@@ -350,8 +649,7 @@
 			        <div class="row cardDetails">
 
 				        <?php
-
-				        if($this->account->isLogged() == true){
+				            if($this->account->isLogged() == true){
 				        ?>
                                     
 

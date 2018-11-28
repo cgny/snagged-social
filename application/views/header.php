@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 {
                                   $toggle = "";
                                 }
-                                echo "<li id='li_user'><a class=' text-uppercase' data-toggle='". $toggle ."' href='". $link ."' id='". $name ."-link'>". $name ."</a></li>";
+                                echo "<li id='li_user'><a class=' text-uppercase' data-toggle='". $toggle ."' href='". $link ."' id='". $name ."-link'>". preg_replace('/[-]/', '',$name ) ."</a></li>";
                             }
                             echo "</ul>";
                             echo "</li>";

@@ -16,35 +16,52 @@ class Stripe_model extends CI_Model{
         return $this->db->get('ss_accounts')->row();
     }
 	
-	function createStripeAccount($email, $country)
+	function createStripeAccount($email)
 	{
 		$stripe = new \Stripe\Stripe;
 		$stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
 
 		$account = $this->account->getAccountById( $this->account->isLogged() );
                 
-                if(!empty($account))
-                {
-                    $description = $account->a_first_name.' '.$account->a_last_name;
-                }
-                else 
-                {
-                    $cart = $this->cart->getCart()->row();
-                    $description = $cart->uc_full_name;
-                }
+        if(!empty($account))
+        {
+            $description = $account->a_first_name.' '.$account->a_last_name;
+        }
+        else
+        {
+            $cart = $this->cart->getCart()->row();
+            $description = $cart->uc_full_name;
+        }
 
 		$acct = new \Stripe\Account;
 		return $acct->create(
 			array(
-				'email'         => $email,
-				'description'   => $description,
-                'country'       => $country,
-                'type'          => 'custom'
+				'email'             => $email,
+				'description'       => $description,
+                'country'           => $account->a_country,
+                'type'              => 'custom',
+                'business_name'     => $account->a_business_name,
+                'business_url'     => $account->business_url,
+                'address' => array(
+                  'line1'       => $account->a_address_1,
+                  'line2'       => $account->a_address_2,
+                  'city'        => $account->a_city,
+                  'state'       => $account->a_state,
+                  'postal_code' => $account->a_postal_code,
+                ),
+                'default_currency'  => $account->a_currency,
+                'business_tax_id'  => $account->a_tax_id,
+                'business_vat_id'  => $account->a_vat_id,
+                'dob' => array(
+                    'month' => $account->a_dob_m,
+                    'day'   => $account->a_dob_d,
+                    'year'  => $account->a_dob_y,
+                )
 			)
 		);
 	}
 
-	function processPayment($token, $amount, $country, $stripe_email = "")
+	function processPayment($token, $amount, $stripe_email = "")
 	{
 		$stripe = new \Stripe\Stripe;
 		$stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
@@ -64,7 +81,7 @@ class Stripe_model extends CI_Model{
             try{
 				if(!empty($stripe_email))
 				{
-					$this->createStripeAccount( $stripe_email, $country );
+					$this->createStripeAccount( $stripe_email );
 				}
 			}
 			catch(Exception $e)
@@ -119,7 +136,7 @@ class Stripe_model extends CI_Model{
 					{
 						if(!empty($photo->stripe_user_id))
 						{
-                            $payout = $this->sendPayout($pay, $photo->stripe_user_id, "PHOTO :" .$item->c_p_id, $photo->a_currency);
+                            $payout = $this->sendPayout($pay, $photo->stripe_user_id, "PHOTO x (". $item->c_qty .") :" .$item->c_p_id, $photo->a_currency);
                             if(empty($payout))
                             {
                                 $success = false;
@@ -147,12 +164,9 @@ class Stripe_model extends CI_Model{
 			
 			// make new cart id
 			$this->cart->getCartId(true);
-			return $status;
+
 		}
-		else
-		{
-			return $status->failure_code;
-		}
+        return $status;
 	}
 	
         function sendPayout($amount, $stripe_id, $description, $currency = "usd")
