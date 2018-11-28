@@ -1125,12 +1125,12 @@ jQuery(document).ready(function ($) {
                 for(var x in data.photos)
                 {
                     table += '<tr>'+
-                                '<td> '+ data.photos.p_id +'</td>'+
-                                '<td> <img class="" data-p_id="'+ data.photos.p_id +'" src="'+ data.photos.p_url +'" alt=""> </td>'+
-                                '<td> <input type="text" id="photo_price_'+ data.photos.p_id +'" data-p_id="'+ data.photos.p_id +'" value="'+ data.photos.p_price +'" /> <button data-p_id="'+ data.photos.p_id +'" class="update_price">Update</button> </td>'+
-                                '<td> <button data-p_ig_id="'+ data.photos.p_id +'" class="resync_photo">Resync from Instagram</button> </td>'+
-                                '<td> <button data-p_ig_id="'+ data.photos.p_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>'+
-                                '<td> <a href=""'+ data.photos.p_url +'" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>'+
+                                '<td> '+ data.photos[x].p_id +'</td>'+
+                                '<td> <img class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""> </td>'+
+                                '<td> <input type="text" id="photo_price_'+ data.photos[x].p_id +'" data-p_id="'+ data.photos[x].p_id +'" value="'+ data.photos[x].p_price +'" /> <button data-p_id="'+ data.photos[x].p_id +'" class="update_price">Update</button> </td>'+
+                                '<td> <button data-p_ig_id="'+ data.photos[x].p_id +'" class="resync_photo">Resync from Instagram</button> </td>'+
+                                '<td> <button data-p_ig_id="'+ data.photos[x].p_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>'+
+                                '<td> <a href=""'+ data.photos[x].p_url +'" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>'+
                                 '</tr>';
                         }
 
