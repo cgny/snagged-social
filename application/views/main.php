@@ -523,7 +523,7 @@
                                             </form>
 
                                             <div id='orders'>
-                                                <div class='col-xs-12 col-md-6'>
+                                                <div class=' col-lg-12'>
                                                     <div id='collapseOrders' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
                                                         <h4>Personal Orders</h4>
                                                         <table class="table table-striped">
@@ -561,7 +561,7 @@
                                             </div>
 
                                                 <div id='sales'>
-                                                    <div class='col-xs-12 col-md-6'>
+                                                    <div class='col-lg-12'>
                                                         <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
                                                             <h4>Items Sold</h4>
                                                             <table class="table table-striped">
@@ -621,12 +621,55 @@
                                 ?>
 
                             </div>
-                        <div id="user_images">
+                        <div class="col-lg-12" id="user_images">
                             <hr>
                             <h4>Images</h4>
                             <div class="clear"><br></div>
                             <div class="row photos">
 
+                                <div id='sales'>
+                                    <div class='col-lg-12'>
+                                        <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
+                                            <h4>Items Sold</h4>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Photo Id</th>
+                                                    <th scope="col">Size</th>
+                                                    <th scope="col">Qty</th>
+                                                    <th scope="col">Purchased</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Profit</th>
+                                                    <th scope="col">Payout</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                <?php
+
+                                                $gallery_photos = $this->media->getSSMedia($user_id,false);
+                                                foreach($gallery_photos as $gallery_photo)
+                                                {
+
+                                                ?>
+
+                                                <td> <img class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""> </td>
+                                                <td> <input type="text" id="photo_price_'+ data.photos[x].p_id +'" data-p_id="'+ data.photos[x].p_id +'" value="'+ data.photos[x].p_price+'" /> <button data-p_id="'+ data.photos[x].p_id +'" class="update_price">Update</button> </td>
+                                                <td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="resync_photo">Resync from Instagram</button> </td>
+                                                <td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
+                                                <td> <a href="'+ data.photos[x].p_url +'" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
+
+                                                <?php
+                                                }
+                                                ?>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
