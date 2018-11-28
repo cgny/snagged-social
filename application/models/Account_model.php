@@ -96,7 +96,6 @@ class Account_model extends CI_Model{
 	{
         $stripe = new \Stripe\Stripe;
         $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
-
 		$acct_info = $this->getAccountById($account_id);
 
         $result['success'] = false;
@@ -110,28 +109,22 @@ class Account_model extends CI_Model{
 				{
                     $customer = $this->stripe->createStripeAccount( $acct_info->a_email, $stripe );
 
-                    $cards = \Stripe\Customer::retrieve($customer->id)->sources->all(
-                        array(
-                            'count'=>3
-                        )
-                    );
+                    $cu = \Stripe\Customer::retrieve($acct_info->stripe_id);
+                    $var = $cu->sources->create(array("card" => $stripeToken));
+                    $card = $var['id'];
+                    $type = $var['brand'];
 
-                    $card_info = $cards['data'][0];
-                    $card = $card_info->id;
-                    $type = $card_info->brand;
-
-                    $cu = Stripe\Customer::retrieve($acct_info->stripe_id);
                     $cu->default_card = $card;
                     $cu->save();
 
                     $this->db->where('a_id',$account_id);
                     $this->db->update('ss_accounts', array(
-                            'stripe_id' => $customer->id,
                             'stripe_card_num' 	=> $last4,
                             'stripe_card_id' 	=> $card,
                             'stripe_card_type' 	=> $type
                         )
                     );
+
                     $result['success'] = true;
 				}
 
@@ -144,7 +137,7 @@ class Account_model extends CI_Model{
 
 			try{
 
-				$cu = Stripe\Customer::retrieve($acct_info->stripe_id);
+				$cu = \Stripe\Customer::retrieve($acct_info->stripe_id);
 				$var = $cu->sources->create(array("card" => $stripeToken));
 				$card = $var['id'];
 				$type = $var['brand'];
@@ -159,18 +152,19 @@ class Account_model extends CI_Model{
 						'stripe_card_type' 	=> $type
 					)
 				);
-                $result['success'] = "Retrieved";
+                $result['success'] = true;
+                $result['error'] = false;
 
-			} catch (Stripe\InvalidRequestError $e) {
+			} catch (\Stripe\InvalidRequestError $e) {
 				// Invalid parameters were supplied to Stripe's API
                 $result['error'] = $e->getMessage();
 
-			} catch (Stripe\AuthenticationError $e) {
+			} catch (\Stripe\AuthenticationError $e) {
 				// Authentication with Stripe's API failed
 				// (maybe you changed API keys recently)
                 $result['error'] = $e->getMessage();
 
-			} catch (Stripe\ApiConnectionError $e) {
+			} catch (\Stripe\ApiConnectionError $e) {
 				// Network communication with Stripe failed
                 $result['error'] = $e->getMessage();
 
