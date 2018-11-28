@@ -23,14 +23,21 @@ class Stripe_model extends CI_Model{
 
 		$account = $this->account->getAccountById( $this->account->isLogged() );
                 
-        if(!empty($account))
+        if(!empty($account) && !empty($account->a_first_name) && !empty($account->a_last_name))
         {
             $description = $account->a_first_name.' '.$account->a_last_name;
         }
         else
         {
             $cart = $this->cart->getCart()->row();
-            $description = $cart->uc_full_name;
+            if(!empty( $cart->uc_full_name ))
+            {
+                $description = $cart->uc_full_name;
+            }
+            else
+            {
+                $description = $account->a_ig_username;
+            }
         }
 
 		$acct = new \Stripe\Account;
