@@ -363,11 +363,11 @@
 
                                         ?>
 
-                                        <div class='col-xs-12 col-md-6'>
+                                        <div class='col-xs-12 col-lg-12'>
                                         <img src='<?php  echo $user->a_ig_profile; ?>' /><br><br>
                                         <h4><?php  echo $user->a_ig_username; ?> </h4><br>
-                                        <form method="post" action="<?php echo site_url('/account/update'); ?>" data-id="<?php $user->a_ig_id ?>">
-                                            <div class="panel-body">
+                                        <form onsubmit="return false;" method="post" action="<?php echo site_url('/account/update'); ?>" data-id="<?php $user->a_ig_id ?>">
+                                            <div class="panel-body col-lg-6">
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">First Name</label>
@@ -522,6 +522,65 @@
                                                 </div>
                                             </form>
 
+                                            <div class="col-lg-12" id="user_images">
+                                                <hr>
+
+                                                <?php
+
+                                                $gallery_photos = $this->media->getSSMedia($user_id,false);
+                                                ?>
+
+                                                <h4>Images (<?php echo count($gallery_photos); ?>)</h4>
+                                                <div class="clear"><br></div>
+                                                <div class="row photos">
+
+                                                    <div id='all_photos'>
+                                                        <div class='col-lg-12'>
+                                                            <div id='collapsePhotos' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:1000px;overflow-y: scroll;margin-bottom:10px'>
+                                                                <table class="table table-striped">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Photo Id</th>
+                                                                        <th scope="col">Img</th>
+                                                                        <th scope="col">Price</th>
+                                                                        <th scope="col">IG Resync/Update</th>
+                                                                        <th scope="col">Remove</th>
+                                                                        <th scope="col">Link</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+
+                                                                    <?php
+
+                                                                    foreach($gallery_photos as $gallery_photo)
+                                                                    {
+
+                                                                        ?>
+                                                                        <tr>
+                                                                            <td> <?php echo $gallery_photo->p_id; ?> </td>
+                                                                            <td> <img style="width:250px" class="" data-p_id="<?php echo $gallery_photo->p_id; ?>" src="<?php echo $gallery_photo->p_url; ?>" alt=""> </td>
+                                                                            <td> <input type="text" id="photo_price_'<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
+                                                                            <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
+                                                                            <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
+                                                                            <td> <a href="<?php echo $gallery_photo->p_url; ?>" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
+                                                                        </tr>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="space-20"></div>
+
                                             <div id='orders'>
                                                 <div class=' col-lg-12'>
                                                     <div id='collapseOrders' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
@@ -559,6 +618,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+
+                                            <div class="space-20"></div>
 
                                                 <div id='sales'>
                                                     <div class='col-lg-12'>
@@ -621,61 +683,8 @@
                                 ?>
 
                             </div>
-                        <div class="col-lg-12" id="user_images">
-                            <hr>
-
-                            <?php
-
-                            $gallery_photos = $this->media->getSSMedia($user_id,false);
-                            ?>
-
-                            <h4>Images (<?php echo count($gallery_photos); ?>)</h4>
-                            <div class="clear"><br></div>
-                            <div class="row photos">
-
-                                <div id='all_photos'>
-                                    <div class='col-lg-12'>
-                                        <div id='collapsePhotos' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:1000px;overflow-y: scroll;margin-bottom:10px'>
-                                            <table class="table table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Photo Id</th>
-                                                    <th scope="col">Img</th>
-                                                    <th scope="col">Price</th>
-                                                    <th scope="col">IG Resync/Update</th>
-                                                    <th scope="col">Remove</th>
-                                                    <th scope="col">Link</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
 
 
-                                                <?php
-
-                                                foreach($gallery_photos as $gallery_photo)
-                                                {
-
-                                                ?>
-                                                    <tr>
-                                                        <td> <?php echo $gallery_photo->p_id; ?> </td>
-                                                        <td> <img style="width:250px" class="" data-p_id="<?php echo $gallery_photo->p_id; ?>" src="<?php echo $gallery_photo->p_url; ?>" alt=""> </td>
-                                                        <td> <input type="text" id="photo_price_'<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
-                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
-                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
-                                                        <td> <a href="<?php echo $gallery_photo->p_url; ?>" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
-                                                    </tr>
-                                                <?php
-                                                }
-                                                ?>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
                         
                     <div class="space-60"></div>
 		</div>
