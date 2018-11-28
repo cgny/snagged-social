@@ -623,14 +623,19 @@
                             </div>
                         <div class="col-lg-12" id="user_images">
                             <hr>
-                            <h4>Images</h4>
+
+                            <?php
+
+                            $gallery_photos = $this->media->getSSMedia($user_id,false);
+                            ?>
+
+                            <h4>Images (<?php echo count($gallery_photos); ?>)</h4>
                             <div class="clear"><br></div>
                             <div class="row photos">
 
-                                <div id='sales'>
+                                <div id='all_photos'>
                                     <div class='col-lg-12'>
-                                        <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
-                                            <h4>Items Sold</h4>
+                                        <div id='collapsePhotos' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
                                             <table class="table table-striped">
                                                 <thead>
                                                 <tr>
@@ -648,7 +653,6 @@
 
                                                 <?php
 
-                                                $gallery_photos = $this->media->getSSMedia($user_id,false);
                                                 foreach($gallery_photos as $gallery_photo)
                                                 {
 

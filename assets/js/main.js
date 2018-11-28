@@ -1107,10 +1107,12 @@ jQuery(document).ready(function ($) {
                 $('#media .row.photos').html('');
                 // display success message
 
-                var table = '<table class="table table-striped">'+
-                            '<thead>'+
+                var table = "<div id='all_photos'>" +
+                            "<div class='col-lg-12'>" +
+                            "<div id='collapsePhotos' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>" +
+                            '<table class="table table-striped">' +
+                            "<thead>"+
                                 '<tr>'+
-                                '<th scope="col">#</th>'+
                                 '<th scope="col">Photo Id</th>'+
                                 '<th scope="col">Img</th>'+
                                 '<th scope="col">Price</th>'+
@@ -1134,10 +1136,13 @@ jQuery(document).ready(function ($) {
                                 '</tr>';
                         }
 
-                table += '</tbody>' +
-                    '</table>';
+                    table += '</tbody>' +
+                            '</table>'+
+                        '</div>'+
+                    '</div>'+
+                    '</div>';
 
-                $('#media .row.photos').append(img);
+                $('#user_images .row.photos').append(table);
 
             }
         }).fail(function (data) {
