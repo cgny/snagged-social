@@ -95,11 +95,8 @@ class Account_model extends CI_Model{
 		$acct_info = $this->getAccountById($account_id);
 		if(empty($acct_info->stripe_id)){
 			try{
-				$customer = \Stripe\Customer::create(array(
-					'email' => $acct_info->a_email,
-					'card' => $stripeToken,
-					'description' => $acct_info->a_ig_username
-				));
+				$customer = $this->stripe->createStripeAccount( $acct_info->a_email );
+
 				$cards = \Stripe\Customer::retrieve($customer->id)->sources->all(
 					array(
 						'count'=>3
@@ -109,7 +106,6 @@ class Account_model extends CI_Model{
 				$card_info = $cards['data'][0];
 				$card = $card_info->id;
 				$type = $card_info->brand;
-
 
 				$this->db->where('a_id',$account_id);
 				$this->db->update('ss_accounts', array(
