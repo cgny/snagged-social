@@ -366,90 +366,90 @@
                                         <div class='col-xs-12 col-md-6'>
                                         <img src='<?php  echo $user->a_ig_profile; ?>' /><br><br>
                                         <h4><?php  echo $user->a_ig_username; ?> </h4><br>
-                                        <form method="post" action="/account/getUserData">
+                                        <form method="post" action="/account/getUserData" data-id="<?php $this->session->userdata['user']->id ?>">
                                             <div class="panel-body">
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">First Name</label>
                                                     <div class="col-lg-9">
-                                                        "<input class='form-control' type='text' id='first_name' value='<?php $user->a_first_name; ?>' placeholder='First Name' />
+                                                        <input class='form-control' type='text' id='first_name' value='<?php echo $user->a_first_name; ?>' placeholder='First Name' />
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Last Name</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='last_name' value='<?php $user->a_last_name; ?>' placeholder='First Name' />
+                                                        <input class='form-control' type='text' id='last_name' value='<?php echo  $user->a_last_name; ?>' placeholder='First Name' />
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-lg-3 control-label">Business Name (Can be your name)</label>
+                                                    <label class="col-lg-3 control-label">Business Name (optional))</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='business_name' value='<?php $user->a_busines_name; ?>' placeholder='Business Name' />
+                                                        <input class='form-control' type='text' id='business_name' value='<?php echo  $user->a_busines_name; ?>' placeholder='Business Name' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Business Url (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='business_url' value='<?php $user->a_busines_url; ?>' placeholder='Business Url' />
+                                                        <input class='form-control' type='text' id='business_url' value='<?php echo  $user->a_busines_url; ?>' placeholder='Business Url' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Phone Number</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='phone' value='<?php $user->a_phone; ?>' placeholder='Phone Number' />
+                                                        <input class='form-control' type='text' id='phone' value='<?php  echo $user->a_phone; ?>' placeholder='Phone Number' />
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Email</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='email' value='<?php $user->a_email; ?>' placeholder='Email' />
+                                                        <input class='form-control' type='text' id='email' value='<?php  echo $user->a_email; ?>' placeholder='Email' />
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Address Line 1</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='address_1' value='<?php $user->a_address_1; ?>' placeholder='Address' />
+                                                        <input class='form-control' type='text' id='address_1' value='<?php  echo $user->a_address_1; ?>' placeholder='Address' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Address Line 2 (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='address_2' value='<?php $user->a_address_2; ?>' placeholder='Additional Address' />
+                                                        <input class='form-control' type='text' id='address_2' value='<?php echo  $user->a_address_2; ?>' placeholder='Additional Address' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">City</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='city' value='<?php $user->a_city; ?>' placeholder='City' />
+                                                        <input class='form-control' type='text' id='city' value='<?php  echo $user->a_city; ?>' placeholder='City' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">State</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='state' value='<?php $user->a_state; ?>' placeholder='State' />
+                                                        <input class='form-control' type='text' id='state' value='<?php  echo $user->a_state; ?>' placeholder='State' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Zip/ Postal Code</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='postal_code' value='<?php $user->a_postal_code; ?>' placeholder='Zip/ Postal Code' />
+                                                        <input class='form-control' type='text' id='postal_code' value='<?php echo  $user->a_postal_code; ?>' placeholder='Zip/ Postal Code' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">EIN Tax ID (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='ein' value='<?php $user->a_ein; ?>' placeholder='EIN Tax ID' />
+                                                        <input class='form-control' type='text' id='ein' value='<?php echo  $user->a_ein; ?>' placeholder='EIN Tax ID' />
                                                     </div>
                                                 </div>
 
@@ -460,7 +460,12 @@
                                                             <?php
                                                                 for($x=1;$x<13;$x++)
                                                                 {
-                                                                    echo "<option value='$x'>$x</option>";
+                                                                    $sel = "";
+                                                                    if($x == $user->a_dob_m)
+                                                                    {
+                                                                        $sel = "selected";
+                                                                    }
+                                                                    echo "<option value='$x' $sel>$x</option>";
                                                                 }
                                                             ?>
                                                         </select>
@@ -468,7 +473,12 @@
                                                             <?php
                                                             for($x=1;$x<32;$x++)
                                                             {
-                                                                echo "<option value='$x'>$x</option>";
+                                                                $sel = "";
+                                                                if($x == $user->a_dob_d)
+                                                                {
+                                                                    $sel = "selected";
+                                                                }
+                                                                echo "<option value='$x' $sel>$x</option>";
                                                             }
                                                             ?>
                                                         </select>
@@ -476,7 +486,12 @@
                                                             <?php
                                                             for($x=( date("Y") - 17);$x>1910;$x--)
                                                             {
-                                                                echo "<option value='$x'>$x</option>";
+                                                                $sel = "";
+                                                                if($x == $user->a_dob_y)
+                                                                {
+                                                                    $sel = "selected";
+                                                                }
+                                                                echo "<option value='$x' $sel>$x</option>";
                                                             }
                                                             ?>
                                                         </select>
@@ -509,7 +524,7 @@
 
                                             <div id='orders'>
                                                 <div class='col-xs-12 col-md-6'>
-                                                    <div id='collapseOrders' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>"+
+                                                    <div id='collapseOrders' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
                                                         <h4>Personal Orders</h4>
                                                         <table class="table table-striped">
                                                             <thead>
@@ -547,7 +562,7 @@
 
                                                 <div id='sales'>
                                                     <div class='col-xs-12 col-md-6'>
-                                                        <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>"+
+                                                        <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
                                                             <h4>Items Sold</h4>
                                                             <table class="table table-striped">
                                                                 <thead>
@@ -576,7 +591,7 @@
 
                                                                     ?>
                                                                     <tr>
-                                                                        '<td scope="row" class="view_user_cart" data-cart="<?php echo $sale->uc_id; ?>"><?php echo ($k+1);  ?></td>
+                                                                        <td scope="row" class="view_user_cart" data-cart="<?php echo $sale->uc_id; ?>"><?php echo ($k+1);  ?></td>
                                                                         <td> <?php echo $sale->p_id; ?> </td>
                                                                         <td> <?php echo $sale->ps_size; ?> </td>
                                                                         <td> <?php echo $sale->c_qty; ?> </td>
