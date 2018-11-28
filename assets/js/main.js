@@ -571,14 +571,38 @@ jQuery(document).ready(function ($) {
           'email' : $('#email').val(),
           'currency' : $('#currency').val(),
           'country' : $('#country').val(),
+          'business_name' : $('#business_name').val(),
+          'business_url' : $('#business_url').val(),
+          'address_1' : $('#address_1').val(),
+          'address_2' : $('#address_2').val(),
+          'city' : $('#city').val(),
+          'state' : $('#state').val(),
+          'postal_code' : $('#postal_code').val(),
+          'ein' : $('#ein').val(),
+          'dob_m' : $('#dob_m').val(),
+          'dob_d' : $('#dob_d').val(),
+          'dob_y' : $('#dob_y').val()
         };
 		
 		if (!formData.email) {
 			$('#email').addClass('alert-danger');
 			return false;
 		}
+
+        if (!formData.first_name) {
+            $('#first_name').addClass('alert-danger');
+            return false;
+        }
+
+        if (!formData.last_name) {
+            $('#last_name').addClass('alert-danger');
+            return false;
+        }
+
 		$('#email').removeClass('alert-danger');
-		
+		$('#business_name').removeClass('alert-danger');
+		$('#email').removeClass('alert-danger');
+
 		var result = "Success";
 
         $.ajax({

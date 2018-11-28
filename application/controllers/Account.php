@@ -96,58 +96,56 @@ class Account extends CI_Controller
 
 	function update()
 	{
-		$first_name = $this->input->post('first_name');
-		$last_name  = $this->input->post('last_name');
-		$email      = $this->input->post('email');
-        $phone      = $this->input->post('phone');
-		$currency   = $this->input->post('currency');
+		$first_name     = $this->input->post('first_name');
+		$last_name      = $this->input->post('last_name');
+		$email          = $this->input->post('email');
+        $phone          = $this->input->post('phone');
+		$currency       = $this->input->post('currency');
+		$country        = $this->input->post('country');
+		$business_name  = $this->input->post('business_name');
+		$address_1      = $this->input->post('address_1');
+		$address_2      = $this->input->post('address_2');
+		$city           = $this->input->post('city');
+		$state          = $this->input->post('state');
+		$postal_code    = $this->input->post('postal_code');
+		$ein            = $this->input->post('ein');
+        $dob_m          = $this->input->post('dob_m');
+        $dob_d          = $this->input->post('dob_d');
+        $dob_y          = $this->input->post('dob_y');
 
 		$data = array(
-			'first_name' => $first_name,
-			'last_name'  => $last_name,
-			'email'      => $email,
-			'currency'   => $currency
+			'a_first_name'    => $first_name,
+			'a_last_name'     => $last_name,
+			'a_email'         => $email,
+			'a_phone'         => $phone,
+			'a_currency'      => $currency,
+			'a_country'       => $country,
+			'a_business_name' => $business_name,
+			'a_address_1'     => $address_1,
+			'a_address_2'     => $address_2,
+			'a_city'          => $city,
+			'a_state'         => $state,
+			'a_postal_code'   => $postal_code,
+			'a_ein'           => $ein,
+			'a_dob_m'         => $dob_m,
+			'a_dob_d'         => $dob_d,
+			'a_dob_y'         => $dob_y,
 		);
 
-		$data = $this->data->cleanData($data);
-
+        $update = $this->data->cleanData($data);
 		$success = false;
 		
 		if(!empty($accountId = $this->account->isLogged()))
 		{
-		    $account = $this->account->getAccountById($accountId);
 			if(!empty($account_id = $this->account->isLogged()))
 			{
-				$update = [];
-				if(!empty($first_name))
-				{
-					$update['a_first_name'] = $data['first_name'];
-				}
-				if(!empty($last_name))
-				{
-					$update['a_last_name'] = $data['last_name'];
-				}
-				if(!empty($phone))
-				{
-					$update['a_phone'] = $data['phone'];
-				}
-                if(!empty($currency))
-                {
-                    $update['a_currency'] = $data['currency'];
-                }
-				if(!empty($email))
-				{
-					$update['a_email'] = $data['email'];
-                    if(empty($account->stripe_id))
-                    {
-                        $this->stripe->createStripeAccount($data['email']);
-                    }
-				}
-				if(empty($update))
-				{
-					return false;
-				}
 				$success = $this->account->updateAccount($account_id, $update);
+
+                $account = $this->account->getAccountById ( $accountId );
+                if(empty($account->stripe_id))
+                {
+                    $this->stripe->createStripeAccount( $account->a_email );
+                }
 			}
 		}
 		echo json_encode(array('success' => $success));

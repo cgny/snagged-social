@@ -384,6 +384,23 @@
                                                     </div>
 
                                                 <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Business Name</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='business_name' value='<?php $user->a_busines_name; ?>' placeholder='Business Name' />
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        Can be your name
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Business Url (optional)</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='business_url' value='<?php $user->a_busines_url; ?>' placeholder='Business Url' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
                                                     <label class="col-lg-3 control-label">Phone Number</label>
                                                     <div class="col-lg-9">
                                                         <input class='form-control' type='text' id='phone' value='<?php $user->a_phone; ?>' placeholder='Phone Number' />
@@ -396,6 +413,78 @@
                                                         <input class='form-control' type='text' id='email' value='<?php $user->a_email; ?>' placeholder='Email' />
                                                         </div>
                                                     </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Address Line 1</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='address_1' value='<?php $user->a_address_1; ?>' placeholder='Address' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Address Line 2 (optional)</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='address_2' value='<?php $user->a_address_2; ?>' placeholder='Additional Address' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">City</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='city' value='<?php $user->a_city; ?>' placeholder='City' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">State</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='state' value='<?php $user->a_state; ?>' placeholder='State' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Zip/ Postal Code</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='postal_code' value='<?php $user->a_postal_code; ?>' placeholder='Zip/ Postal Code' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">EIN Tax ID (optional)</label>
+                                                    <div class="col-lg-9">
+                                                        <input class='form-control' type='text' id='ein' value='<?php $user->a_ein; ?>' placeholder='EIN Tax ID' />
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-lg-3 control-label">Date Of Birth M-D-Y</label>
+                                                    <div class="col-lg-9">
+                                                        <select class='form-control col-lg-4' type='text' id='dob_m'>
+                                                            <?php
+                                                                for($x=1;$x<13;$x++)
+                                                                {
+                                                                    echo "<option value='$x'>$x</option>";
+                                                                }
+                                                            ?>
+                                                        </select>
+                                                        <select class='form-control col-lg-4' type='text' id='dob_d'>
+                                                            <?php
+                                                            for($x=1;$x<32;$x++)
+                                                            {
+                                                                echo "<option value='$x'>$x</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                        <select class='form-control col-lg-4' type='text' id='dob_y'>
+                                                            <?php
+                                                            for($x=( date("Y") - 17);$x>1910;$x--)
+                                                            {
+                                                                echo "<option value='$x'>$x</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Country</label>

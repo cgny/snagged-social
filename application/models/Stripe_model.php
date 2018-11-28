@@ -16,7 +16,7 @@ class Stripe_model extends CI_Model{
         return $this->db->get('ss_accounts')->row();
     }
 	
-	function createStripeAccount($email, $country)
+	function createStripeAccount($email)
 	{
 		$stripe = new \Stripe\Stripe;
 		$stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
@@ -36,11 +36,27 @@ class Stripe_model extends CI_Model{
 		$acct = new \Stripe\Account;
 		return $acct->create(
 			array(
-				'email'         => $email,
-				'description'   => $description,
-                'country'       => $country,
-                'type'          => 'custom',
-                'business_name' => ''
+				'email'             => $email,
+				'description'       => $description,
+                'country'           => $account->a_country,
+                'type'              => 'custom',
+                'business_name'     => $account->a_business_name,
+                'business_url'     => $account->business_url,
+                'address' => array(
+                  'line1'       => $account->a_address_1,
+                  'line2'       => $account->a_address_2,
+                  'city'        => $account->a_city,
+                  'state'       => $account->a_state,
+                  'postal_code' => $account->a_postal_code,
+                ),
+                'default_currency'  => $account->a_currency,
+                'business_tax_id'  => $account->a_tax_id,
+                'business_vat_id'  => $account->a_vat_id,
+                'dob' => array(
+                    'month' => $account->a_dob_m,
+                    'day'   => $account->a_dob_d,
+                    'year'  => $account->a_dob_y,
+                )
 			)
 		);
 	}
@@ -65,7 +81,7 @@ class Stripe_model extends CI_Model{
             try{
 				if(!empty($stripe_email))
 				{
-					$this->createStripeAccount( $stripe_email, $country );
+					$this->createStripeAccount( $stripe_email );
 				}
 			}
 			catch(Exception $e)
