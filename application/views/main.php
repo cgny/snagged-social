@@ -83,31 +83,31 @@
                                     <div class="space-20"></div>
 
                                     <h3>Snag it</h3>
-                         <div class="space-10"></div>
+                                    <div class="space-10"></div>
                                     <span>
                                             Pick which photos you want to offer for sell on the site.
                                             There is no cost to sell your items. You get a commission from each sale.
                                     </span>
-                         <div class="space-20"></div>
+                                     <div class="space-20"></div>
 
-                                    <h3>Price it</h3>
-                         <div class="space-10"></div>
-                                    <span>Put your own price.</span>
-                         <div class="space-20"></div>
-
-
-                                    <h3>Sell it</h3>
-                         <div class="space-10"></div>
-                                    <span>People will buy what they like! Only pay a 5% fee.</span>
-                         <div class="space-20"></div>
+                                                <h3>Price it</h3>
+                                     <div class="space-10"></div>
+                                                <span>Put your own price.</span>
+                                     <div class="space-20"></div>
 
 
-                                    <h3>Get Paid</h3>
-                         <div class="space-10"></div>
-                                    <span>Get a direct payment to your bank account or debit card.</span>
-                         <div class="space-20"></div>
+                                                <h3>Sell it</h3>
+                                     <div class="space-10"></div>
+                                                <span>People will buy what they like! Only pay a 5% fee.</span>
+                                     <div class="space-20"></div>
 
-                                    </div>
+
+                                                <h3>Get Paid</h3>
+                                     <div class="space-10"></div>
+                                                <span>Get a direct payment to your bank account or debit card.</span>
+                                     <div class="space-20"></div>
+
+                             </div>
 
                             <div class="col-md-6">
                                     <h2>Terms</h2>
@@ -683,6 +683,9 @@
 
 
                                         <?php
+
+                                    }else{
+                                        echo "<script> window.open('". site_url() ."'); </script>";
                                     }
                                 ?>
 
@@ -812,7 +815,13 @@
 						        </form>
 
 
-				        <?php } ?>
+				        <?php
+
+				            } else{
+                                echo "<script> window.open('". site_url() ."'); </script>";
+                            }
+
+                            ?>
 
 			        </div>
 		        </div>
