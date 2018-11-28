@@ -99,7 +99,7 @@ class Account_model extends CI_Model{
 		$acct_info = $this->getAccountById($account_id);
 
         $result['success'] = false;
-        $result['error'] = true;
+        $result['error']['message'] = true;
 
 		if(empty($acct_info->stripe_id)){
 
@@ -129,7 +129,7 @@ class Account_model extends CI_Model{
 				}
 
 			} catch( \Error $e) {
-				$result['error'] = $e->getMessage();
+				$result['error']['message'] = $e->getMessage();
 				$this->Error->getException(__FUNCTION__,__LINE__,__FILE__,$e,true);
 			}
 
@@ -153,7 +153,7 @@ class Account_model extends CI_Model{
 					)
 				);
                 $result['success'] = true;
-                $result['error'] = false;
+                $result['error']['message'] = false;
 
 			} catch (\Stripe\InvalidRequestError $e) {
 				// Invalid parameters were supplied to Stripe's API
