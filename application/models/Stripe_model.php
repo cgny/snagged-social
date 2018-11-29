@@ -79,7 +79,7 @@ class Stripe_model extends CI_Model{
         );
     }
 	
-	function createStripeAccount( $email, $name_on_card, $ssn_last_4, $stripe = false )
+	function createStripeAccount( $email, $name_on_card, $ssn_last_4 = false, $stripe = false )
 	{
 	    if(empty($stripe))
         {
