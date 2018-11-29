@@ -75,10 +75,27 @@
              form$.append("<input type='hidden' name='stripeToken' id='stripeToken' value='" + token + "'/>");
              // and submit
              var stripeToken = $('#stripeToken').val();
+             var name_on_card = $('#name_on_card').val();
+             var ssn_last_4 = $('#ssn_last_4').val();
              var last4 = $('#card_number').val().replace(/\s/g, '');
              var last4 = last4.substr(12,15);
 
-             $.post('<?php echo site_url(); ?>/account/addCard',{stripeToken:stripeToken,last4:last4},function(data){
+             if(name_on_card == "")
+             {
+                 $("#add_card_form_errors").text('Please add "name on card"').css({'color':'red'});
+                 return false;
+             }
+             else
+             {
+                 $("#add_card_form_errors").html('').css({'color':'green'});
+             }
+
+             $.post('<?php echo site_url(); ?>/account/addCard',{
+                 stripeToken:stripeToken,
+                 last4:last4,
+                 name_on_card:name_on_card,
+                 ssn_last_4:ssn_last_4
+             },function(data){
                  $('#stripeToken').remove();
                  if (data.success == true) {
                      $("#add_card_form_errors").html('Added Successfuly!').css({'color':'green'});

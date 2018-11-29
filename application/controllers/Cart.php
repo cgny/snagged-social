@@ -89,11 +89,8 @@ class Cart extends CI_Controller
 		$details = $this->stripe->processPayment($token,$total,$email);
 		
 		$this->cart->updateMasterCart(array('c_details' => json_encode($details)));
-		
-		$data->success = false;
 		if(empty($details->failure_code))
 		{
-			$data->success = true;
 			redirect(site_url('cart/receipt/'. $details->cart_id));
 		} 
 		else 

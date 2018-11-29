@@ -92,23 +92,59 @@ class Account_model extends CI_Model{
         return $ins;
 	}
 
-	function addCard($stripeToken,$last4,$account_id)
+	function addCard($stripeToken, $last4, $account_id, $name_on_card, $ssn_last_4)
 	{
         $stripe = new \Stripe\Stripe;
         $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
 		$acct_info = $this->getAccountById($account_id);
 
         $result['success'] = false;
+        $result['acct_success'] = false;
+        $result['cust_success'] = false;
         $result['error']['message'] = true;
         $result['error']['code'] = -1;
 
-		if(empty($acct_info->stripe_id)){
+        $account = $this->account->getAccountById( $account_id );
+        if(empty($account))
+		{
+            $result['error']['code'] = $result['error']['message'] = "Please add a phone number on your account";
+			return $result;
+		}
+
+        if(empty($acct_info->stripe_user_id))
+        {
+            $new_account = $this->stripe->createStripeAccount( $acct_info->a_email, $name_on_card, $ssn_last_4, $stripe);
+            if(!empty($new_account['success']))
+            {
+                $result['acct_success'] = true;
+            }
+            else
+			{
+                $result['acct_success'] = $new_account['error'];
+			}
+        }
+        else
+		{
+            $result['acct_success'] = "Exists";
+		}
+
+		if(empty($acct_info->stripe_id))
+		{
 
 			try{
                 $result['error']['message'] = "No email";
 				if( !empty($acct_info->a_email) )
 				{
-                    $customer = $this->stripe->createStripeAccount( $acct_info->a_email, $stripe );
+
+                    $new_customer = $this->stripe->createStripeCustomer( $acct_info->a_email );
+                    if(!empty($new_customer['success']))
+                    {
+                        $result['cust_success'] = true;
+                    }
+                    else
+                    {
+                        $result['cust_success'] = $new_customer['error'];
+                    }
 
                     $cu = \Stripe\Customer::retrieve($acct_info->stripe_id);
                     $var = $cu->sources->create(array("card" => $stripeToken));
@@ -138,6 +174,8 @@ class Account_model extends CI_Model{
 			}
 
 		}else{
+
+            $result['cust_success'] = "Exists";
 
 			try{
 
@@ -202,7 +240,7 @@ class Account_model extends CI_Model{
 		{
 			$rand = $pass;
 		}
-		$pass = md5($salt1 . $rand . $salt2 . now());
+		$pass = md5($salt1 . $rand . $salt2 . time());
 		return  $pass;
 	}
 
