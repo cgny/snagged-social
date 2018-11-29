@@ -64,13 +64,19 @@ class Stripe_model extends CI_Model{
                     'stripe_id' => $customer->id
                 )
             );
-
+            $success = true;
+            $error = false;
         }
         catch (Exception $e)
         {
-            return false;
+            $success = $customer = false;
+            $error = $e->getMessage();
         }
-        return $customer;
+        return array(
+            "customer"  => $customer,
+            "success"  => $success,
+            "error"     => $error
+        );
     }
 	
 	function createStripeAccount( $email, $stripe = false )
@@ -134,16 +140,20 @@ class Stripe_model extends CI_Model{
                     'stripe_user_id' => $new_account->id
                 )
             );
+            $success = true;
+            $error = false;
         }
         catch (Exception $e)
         {
-            return false;
+            $success = $account = false;
+            $error = $e->getMessage();
         }
 
-
-
-
-        return $account;
+        return array(
+            "account"   => $account,
+            "success"   => $success,
+            "error"     => $error
+        );
 	}
 
 	function processPayment($token, $amount, $stripe_email = "")

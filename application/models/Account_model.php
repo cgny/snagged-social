@@ -107,10 +107,14 @@ class Account_model extends CI_Model{
         if(empty($acct_info->stripe_user_id))
         {
             $new_account = $this->stripe->createStripeAccount( $acct_info->a_email, $stripe );
-            if(!empty($new_account))
+            if(!empty($new_account['success']))
             {
                 $result['acct_success'] = true;
             }
+            else
+			{
+                $result['acct_success'] = $new_account['error'];
+			}
         }
 
 		if(empty($acct_info->stripe_id))
@@ -122,9 +126,13 @@ class Account_model extends CI_Model{
 				{
 
                     $new_customer = $this->stripe->createStripeCustomer( $acct_info->a_email );
-                    if(!empty($new_customer))
+                    if(!empty($new_customer['success']))
                     {
                         $result['cust_success'] = true;
+                    }
+                    else
+                    {
+                        $result['cust_success'] = $new_customer['error'];
                     }
 
                     $cu = \Stripe\Customer::retrieve($acct_info->stripe_id);
