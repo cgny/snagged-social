@@ -34,7 +34,7 @@
                                                 <br>
                                                 <h5 id="">Tracking</h5>
                                                 <br>
-                                                <h5 id="">Ship notes</h5>
+                                                <h5 id="">Notes</h5>
                                                 <br>
                                                 <br>
                                                 <h5>Items</h5>
@@ -56,7 +56,7 @@
                                                 <br>
                                                 <h5 id=""><?php echo !empty($cart->uc_shipping) ? $cart->uc_shipping : "-"; ?></h5>
                                                 <br>
-                                                <h5 id=""><?php echo !empty($cart->uc_ship_date) ? $cart->uc_ship_date : "Processing - Usually takes 2-3 days business before shipping." ?></h5>
+                                                <h5 id=""><?php echo !empty($cart->uc_ship_date) ? $cart->uc_ship_date : "Processing - Ships within 3 days." ?></h5>
                                                 <br>
                                                 <h5 id=""><?php echo !empty($cart->uc_tracking_code) ? $cart->uc_tracking_code : "-"; ?></h5>
                                                 <br>
