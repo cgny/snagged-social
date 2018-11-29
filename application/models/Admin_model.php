@@ -17,12 +17,12 @@ class Admin_model extends CI_Model
 		if($limit)
 		{
 			$this->db->limit($limit);
-			$this->db->order_by('uc_id',"desc");
 		}
 		if($user_id)
 		{
 			$this->db->where('uc_a_id',$user_id);
 		}
+        $this->db->order_by('uc_id',"desc");
 		return $this->db->get('ss_user_cart')->result();
 	}
 
