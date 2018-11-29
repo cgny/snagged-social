@@ -102,13 +102,19 @@ class Account_model extends CI_Model{
         $result['error']['message'] = true;
         $result['error']['code'] = -1;
 
-		if(empty($acct_info->stripe_id)){
+		if(empty($acct_info->stripe_id))
+		{
 
 			try{
                 $result['error']['message'] = "No email";
 				if( !empty($acct_info->a_email) )
 				{
-                    $customer = $this->stripe->createStripeAccount( $acct_info->a_email, $stripe );
+                    if(empty($acct_info->stripe_user_id))
+                    {
+                        $this->stripe->createStripeAccount( $acct_info->a_email, $stripe );
+                    }
+
+                    $this->stripe->createStripeCustomer( $acct_info->a_email );
 
                     $cu = \Stripe\Customer::retrieve($acct_info->stripe_id);
                     $var = $cu->sources->create(array("card" => $stripeToken));

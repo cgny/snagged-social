@@ -36,4 +36,10 @@ class Admin_model extends CI_Model
 		return $this->db->get('ss_accounts')->result();
 	}
 
+	function getPayoutsByCartId($uc_id)
+    {
+        $this->db->where("ap_uc_id", $uc_id );
+        return $this->db->get("ss_payments");
+    }
+
 }
