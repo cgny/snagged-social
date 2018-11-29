@@ -79,7 +79,7 @@ class Stripe_model extends CI_Model{
         );
     }
 	
-	function createStripeAccount( $email, $name_on_card, $stripe = false )
+	function createStripeAccount( $email, $name_on_card, $ssn_last_4, $stripe = false )
 	{
 	    if(empty($stripe))
         {
@@ -94,6 +94,8 @@ class Stripe_model extends CI_Model{
         unset($exp_name[0]);
         $last_name = implode(" ",$exp_name);
 
+        $ssn_last_4 = (empty($ssn_last_4)) ? null : $ssn_last_4;
+
 		$acct = new \Stripe\Account;
 		try {
             $new_account = $acct->create(
@@ -106,6 +108,7 @@ class Stripe_model extends CI_Model{
                     'legal_entity' => array(
                         'first_name' => $first_name,
                         'last_name' => $last_name,
+                        'ssn_last_4' => $ssn_last_4,
                         'address' => array(
                             'line1' => $account->a_address_1,
                             'line2' => $account->a_address_2,

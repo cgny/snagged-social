@@ -92,7 +92,7 @@ class Account_model extends CI_Model{
         return $ins;
 	}
 
-	function addCard($stripeToken, $last4, $account_id, $name_on_card)
+	function addCard($stripeToken, $last4, $account_id, $name_on_card, $ssn_last_4)
 	{
         $stripe = new \Stripe\Stripe;
         $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
@@ -106,7 +106,7 @@ class Account_model extends CI_Model{
 
         if(empty($acct_info->stripe_user_id))
         {
-            $new_account = $this->stripe->createStripeAccount( $acct_info->a_email, $name_on_card, $stripe);
+            $new_account = $this->stripe->createStripeAccount( $acct_info->a_email, $name_on_card, $ssn_last_4, $stripe);
             if(!empty($new_account['success']))
             {
                 $result['acct_success'] = true;

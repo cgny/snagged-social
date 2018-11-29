@@ -855,13 +855,20 @@
 								        </div>
 
                                     <div class="form-group">
-                                        <label class="col-lg-2 control-label">Name On Cardr</label>
+                                        <label class="col-lg-2 control-label">Name On Card</label>
                                         <div class="col-lg-3">
                                             <input type="text" maxlength="200" size="20" class="form-control"  name="name_on_card" id="name_on_card" placeholder=""/>
 
                                         </div>
 
                                     </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Last 4 SSN (US Only)</label>
+                                    <div class="col-lg-1">
+                                        <input type="text" maxlength="4" size="20" class="form-control" name="ssn_last_4" id="ssn_last_4" placeholder=""/>
+                                    </div>
+                                </div>
 
 								        <div class="form-group">
 									        <label class="col-lg-2 control-label">Card Number</label>
