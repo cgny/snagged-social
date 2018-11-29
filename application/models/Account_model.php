@@ -208,7 +208,7 @@ class Account_model extends CI_Model{
 		{
 			$rand = $pass;
 		}
-		$pass = md5($salt1 . $rand . $salt2 . now());
+		$pass = md5($salt1 . $rand . $salt2 . time());
 		return  $pass;
 	}
 
