@@ -854,6 +854,15 @@
 
 								        </div>
 
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Card Number</label>
+                                        <div class="col-lg-3">
+                                            <input type="text" maxlength="200" size="20" class="form-control"  name="name_on_card" id="name_on_card" placeholder=""/>
+
+                                        </div>
+
+                                    </div>
+
 								        <div class="form-group">
 									        <label class="col-lg-2 control-label">Card Number</label>
 									        <div class="col-lg-3">
@@ -911,15 +920,23 @@
 									        </div>
 								        </div>
                                                     
-                                                    <div class="form-group">
+                                        <div class="form-group">
 									        <label class="col-lg-2 control-label">Current Card</label>
 									        <div class="col-lg-3">
                                                 <span id="last4"><?php echo $user->stripe_card_num; ?></span>
 									        </div>
 								        </div>
 
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label">Submit</label>
+                                    <div class="col-lg-3">
+                                        Buy Adding your card, you agree to <a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripes agreement.</a>
+                                        <button class="btn btn-primary" id="do_addCard"  onClick="return false;" type="submit">Add Card</button>
+                                    </div>
+                                </div>
 
-								        <button class="btn btn-primary" id="do_addCard"  onClick="return false;" type="submit">Add Card</button>
+
+
 								        &nbsp;&nbsp;&nbsp;&nbsp;
                                         <span class="" id="add_card_form_errors">
 

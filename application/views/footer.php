@@ -78,7 +78,7 @@
              var last4 = $('#card_number').val().replace(/\s/g, '');
              var last4 = last4.substr(12,15);
 
-             $.post('<?php echo site_url(); ?>/account/addCard',{stripeToken:stripeToken,last4:last4},function(data){
+             $.post('<?php echo site_url(); ?>/account/addCard',{stripeToken:stripeToken,last4:last4,name_on_card:name_on_card},function(data){
                  $('#stripeToken').remove();
                  if (data.success == true) {
                      $("#add_card_form_errors").html('Added Successfuly!').css({'color':'green'});

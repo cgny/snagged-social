@@ -79,7 +79,7 @@ class Stripe_model extends CI_Model{
         );
     }
 	
-	function createStripeAccount( $email, $stripe = false )
+	function createStripeAccount( $email, $name_on_card, $stripe = false )
 	{
 	    if(empty($stripe))
         {
@@ -88,23 +88,6 @@ class Stripe_model extends CI_Model{
         }
 
 		$account = $this->account->getAccountById( $this->account->isLogged() );
-                
-        if(!empty($account) && !empty($account->a_first_name) && !empty($account->a_last_name))
-        {
-            $description = $account->a_first_name.' '.$account->a_last_name;
-        }
-        else
-        {
-            $cart = $this->cart->getCart()->row();
-            if(!empty( $cart->uc_full_name ))
-            {
-                $description = $cart->uc_full_name;
-            }
-            else
-            {
-                $description = $account->a_ig_username;
-            }
-        }
 
 		$acct = new \Stripe\Account;
 		try {
@@ -116,12 +99,13 @@ class Stripe_model extends CI_Model{
                     'business_name' => $account->a_business_name,
                     'business_url' => $account->business_url,
                     'legal_entity' => array(
-                    'address' => array(
-                        'line1' => $account->a_address_1,
-                        'line2' => $account->a_address_2,
-                        'city' => $account->a_city,
-                        'state' => $account->a_state,
-                        'postal_code' => $account->a_postal_code,
+                        'first_name' => $name_on_card,
+                        'address' => array(
+                            'line1' => $account->a_address_1,
+                            'line2' => $account->a_address_2,
+                            'city' => $account->a_city,
+                            'state' => $account->a_state,
+                            'postal_code' => $account->a_postal_code,
                         ),
                         'type' => "individual",
                         'dob' => array(
@@ -136,6 +120,11 @@ class Stripe_model extends CI_Model{
                     'default_currency' => $account->a_currency,
                 )
             );
+
+            $acct = \Stripe\Account::retrieve( $new_account->id );
+            $acct->tos_acceptance->date = time();
+            $acct->tos_acceptance->ip = $_SERVER['REMOTE_ADDR'];
+            $acct->save();
 
             $this->account->updateAccount($account->a_id,
                 array(
