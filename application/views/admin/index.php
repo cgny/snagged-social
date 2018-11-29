@@ -21,8 +21,43 @@
 			foreach($carts as $cart)
 			{
 
-			    $payouts = $this->admin->getPayoutsByCartId(uc_cart_id);
-                $payout_transfers =
+			    $payouts = $this->admin->getPayoutsByCartId($uc_cart_id);
+                $payout_transfers = "<table class=\"table table-striped\" style='border:2px black solid'>
+                                            <thead>
+                                            <tr>
+                                                <th scope=\"col\">#</th>
+                                                <th scope=\"col\">Username</th>
+                                                <th scope=\"col\">Photo</th>
+                                                <th scope=\"col\">Qty</th>
+                                                <th scope=\"col\">Payout</th>
+                                                <th scope=\"col\">Date</th>
+                                                <th scope=\"col\">Success</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>";
+                foreach($payouts as $payout)
+                {
+                    $success = ($payout->ap_sucess == 1) ? "Yes" : "No";
+                    $payout_transfers .= '<tr>
+                                          <th scope="row">'. $payout->ap_id .'</th>
+                                          <td>'. $payout->a_ig_username .'</td>
+                                          <td>'. $payout->ap_p_id .'</td>
+                                          <td>'. $payout->ap_qty .'</td>
+                                          <td>'. $payout->cs_status .'</td>
+                                          <td>'. $payout->uc_updated .'</td>
+                                          <td>'. $payout->uc_payment_date .'</td>			      
+                                          <td>'. $success .'</td>			      
+                                        </tr>';
+
+                    $payout_transfers .= "<tr>
+                                               <td>
+                                                ". $payout->ap_error ."
+                                                </td>
+                                            </tr>";
+                }
+                        $payout_transfers .= "
+                    </tbody>
+                </table>";
 
 				$shipping = $cart->uc_ship_date;
 				if(empty($cart->uc_ship_date) && $cart->cs_status != "Unpaid")
@@ -37,9 +72,9 @@
 			      <td>'. $shipping .'</td>
 			      <td>'. $cart->cs_status .'</td>
 			      <td>'. $cart->uc_updated .'</td>
-			      <td>'. $cart->uc_payment_date .'</td>
-			      $payout_transfers
+			      <td>'. $cart->uc_payment_date .'</td>			      
 			    </tr>';
+				echo $payout_transfers;
 			}
 			?>
 			</tbody>
