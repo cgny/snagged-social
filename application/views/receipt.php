@@ -13,7 +13,7 @@
                             <div class="col-md-12">
                                 <h3>Receipt</h3>
                                 <div class="space-40"></div>
-                                <div class="col-lg-12 pull-right">
+                                <div class="col-lg-12 ">
                                         <div class="col-xs-4">
                                                 <h5 id="">ID</h5>
                                                 <br>
