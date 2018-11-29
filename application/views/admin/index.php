@@ -20,10 +20,9 @@
 			<?php
 			foreach($carts as $cart)
 			{
-			    $payouts = $this->admin->getPayoutsByCartId($uc_cart_id);
-                $payout_transfers = "<table id='payments_$uc_cart_id' class=\"table table-striped payments_table\" style='border:2px black solid'>
-                                            <thead>
-                                            <tr>
+			    $cart_id = $cart->c_id;
+			    $payouts = $this->admin->getPayoutsByCartId( $cart_id );
+                $payout_transfers = "<tr class='payments_$cart_id payments_table'>
                                                 <th scope=\"col\">#</th>
                                                 <th scope=\"col\">Username</th>
                                                 <th scope=\"col\">Photo</th>
@@ -31,24 +30,22 @@
                                                 <th scope=\"col\">Payout</th>
                                                 <th scope=\"col\">Date</th>
                                                 <th scope=\"col\">Success</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>";
+                                            </tr>";
                 foreach($payouts as $payout)
                 {
                     $success = ($payout->ap_sucess == 1) ? "Yes" : "No";
-                    $payout_transfers .= '<tr>
-                                          <th scope="row">'. $payout->ap_id .'</th>
-                                          <td>'. $payout->a_ig_username .'</td>
-                                          <td>'. $payout->ap_p_id .'</td>
-                                          <td>'. $payout->ap_qty .'</td>
-                                          <td>'. $payout->cs_status .'</td>
-                                          <td>'. $payout->uc_updated .'</td>
-                                          <td>'. $payout->uc_payment_date .'</td>			      
-                                          <td>'. $success .'</td>			      
-                                        </tr>';
+                    $payout_transfers .= '<tr class="payments_'.$cart_id.' payments_table">
+                                              <td scope="row">'. $payout->ap_id .'</td>
+                                              <td>'. $payout->a_ig_username .'</td>
+                                              <td>'. $payout->ap_p_id .'</td>
+                                              <td>'. $payout->ap_qty .'</td>
+                                              <td>'. $payout->cs_status .'</td>
+                                              <td>'. $payout->uc_updated .'</td>
+                                              <td>'. $payout->uc_payment_date .'</td>			      
+                                              <td>'. $success .'</td>			      
+                                            </tr>';
 
-                    $payout_transfers .= "<tr>
+                    $payout_transfers .= "<tr class=\"payments_'.$uc_cart_id.' payments_table\" style=\'border:2px black solid\'>
                                                <td>
                                                 ". $payout->ap_error ."
                                                 </td>
@@ -61,7 +58,7 @@
 				$shipping = $cart->uc_ship_date;
 				if(empty($cart->uc_ship_date) && $cart->cs_status != "Unpaid")
 				{
-                    $shipping = "<button class='set_as_shipped' id='shipping_$uc_cart_id'>Set as Shipped</button>";
+                    $shipping = "<button class='set_as_shipped' id='shipping_$cart_id'>Set as Shipped</button>";
 				}
 				echo '<tr>
 			      <th scope="row">'. $cart->uc_id .'</th>
