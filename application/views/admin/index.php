@@ -69,7 +69,7 @@
 			      <td>'. $cart->cs_status .'</td>
 			      <td>'. $cart->uc_updated .'</td>
 			      <td>'. $cart->uc_payment_date .'</td>			      
-			      <td> <button id="open_payouts_'.$uc_cart_id.'" data-id="'.$uc_cart_id.'" class="view_payouts">Toggle</button> </td>			      
+			      <td> <button id="open_payouts_'.$cart_id.'" data-id="'.$cart_id.'" class="view_payouts">Toggle</button> </td>			      
 			    </tr>';
 				echo $payout_transfers;
 			}
