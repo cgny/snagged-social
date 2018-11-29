@@ -17,12 +17,12 @@ class Admin_model extends CI_Model
 		if($limit)
 		{
 			$this->db->limit($limit);
-			$this->db->order_by('uc_id',"desc");
 		}
 		if($user_id)
 		{
 			$this->db->where('uc_a_id',$user_id);
 		}
+        $this->db->order_by('uc_id',"desc");
 		return $this->db->get('ss_user_cart')->result();
 	}
 
@@ -36,10 +36,10 @@ class Admin_model extends CI_Model
 		return $this->db->get('ss_accounts')->result();
 	}
 
-	function getPayoutsByCartId($uc_id)
+	function getPayoutsByCartId($c_id)
     {
         $this->db->join('ss_accounts','ss_accounts.a_id = ss_payments.ap_a_id');
-        $this->db->where("ap_uc_id", $uc_id );
+        $this->db->where("ap_c_id", $c_id );
         return $this->db->get("ss_payments");
     }
 
