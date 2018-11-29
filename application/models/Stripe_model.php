@@ -59,7 +59,7 @@ class Stripe_model extends CI_Model{
                 )
             );
 
-            $this->account->update($account->a_id,
+            $this->account->updateAccount($account->a_id,
                 array(
                     'stripe_id' => $customer->id
                 )
@@ -129,7 +129,7 @@ class Stripe_model extends CI_Model{
             );
 
 
-            $this->account->update($account->a_id,
+            $this->account->updateAccount($account->a_id,
                 array(
                     'stripe_user_id' => $new_account->id
                 )
