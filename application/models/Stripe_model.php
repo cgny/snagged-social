@@ -137,6 +137,22 @@ class Stripe_model extends CI_Model{
                 )
             );
 
+            $upd_acct = \Stripe\Account::retrieve( $new_account->id );
+            $upd_acct->type = "individual";
+            $upd_acct->dob = array(
+                'month' => $account->a_dob_m,
+                'day' => $account->a_dob_d,
+                'year' => $account->a_dob_y,
+            );
+            $upd_acct->address = array(
+                        'line1' => $account->a_address_1,
+                        'line2' => $account->a_address_2,
+                        'city' => $account->a_city,
+                        'state' => $account->a_state,
+                        'postal_code' => $account->a_postal_code,
+                    );
+            $upd_acct->save();
+
 
             $this->account->updateAccount($account->a_id,
                 array(
@@ -179,7 +195,7 @@ class Stripe_model extends CI_Model{
             try{
 				if(!empty($stripe_email))
 				{
-					$this->createStripeAccount( $stripe_email, $stripe );
+					$this->createStripeCustomer( $stripe_email );
 				}
 			}
 			catch(Exception $e)
@@ -234,7 +250,7 @@ class Stripe_model extends CI_Model{
 					{
 						if(!empty($photo->stripe_user_id))
 						{
-                            $payout = $this->sendPayout($item->c_cart_id, $pay, $photo->stripe_user_id, "PHOTO x (". $item->c_qty .") :" .$item->c_p_id, $photo->a_currency);
+                            $payout = $this->sendPayout($pay, $photo->stripe_user_id, "PHOTO x (". $item->c_qty .") :" .$item->c_p_id, $photo->a_currency);
                             if(empty($payout))
                             {
                                 $success = false;
@@ -256,7 +272,7 @@ class Stripe_model extends CI_Model{
 						$status->failure_message[] = $photo->stripe_user_id . '|' . $e->getMessage();
 						$this->error->sendError(__FILE__,__LINE__,$e->getMessage());
 					}
-					$this->logPayout($pay, $item->c_a_id, $item->c_p_id, $item->uc_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
+					$this->logPayout($item->c_cart_id, $pay, $item->c_a_id, $item->c_p_id, $item->uc_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
 				}
 			}
 			
