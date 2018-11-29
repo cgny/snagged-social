@@ -13,7 +13,7 @@
                             <div class="col-md-12">
                                 <h3>Receipt</h3>
                                 <div class="space-40"></div>
-                                <div class="col-lg-12 pull-right">
+                                <div class="col-lg-12 ">
                                         <div class="col-xs-4">
                                                 <h5 id="">ID</h5>
                                                 <br>
@@ -24,7 +24,7 @@
                                                 <h5 id="">Ship To</h5>
                                                 <br>
                                                 <br>
-                                                <h5 id="">Payment date</h5>
+                                                <h5 id="">Paid</h5>
                                                 <br>
                                                 <h5 id="">Status</h5>
                                                 <br>
@@ -32,7 +32,7 @@
                                                 <br>
                                                 <h5 id="">Ship Date</h5>
                                                 <br>
-                                                <h5 id="">Ship Tracking ID</h5>
+                                                <h5 id="">Tracking</h5>
                                                 <br>
                                                 <h5 id="">Ship notes</h5>
                                                 <br>
@@ -46,7 +46,7 @@
                                                 <br>
                                                 <h5 id=""><?php echo $cart->uc_email; ?></h5>
                                                 <br>
-                                                <h4 id=""><?php echo $cart->uc_street_number.' '.$cart->uc_street; ?></h4>
+                                                <h5 id=""><?php echo $cart->uc_street_number.' '.$cart->uc_street; ?></h5>
                                                 <h5><?php echo $cart->uc_city.', '.$cart->uc_state.' '.$cart->uc_zip; ?></h5>
                                                 <br>
                                                 <br>
