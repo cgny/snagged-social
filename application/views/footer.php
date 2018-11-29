@@ -80,13 +80,13 @@
 
              $.post('<?php echo site_url(); ?>/account/addCard',{stripeToken:stripeToken,last4:last4},function(data){
                  $('#stripeToken').remove();
-                 console.log(data.success);
                  if (data.success == true) {
                      $("#add_card_form_errors").html('Added Successfuly!').css({'color':'green'});
                      $('do_addCard').removeClass('btn-primary').addClass('btn btn-success').text('Reload').attr('id','refresh');
                      $('#stripe_auth').show();
                  }else{
-                     $("#add_card_form_errors").text('An Error Occured!').css({'color':'red'});
+                     console.log(data.errors.message);
+                     $("#add_card_form_errors").text('An Error Occured! : Code: ' + data.errors.code).css({'color':'red'});
                  }
 
              },'json');
