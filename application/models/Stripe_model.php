@@ -89,6 +89,11 @@ class Stripe_model extends CI_Model{
 
 		$account = $this->account->getAccountById( $this->account->isLogged() );
 
+        $exp_name = explode(" ",$name_on_card);
+        $first_name = $exp_name[0];
+        unset($exp_name[0]);
+        $last_name = implode(" ",$exp_name);
+
 		$acct = new \Stripe\Account;
 		try {
             $new_account = $acct->create(
@@ -99,7 +104,8 @@ class Stripe_model extends CI_Model{
                     'business_name' => $account->a_business_name,
                     'business_url' => $account->business_url,
                     'legal_entity' => array(
-                        'first_name' => $name_on_card,
+                        'first_name' => $first_name,
+                        'last_name' => $last_name,
                         'address' => array(
                             'line1' => $account->a_address_1,
                             'line2' => $account->a_address_2,
