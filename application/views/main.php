@@ -855,7 +855,7 @@
 								        </div>
 
                                     <div class="form-group">
-                                        <label class="col-lg-2 control-label">Card Number</label>
+                                        <label class="col-lg-2 control-label">Name On Cardr</label>
                                         <div class="col-lg-3">
                                             <input type="text" maxlength="200" size="20" class="form-control"  name="name_on_card" id="name_on_card" placeholder=""/>
 
@@ -929,8 +929,9 @@
 
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">Submit</label>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-6">
                                         Buy Adding your card, you agree to <a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripes agreement.</a>
+                                        <br>
                                         <button class="btn btn-primary" id="do_addCard"  onClick="return false;" type="submit">Add Card</button>
                                     </div>
                                 </div>
@@ -1129,6 +1130,7 @@
                                                         data-amount="0"
                                                         data-name="Snagged Social"
                                                         data-description="Artwork Posters"
+                                                        data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                                                         data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                                                         data-locale="auto"
                                                         data-zip-code="true">

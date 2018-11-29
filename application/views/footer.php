@@ -75,6 +75,7 @@
              form$.append("<input type='hidden' name='stripeToken' id='stripeToken' value='" + token + "'/>");
              // and submit
              var stripeToken = $('#stripeToken').val();
+             var name_on_card = $('#name_on_card').val();
              var last4 = $('#card_number').val().replace(/\s/g, '');
              var last4 = last4.substr(12,15);
 
