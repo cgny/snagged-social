@@ -351,14 +351,16 @@
                                                 {
                                                     $cu_sel = "selected";
                                                 }
-                                                elseif( empty( $user->a_currency) && $currency == "USD")
-                                                {
-                                                    $cu_sel = "selected";
-                                                }
                                                 else
                                                 {
                                                     $cu_sel = "";
                                                 }
+
+                                                if( empty( $user->a_currency ) && $currency == "USD")
+                                                {
+                                                    $cu_sel = "selected";
+                                                }
+
                                                 $currency_field .= '<option value="'. $code .'"  '. $cu_sel .'>'. $code .' - '.  $currency .'</option>';
                                             }
                                             $currency_field .= '</select>';
@@ -374,84 +376,84 @@
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">First Name</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='first_name' value='<?php echo $user->a_first_name; ?>' placeholder='First Name' />
+                                                        <input class='form-control' type='text' id='first_name' value='<?php echo $user->a_first_name; ?>' placeholder='' />
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Last Name</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='last_name' value='<?php echo  $user->a_last_name; ?>' placeholder='First Name' />
+                                                        <input class='form-control' type='text' id='last_name' value='<?php echo  $user->a_last_name; ?>' placeholder='' />
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Business Name (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='business_name' value='<?php echo  $user->a_business_name; ?>' placeholder='Business Name' />
+                                                        <input class='form-control' type='text' id='business_name' value='<?php echo  $user->a_business_name; ?>' placeholder='' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Business Url (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='business_url' value='<?php echo  $user->a_business_url; ?>' placeholder='Business Url' />
+                                                        <input class='form-control' type='text' id='business_url' value='<?php echo  $user->a_business_url; ?>' placeholder='www.mysite.com' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Phone Number</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='phone' value='<?php  echo $user->a_phone; ?>' placeholder='Phone Number' />
+                                                        <input class='form-control' type='text' id='phone' value='<?php  echo $user->a_phone; ?>' placeholder='212 555 1212' />
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Email</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='email' value='<?php  echo $user->a_email; ?>' placeholder='Email' />
+                                                        <input class='form-control' type='text' id='email' value='<?php  echo $user->a_email; ?>' placeholder='' />
                                                         </div>
                                                     </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Address Line 1</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='address_1' value='<?php  echo $user->a_address_1; ?>' placeholder='Address' />
+                                                        <input class='form-control' type='text' id='address_1' value='<?php  echo $user->a_address_1; ?>' placeholder='' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Address Line 2 (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='address_2' value='<?php echo  $user->a_address_2; ?>' placeholder='Additional Address' />
+                                                        <input class='form-control' type='text' id='address_2' value='<?php echo  $user->a_address_2; ?>' placeholder='' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">City</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='city' value='<?php  echo $user->a_city; ?>' placeholder='City' />
+                                                        <input class='form-control' type='text' id='city' value='<?php  echo $user->a_city; ?>' placeholder='' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">State</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='state' value='<?php  echo $user->a_state; ?>' placeholder='State' />
+                                                        <input class='form-control' type='text' id='state' value='<?php  echo $user->a_state; ?>' placeholder='' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">Zip/ Postal Code</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='postal_code' value='<?php echo  $user->a_postal_code; ?>' placeholder='Zip/ Postal Code' />
+                                                        <input class='form-control' type='text' id='postal_code' value='<?php echo  $user->a_postal_code; ?>' placeholder='' />
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-lg-3 control-label">EIN Tax ID (optional)</label>
                                                     <div class="col-lg-9">
-                                                        <input class='form-control' type='text' id='ein' value='<?php echo  $user->a_ein; ?>' placeholder='EIN Tax ID' />
+                                                        <input class='form-control' type='text' id='ein' value='<?php echo  $user->a_ein; ?>' placeholder='' />
                                                     </div>
                                                 </div>
 
