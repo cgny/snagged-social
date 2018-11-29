@@ -353,11 +353,11 @@ class Cart_model extends CI_Model{
                 $items .= '<tr>';
                     $items .= '<td>'.  $item->p_id .'</td>';
                     $items .= '<td><img src="'. $item->p_url .'" style="max-height:200px;max-width:60px;width:auto" /> </td>';
-                    $items .= '<td>'. $item->p_price .'</td>';
+                    $items .= '<td>$'. $item->p_price .'</td>';
                     $items .= '<td>'. $item->c_qty .'</td>';
-                    $items .= '<td>'. $item->ps_price .'</td>';
-                    $items .= '<td>'. number_format(MAT_PRICE,2) .'</td>';
-                    $items .= '<td>'. $item->c_final_price .'</td>';
+                    $items .= '<td>$'. $item->ps_price .'</td>';
+                    $items .= '<td>$'. number_format(MAT_PRICE,2) .'</td>';
+                    $items .= '<td>$'. $item->c_final_price .'</td>';
                 $items .= '</tr>';
                 $total += $item->c_final_price;
             }
