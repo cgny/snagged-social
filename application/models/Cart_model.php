@@ -333,12 +333,37 @@ class Cart_model extends CI_Model{
             
             $items = "<hr><h3>Items</h3>";
             $total = 0;
+
+            $items .= '<table class="table table-striped">';
+            $items .= '<thead>';
+            $items .= '<tr>';
+            $items .= '<th scope="col">Image ID</th>';
+            $items .= '<th scope="col">Image</th>';
+            $items .= '<th scope="col">Price</th>';
+            $items .= '<th scope="col">Qty</th>';
+            $items .= '<th scope="col">Size Cost</th>';
+            $items .= '<th scope="col">Base Material Cost</th>';
+            $items .= '<th scope="col">Total</th>';
+            $items .= '</tr>';
+            $items .= '</thead>';
+            $items .= '<tbody>';
+
             foreach($cart as $k => $item)
             {
-                $items .= "<p> <img src='". $item->p_url."' style='max-height:200px;max-width:60px;width:auto' /> <br> ".
-                         "ID:". $item->p_id." - ".$item->p_price." x Qty (".$item->c_qty.") + Size ( $". $item->ps_price ." ) + $". number_format(MAT_PRICE,2) ." = $".$item->c_final_price."</p>";
+                $items .= '<tr>';
+                    $items .= '<td>'.  $item->p_id .'</td>';
+                    $items .= '<td><img src="'. $item->p_url .'" style="max-height:200px;max-width:60px;width:auto" /> </td>';
+                    $items .= '<td>'. $item->p_price .'</td>';
+                    $items .= '<td>'. $item->c_qty .'</td>';
+                    $items .= '<td>'. $item->ps_price .'</td>';
+                    $items .= '<td>'. number_format(MAT_PRICE,2) .'</td>';
+                    $items .= '<td>'. $item->c_final_price .'</td>';
+                $items .= '</tr>';
                 $total += $item->c_final_price;
             }
+
+            $items .= '</tbody>';
+            $items .= '</table>';
             
             $items .= "<b>Total Item Price</b>: $".$total."<br>";
             $items .= "<b>Final Price</b>: $". ($cart[0]->uc_shipping+$total)."<br>";

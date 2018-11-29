@@ -13,7 +13,7 @@
                             <div class="col-md-12">
                                 <h3>Receipt</h3>
                                 <div class="space-40"></div>
-                                <div class="col-xs-12 pull-right">
+                                <div class="col-lg-12 pull-right">
                                         <div class="col-xs-3">
                                                 <h4 id="">ID</h4>
                                                 <br>
@@ -40,27 +40,27 @@
                                                 <h4>Items</h4>
                                         </div>
                                     <div class="col-xs-6">
-                                                <h4 id=""><?php echo $cart->uc_id; ?></h4>
+                                                <h5 id=""><?php echo $cart->uc_id; ?></h5>
                                                 <br>
-                                                <h4 id=""><?php echo $cart->uc_full_name; ?></h4>
+                                                <h5 id=""><?php echo $cart->uc_full_name; ?></h5>
                                                 <br>
-                                                <h4 id=""><?php echo $cart->uc_email; ?></h4>
+                                                <h5 id=""><?php echo $cart->uc_email; ?></h5>
                                                 <br>
                                                 <h4 id=""><?php echo $cart->uc_street_number.' '.$cart->uc_street; ?></h4>
-                                                <h4><?php echo $cart->uc_city.', '.$cart->uc_state.' '.$cart->uc_zip; ?></h4>
+                                                <h5><?php echo $cart->uc_city.', '.$cart->uc_state.' '.$cart->uc_zip; ?></h5>
                                                 <br>
                                                 <br>
-                                                <h4 id=""><?php echo !empty($cart->uc_payment_date) ? $cart->uc_payment_date : "-"; ?></h4>
+                                                <h5 id=""><?php echo !empty($cart->uc_payment_date) ? $cart->uc_payment_date : "-"; ?></h5>
                                                 <br>
-                                                <h4 id=""><?php echo $this->cart->showCartStatus($cart->uc_status); ?></h4>
+                                                <h5 id=""><?php echo $this->cart->showCartStatus($cart->uc_status); ?></h5>
                                                 <br>
-                                                <h4 id=""><?php echo !empty($cart->uc_shipping) ? $cart->uc_shipping : "-"; ?></h4>
+                                                <h5 id=""><?php echo !empty($cart->uc_shipping) ? $cart->uc_shipping : "-"; ?></h5>
                                                 <br>
-                                                <h4 id=""><?php echo !empty($cart->uc_ship_date) ? $cart->uc_ship_date : "Processing - Usually takes 2-3 days business before shipping." ?></h4>
+                                                <h5 id=""><?php echo !empty($cart->uc_ship_date) ? $cart->uc_ship_date : "Processing - Usually takes 2-3 days business before shipping." ?></h5>
                                                 <br>
-                                                <h4 id=""><?php echo !empty($cart->uc_tracking_code) ? $cart->uc_tracking_code : "-"; ?></h4>
+                                                <h5 id=""><?php echo !empty($cart->uc_tracking_code) ? $cart->uc_tracking_code : "-"; ?></h5>
                                                 <br>
-                                                <h4 id=""><?php echo !empty($cart->uc_ship_notes) ? $cart->uc_ship_notes : "-"; ?></h4>
+                                                <h5 id=""><?php echo !empty($cart->uc_ship_notes) ? $cart->uc_ship_notes : "-"; ?></h5>
                                                 <br>
                                                 <br>
                                         <table class="table table-striped">
@@ -99,13 +99,11 @@
                                         </table>
 
                                                 <br>
-                                                <h4>Total Price: <?php echo number_format($total,2); ?></h4>
+                                                <h5>Total Price: <?php echo number_format($total,2); ?></h5>
                                                 <br>
-                                                <h4>Shipping: <?php echo !empty($cart->uc_shipping) ? number_format($cart->uc_shipping,2) : "-"; ?></h4>
+                                                <h5>Shipping: <?php echo !empty($cart->uc_shipping) ? number_format($cart->uc_shipping,2) : "-"; ?></h5>
                                                 <br>
-                                                <h4>Final Price: <?php echo !empty($cart->uc_shipping) ? number_format(($total+$cart->uc_shipping),2) : "-"; ?>
-                                                <br>
-                                                <br>
+                                                <h5>Final Price: <?php echo !empty($cart->uc_shipping) ? number_format(($total+$cart->uc_shipping),2) : "-"; ?>
                                                 <br>
                                                 <br>
                                         </div>
