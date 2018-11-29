@@ -116,6 +116,10 @@ class Account_model extends CI_Model{
                 $result['acct_success'] = $new_account['error'];
 			}
         }
+        else
+		{
+            $result['acct_success'] = "Exists";
+		}
 
 		if(empty($acct_info->stripe_id))
 		{
@@ -163,6 +167,8 @@ class Account_model extends CI_Model{
 			}
 
 		}else{
+
+            $result['cust_success'] = "Exists";
 
 			try{
 
