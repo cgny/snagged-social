@@ -20,9 +20,8 @@
 			<?php
 			foreach($carts as $cart)
 			{
-
 			    $payouts = $this->admin->getPayoutsByCartId($uc_cart_id);
-                $payout_transfers = "<table class=\"table table-striped\" style='border:2px black solid'>
+                $payout_transfers = "<table id='payments_$uc_cart_id' class=\"table table-striped payments_table\" style='border:2px black solid'>
                                             <thead>
                                             <tr>
                                                 <th scope=\"col\">#</th>
@@ -62,7 +61,7 @@
 				$shipping = $cart->uc_ship_date;
 				if(empty($cart->uc_ship_date) && $cart->cs_status != "Unpaid")
 				{
-					$shipping = "<button>Set as Shipped</button>";
+                    $shipping = "<button class='set_as_shipped' id='shipping_$uc_cart_id'>Set as Shipped</button>";
 				}
 				echo '<tr>
 			      <th scope="row">'. $cart->uc_id .'</th>
@@ -73,6 +72,7 @@
 			      <td>'. $cart->cs_status .'</td>
 			      <td>'. $cart->uc_updated .'</td>
 			      <td>'. $cart->uc_payment_date .'</td>			      
+			      <td> <button id="open_payouts_'.$uc_cart_id.'" data-id="'.$uc_cart_id.'" class="view_payouts">Toggle</button> </td>			      
 			    </tr>';
 				echo $payout_transfers;
 			}
