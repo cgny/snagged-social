@@ -111,11 +111,11 @@ class Stripe_model extends CI_Model{
             $new_account = $acct->create(
                 array(
                     'email' => $email,
-                    'description' => $description,
                     'country' => $account->a_country,
                     'type' => 'custom',
                     'business_name' => $account->a_business_name,
                     'business_url' => $account->business_url,
+                    /*
                     'address' => array(
                         'line1' => $account->a_address_1,
                         'line2' => $account->a_address_2,
@@ -123,14 +123,17 @@ class Stripe_model extends CI_Model{
                         'state' => $account->a_state,
                         'postal_code' => $account->a_postal_code,
                     ),
+                    */
                     'default_currency' => $account->a_currency,
-                    'business_tax_id' => $account->a_tax_id,
+                    /* 'business_tax_id' => $account->a_tax_id, */
                     'business_vat_id' => $account->a_vat_id,
+                    /*
                     'dob' => array(
                         'month' => $account->a_dob_m,
                         'day' => $account->a_dob_d,
                         'year' => $account->a_dob_y,
                     )
+                    */
                 )
             );
 
