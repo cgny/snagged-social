@@ -49,7 +49,6 @@
                                                 <h5 id=""><?php echo $cart->uc_street_number.' '.$cart->uc_street; ?></h5>
                                                 <h5><?php echo $cart->uc_city.', '.$cart->uc_state.' '.$cart->uc_zip; ?></h5>
                                                 <br>
-                                                <br>
                                                 <h5 id=""><?php echo !empty($cart->uc_payment_date) ? $cart->uc_payment_date : "-"; ?></h5>
                                                 <br>
                                                 <h5 id=""><?php echo $this->cart->showCartStatus($cart->uc_status); ?></h5>
@@ -84,11 +83,11 @@
                                                         <tr>
                                                             <td> <?php echo $item->p_id; ?> </td>
                                                             <td> <?php echo "<img src='". $item->p_url."' style='max-height:200px;max-width:60px;width:auto' />"; ?> </td>
-                                                            <td> <?php echo $item->p_price; ?> </td>
+                                                            <td> $<?php echo $item->p_price; ?> </td>
                                                             <td> <?php echo $item->c_qty; ?> </td>
-                                                            <td> <?php echo $item->ps_price; ?> </td>
-                                                            <td> <?php echo number_format(MAT_PRICE,2); ?> </td>
-                                                            <td> <?php echo $item->c_final_price; ?> </td>
+                                                            <td> $<?php echo $item->ps_price; ?> </td>
+                                                            <td> $<?php echo number_format(MAT_PRICE,2); ?> </td>
+                                                            <td> $<?php echo $item->c_final_price; ?> </td>
                                                         </tr>
                                                     <?php
                                                         $total += $item->c_final_price;
@@ -99,11 +98,11 @@
                                         </table>
 
                                                 <br>
-                                                <h5>Total Price: <?php echo number_format($total,2); ?></h5>
+                                                <h5>Total Price: $<?php echo number_format($total,2); ?></h5>
                                                 <br>
-                                                <h5>Shipping: <?php echo !empty($cart->uc_shipping) ? number_format($cart->uc_shipping,2) : "-"; ?></h5>
+                                                <h5>Shipping: $<?php echo !empty($cart->uc_shipping) ? number_format($cart->uc_shipping,2) : "-"; ?></h5>
                                                 <br>
-                                                <h5>Final Price: <?php echo !empty($cart->uc_shipping) ? number_format(($total+$cart->uc_shipping),2) : "-"; ?>
+                                                <h5>Final Price: $<?php echo !empty($cart->uc_shipping) ? number_format(($total+$cart->uc_shipping),2) : "-"; ?>
                                                 <br>
                                                 <br>
                                         </div>
