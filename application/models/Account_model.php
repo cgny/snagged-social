@@ -100,6 +100,7 @@ class Account_model extends CI_Model{
 
         $result['success'] = false;
         $result['error']['message'] = true;
+        $result['error']['code'] = -1;
 
 		if(empty($acct_info->stripe_id)){
 
@@ -126,10 +127,13 @@ class Account_model extends CI_Model{
                     );
 
                     $result['success'] = true;
+                    $result['error']['message'] = false;
+                    $result['error']['code'] = false;
 				}
 
 			} catch( \Error $e) {
 				$result['error']['message'] = $e->getMessage();
+				$result['error']['code'] = $e->getCode();
 				$this->Error->getException(__FUNCTION__,__LINE__,__FILE__,$e,true);
 			}
 
@@ -154,28 +158,34 @@ class Account_model extends CI_Model{
 				);
                 $result['success'] = true;
                 $result['error']['message'] = false;
+                $result['error']['code'] = false;
 
 			} catch (\Stripe\InvalidRequestError $e) {
 				// Invalid parameters were supplied to Stripe's API
-                $result['error'] = $e->getMessage();
+                $result['error']['message'] = $e->getMessage();
+                $result['error']['code'] = $e->getCode();
 
 			} catch (\Stripe\AuthenticationError $e) {
 				// Authentication with Stripe's API failed
 				// (maybe you changed API keys recently)
-                $result['error'] = $e->getMessage();
+                $result['error']['message'] = $e->getMessage();
+                $result['error']['code'] = $e->getCode();
 
 			} catch (\Stripe\ApiConnectionError $e) {
 				// Network communication with Stripe failed
-                $result['error'] = $e->getMessage();
+                $result['error']['message'] = $e->getMessage();
+                $result['error']['code'] = $e->getCode();
 
 			} catch (\Error $e) {
 				// Display a very generic error to the user, and maybe send
 				// yourself an email
-                $result['error'] = $e->getMessage();
+                $result['error']['message'] = $e->getMessage();
+                $result['error']['code'] = $e->getCode();
 				
 			} catch (Exception $e) {
 				// Something else happened, completely unrelated to Stripe
-                $result['error'] = $e->getMessage();
+                $result['error']['message'] = $e->getMessage();
+                $result['error']['code'] = $e->getCode();
 			}
 
 		}
