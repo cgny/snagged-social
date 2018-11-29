@@ -109,6 +109,7 @@ class Stripe_model extends CI_Model{
                         'first_name' => $first_name,
                         'last_name' => $last_name,
                         'ssn_last_4' => $ssn_last_4,
+                        'phone_number' => $account->a_phone,
                         'address' => array(
                             'line1' => $account->a_address_1,
                             'line2' => $account->a_address_2,
