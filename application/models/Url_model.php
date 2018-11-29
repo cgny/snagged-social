@@ -91,6 +91,9 @@ class Url_model extends CI_Model{
 			$build["Admin"] = site_url('/admin');
 		}
 		$build["My-Account"] = '#user-account';
+		$build["My-Sales"] = '#user-sales';
+		$build["My-Gallery"] = '#user-gallery';
+		$build["My-Purchases"] = '#user-orders';
 		$build["My-Instagram"] = '#instagram';
 		$build["Add-Debit-Card"] = '#add-card';
 		$build["Logout"] = site_url('/user/logout');

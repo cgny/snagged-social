@@ -314,8 +314,6 @@
                                     if($this->account->isLogged() == true) {
 
                                             $user       = $this->account->getUser();
-                                            $orders     = $this->cart->getAllCarts(null,$a_id);
-                                            $sales      = $this->account->findMySales();
                                             $countries  = $this->data->getCountries();
                                             $currencies = $this->data->getCurrencies();
 
@@ -526,155 +524,12 @@
                                                 </div>
                                             </form>
 
-                                            <div class="col-lg-12" id="user_images">
-                                                <hr>
 
-                                                <?php
-
-                                                $gallery_photos = $this->media->getSSMedia($user_id,false);
-                                                ?>
-
-                                                <h4>Images (<?php echo count($gallery_photos); ?>)</h4>
-                                                <div class="clear"><br></div>
-                                                <div class="row photos">
-
-                                                    <div id='all_photos'>
-                                                        <div class='col-lg-12'>
-                                                            <div id='collapsePhotos' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:1000px;overflow-y: scroll;margin-bottom:10px'>
-                                                                <table class="table table-striped">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th scope="col">Photo Id</th>
-                                                                        <th scope="col">Img</th>
-                                                                        <th scope="col">Price</th>
-                                                                        <th scope="col">IG Resync/Update</th>
-                                                                        <th scope="col">Remove</th>
-                                                                        <th scope="col">Link</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-
-
-                                                                    <?php
-
-                                                                    foreach($gallery_photos as $gallery_photo)
-                                                                    {
-
-                                                                        ?>
-                                                                        <tr>
-                                                                            <td> <?php echo $gallery_photo->p_id; ?> </td>
-                                                                            <td> <img style="width:250px" class="" data-p_id="<?php echo $gallery_photo->p_id; ?>" src="<?php echo $gallery_photo->p_url; ?>" alt=""> </td>
-                                                                            <td> <input type="text" id="photo_price_'<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
-                                                                            <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
-                                                                            <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
-                                                                            <td> <a href="<?php echo $gallery_photo->p_url; ?>" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
-                                                                        </tr>
-                                                                        <?php
-                                                                    }
-                                                                    ?>
-
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
 
 
                                             <div class="space-20"></div>
 
-                                            <div id='orders'>
-                                                <div class=' col-lg-12'>
-                                                    <div id='collapseOrders' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
-                                                        <h4>Personal Orders</h4>
-                                                        <table class="table table-striped">
-                                                            <thead>
-                                                            <tr>
-                                                                <th scope="col">#</th>
-                                                                <th scope="col">Created</th>
-                                                                <th scope="col">Shipped</th>
-                                                                <th scope="col">Status</th>
-                                                                <th scope="col">Receipt</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
 
-                                                            <?php
-                                                            foreach($orders as $order)
-                                                            {
-
-                                                            ?>
-                                                            <tr>
-                                                                <td scope="row" class="view_user_cart" data-cart="<?php echo $order->uc_id; ?>"><?php echo $order->uc_id; ?></td>
-                                                                <td> <?php echo $order->uc_created; ?> </td>
-                                                                <td> <?php echo $order->uc_shipping; ?> </td>
-                                                                <td> <?php echo $order->cs_status; ?> </td>
-                                                                <td> <a href="<?php site_url('cart/receipt/'. $orders->uc_cart_id); ?>" target="_blank">View</a> </td>
-                                                            </tr>
-                                                            <?php
-                                                            }
-                                                            ?>
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="space-20"></div>
-
-                                                <div id='sales'>
-                                                    <div class='col-lg-12'>
-                                                        <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
-                                                            <h4>Items Sold</h4>
-                                                            <table class="table table-striped">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th scope="col">#</th>
-                                                                    <th scope="col">Photo Id</th>
-                                                                    <th scope="col">Size</th>
-                                                                    <th scope="col">Qty</th>
-                                                                    <th scope="col">Purchased</th>
-                                                                    <th scope="col">Status</th>
-                                                                    <th scope="col">Profit</th>
-                                                                    <th scope="col">Payout</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-
-                                                                <?php
-                                                            foreach($sales as $k => $sale)
-                                                                {
-
-                                                                    $success = "Not Sent";
-                                                                    if($sale->ap_success == 1)
-                                                                    {
-                                                                        $success = "Sent";
-                                                                    }
-
-                                                                    ?>
-                                                                    <tr>
-                                                                        <td scope="row" class="view_user_cart" data-cart="<?php echo $sale->uc_id; ?>"><?php echo ($k+1);  ?></td>
-                                                                        <td> <?php echo $sale->p_id; ?> </td>
-                                                                        <td> <?php echo $sale->ps_size; ?> </td>
-                                                                        <td> <?php echo $sale->c_qty; ?> </td>
-                                                                        <td> <?php echo $sale->uc_payment_date; ?> </td>
-                                                                        <td> <?php echo $sale->cs_status; ?> </td>
-                                                                        <td> <?php echo $sale->ap_amount; ?> </td>
-                                                                        <td> <?php echo $success; ?> </td>
-                                                                    </tr>
-                                                                    <?php
-                                                                }
-                                                                ?>
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
 
 
@@ -696,6 +551,252 @@
                     <div class="space-60"></div>
 		</div>
 	</section>
+
+
+            <section id="user-sales" class="tab-pane fade">
+                <div class="container">
+                    <div class="space-20"></div>
+                    <h3>User Account</h3>
+                    <div class="space-60"></div>
+                    <div id="user_sales">
+
+
+                        <?php
+                                    if($this->account->isLogged() == true) {
+                                        $sales  = $this->account->findMySales();
+
+
+                        ?>
+
+                        <div class="space-20"></div>
+
+                        <div id='sales'>
+                            <div class='col-lg-12'>
+                                <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
+                                    <h4>Items Sold</h4>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Photo Id</th>
+                                            <th scope="col">Size</th>
+                                            <th scope="col">Qty</th>
+                                            <th scope="col">Purchased</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Profit</th>
+                                            <th scope="col">Payout</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <?php
+                                        foreach($sales as $k => $sale)
+                                        {
+
+                                            $success = "Not Sent";
+                                            if($sale->ap_success == 1)
+                                            {
+                                                $success = "Sent";
+                                            }
+
+                                            ?>
+                                            <tr>
+                                                <td scope="row" class="view_user_cart" data-cart="<?php echo $sale->uc_id; ?>"><?php echo ($k+1);  ?></td>
+                                                <td> <?php echo $sale->p_id; ?> </td>
+                                                <td> <?php echo $sale->ps_size; ?> </td>
+                                                <td> <?php echo $sale->c_qty; ?> </td>
+                                                <td> <?php echo $sale->uc_payment_date; ?> </td>
+                                                <td> <?php echo $sale->cs_status; ?> </td>
+                                                <td> <?php echo $sale->ap_amount; ?> </td>
+                                                <td> <?php echo $success; ?> </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php
+
+                                    }else{
+                                        echo "<a href='". site_url('Auth') ."'> Login </a>";
+
+                                    }
+
+                        ?>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section id="user-orders" class="tab-pane fade">
+                <div class="container">
+                    <div class="space-20"></div>
+                    <h3>User Account</h3>
+                    <div class="space-60"></div>
+                    <div id="user_orders">
+
+
+                        <?php
+                        if($this->account->isLogged() == true) {
+
+                            $orders = $this->cart->getAllCarts(null, $user->a_id);
+
+
+                        ?>
+
+                        <div class="space-20"></div>
+
+                        <div id='orders'>
+                            <div class=' col-lg-12'>
+                                <div id='collapseOrders' class='col-lg-12'
+                                     style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
+                                    <h4>Personal Orders</h4>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Created</th>
+                                            <th scope="col">Shipped</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Receipt</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <?php
+                                        foreach ($orders as $order) {
+
+                                            ?>
+                                            <tr>
+                                                <td scope="row" class="view_user_cart"
+                                                    data-cart="<?php echo $order->uc_id; ?>"><?php echo $order->uc_id; ?></td>
+                                                <td> <?php echo $order->uc_created; ?> </td>
+                                                <td> <?php echo $order->uc_shipping; ?> </td>
+                                                <td> <?php echo $order->cs_status; ?> </td>
+                                                <td><a href="<?php site_url('cart/receipt/' . $orders->uc_cart_id); ?>"
+                                                       target="_blank">View</a></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php
+
+                        }else{
+                            echo "<a href='". site_url('Auth') ."'> Login </a>";
+
+                        }
+
+                        ?>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <section id="user-gallery" class="tab-pane fade">
+                <div class="container">
+                    <div class="space-20"></div>
+                    <h3>User Account</h3>
+                    <div class="space-60"></div>
+                    <div id="user_gallery">
+
+
+                        <?php
+
+                        if($this->account->isLogged() == true) {
+                            $gallery_photos = $this->media->getSSMedia($user->a_id,false);
+
+                        ?>
+
+                        <div class="space-20"></div>
+
+                        <div class="col-lg-12" id="user_images">
+                            <hr>
+
+
+                            <h4>Images (<?php echo count($gallery_photos); ?>)</h4>
+                            <div class="clear"><br></div>
+                            <div class="row photos">
+
+                                <div id='all_photos'>
+                                    <div class='col-lg-12'>
+                                        <div id='collapsePhotos' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:1000px;overflow-y: scroll;margin-bottom:10px'>
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Photo Id</th>
+                                                    <th scope="col">Img</th>
+                                                    <th scope="col">Price</th>
+                                                    <th scope="col">IG Resync/Update</th>
+                                                    <th scope="col">Remove</th>
+                                                    <th scope="col">Link</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+
+                                                <?php
+
+                                                foreach($gallery_photos as $gallery_photo)
+                                                {
+
+                                                    ?>
+                                                    <tr>
+                                                        <td> <?php echo $gallery_photo->p_id; ?> </td>
+                                                        <td> <img style="width:250px" class="" data-p_id="<?php echo $gallery_photo->p_id; ?>" src="<?php echo $gallery_photo->p_url; ?>" alt=""> </td>
+                                                        <td> <input type="text" id="photo_price_'<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
+                                                        <td> <a href="<?php echo $gallery_photo->p_url; ?>" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
+                                                    </tr>
+                                                    <?php
+                                                }
+                                                ?>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                       <?php
+
+                        }else{
+                            echo "<a href='". site_url('Auth') ."'> Login </a>";
+                        }
+
+                        ?>
+
+
+                    </div>
+
+                </div>
+
+            </section>
 
         <!-- PHOTOS -->
         <section id="instagram" class="tab-pane fade">
