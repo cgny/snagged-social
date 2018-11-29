@@ -14,32 +14,32 @@
                                 <h3>Receipt</h3>
                                 <div class="space-40"></div>
                                 <div class="col-lg-12 pull-right">
-                                        <div class="col-xs-3">
-                                                <h4 id="">ID</h4>
+                                        <div class="col-xs-4">
+                                                <h5 id="">ID</h5>
                                                 <br>
-                                                <h4 id="">Name</h4>
+                                                <h5 id="">Name</h5>
                                                 <br>
-                                                <h4 id="">Email</h4>
+                                                <h5 id="">Email</h5>
                                                 <br>
-                                                <h4 id="">Ship To</h4>
-                                                <br>
-                                                <br>
-                                                <h4 id="">Payment date</h4>
-                                                <br>
-                                                <h4 id="">Status</h4>
-                                                <br>
-                                                <h4 id="">Ship Cost</h4>
-                                                <br>
-                                                <h4 id="">Ship Date</h4>
-                                                <br>
-                                                <h4 id="">Ship Tracking ID</h4>
-                                                <br>
-                                                <h4 id="">Ship notes</h4>
+                                                <h5 id="">Ship To</h5>
                                                 <br>
                                                 <br>
-                                                <h4>Items</h4>
+                                                <h5 id="">Payment date</h5>
+                                                <br>
+                                                <h5 id="">Status</h5>
+                                                <br>
+                                                <h5 id="">Ship Cost</h5>
+                                                <br>
+                                                <h5 id="">Ship Date</h5>
+                                                <br>
+                                                <h5 id="">Ship Tracking ID</h5>
+                                                <br>
+                                                <h5 id="">Ship notes</h5>
+                                                <br>
+                                                <br>
+                                                <h5>Items</h5>
                                         </div>
-                                    <div class="col-xs-6">
+                                    <div class="col-xs-8">
                                                 <h5 id=""><?php echo $cart->uc_id; ?></h5>
                                                 <br>
                                                 <h5 id=""><?php echo $cart->uc_full_name; ?></h5>
