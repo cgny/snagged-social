@@ -89,7 +89,7 @@
                      $("#add_card_form_errors").text('An Error Occured!').css({'color':'red'});
                  }
 
-             });
+             },'json');
 
          }
      }
