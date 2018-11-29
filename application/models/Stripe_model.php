@@ -115,44 +115,27 @@ class Stripe_model extends CI_Model{
                     'type' => 'custom',
                     'business_name' => $account->a_business_name,
                     'business_url' => $account->business_url,
-                    /*
+                    'legal_entity' => array(
                     'address' => array(
                         'line1' => $account->a_address_1,
                         'line2' => $account->a_address_2,
                         'city' => $account->a_city,
                         'state' => $account->a_state,
                         'postal_code' => $account->a_postal_code,
+                        ),
+                        'type' => "individual",
+                        'dob' => array(
+                            'month' => $account->a_dob_m,
+                            'day' => $account->a_dob_d,
+                            'year' => $account->a_dob_y,
+                        ),
+                        'business_tax_id' => $account->a_tax_id,
+                        'business_vat_id' => $account->a_vat_id,
+
                     ),
-                    */
                     'default_currency' => $account->a_currency,
-                    /* 'business_tax_id' => $account->a_tax_id, */
-                    'business_vat_id' => $account->a_vat_id,
-                    /*
-                    'dob' => array(
-                        'month' => $account->a_dob_m,
-                        'day' => $account->a_dob_d,
-                        'year' => $account->a_dob_y,
-                    )
-                    */
                 )
             );
-
-            $upd_acct = \Stripe\Account::retrieve( $new_account->id );
-            $upd_acct->type = "individual";
-            $upd_acct->dob = array(
-                'month' => $account->a_dob_m,
-                'day' => $account->a_dob_d,
-                'year' => $account->a_dob_y,
-            );
-            $upd_acct->address = array(
-                        'line1' => $account->a_address_1,
-                        'line2' => $account->a_address_2,
-                        'city' => $account->a_city,
-                        'state' => $account->a_state,
-                        'postal_code' => $account->a_postal_code,
-                    );
-            $upd_acct->save();
-
 
             $this->account->updateAccount($account->a_id,
                 array(
