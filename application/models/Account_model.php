@@ -104,6 +104,13 @@ class Account_model extends CI_Model{
         $result['error']['message'] = true;
         $result['error']['code'] = -1;
 
+        $account = $this->account->getAccountById( $account_id );
+        if(empty($account))
+		{
+            $result['error']['code'] = $result['error']['message'] = "Please add a phone number on your account";
+			return $result;
+		}
+
         if(empty($acct_info->stripe_user_id))
         {
             $new_account = $this->stripe->createStripeAccount( $acct_info->a_email, $name_on_card, $ssn_last_4, $stripe);
