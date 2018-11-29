@@ -45,7 +45,7 @@
                                               <td>'. $success .'</td>			      
                                             </tr>';
 
-                    $payout_transfers .= "<tr class=\"payments_'.$uc_cart_id.' payments_table\" style=\'border:2px black solid\'>
+                    $payout_transfers .= "<tr class=\"payments_'.$cart_id.' payments_table\" style=\'border:2px black solid\'>
                                                <td>
                                                 ". $payout->ap_error ."
                                                 </td>
