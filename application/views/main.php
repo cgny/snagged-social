@@ -556,7 +556,7 @@
             <section id="user-sales" class="tab-pane fade">
                 <div class="container">
                     <div class="space-20"></div>
-                    <h3>User Account</h3>
+                    <h3>Items Sold</h3>
                     <div class="space-60"></div>
                     <div id="user_sales">
 
@@ -573,11 +573,11 @@
                         <div id='sales'>
                             <div class='col-lg-12'>
                                 <div id='collapseSales' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
-                                    <h4>Items Sold</h4>
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
                                             <th scope="col">#</th>
+                                            <th scope="col">Receipt #</th>
                                             <th scope="col">Photo Id</th>
                                             <th scope="col">Size</th>
                                             <th scope="col">Qty</th>
@@ -602,6 +602,7 @@
                                             ?>
                                             <tr>
                                                 <td scope="row" class="view_user_cart" data-cart="<?php echo $sale->uc_id; ?>"><?php echo ($k+1);  ?></td>
+                                                <td> <?php echo $sale->uc_id; ?> </td>
                                                 <td> <?php echo $sale->p_id; ?> </td>
                                                 <td> <?php echo $sale->ps_size; ?> </td>
                                                 <td> <?php echo $sale->c_qty; ?> </td>
@@ -642,7 +643,7 @@
             <section id="user-orders" class="tab-pane fade">
                 <div class="container">
                     <div class="space-20"></div>
-                    <h3>User Account</h3>
+                    <h3>Personal Orders</h3>
                     <div class="space-60"></div>
                     <div id="user_orders">
 
@@ -659,9 +660,7 @@
 
                         <div id='orders'>
                             <div class=' col-lg-12'>
-                                <div id='collapseOrders' class='col-lg-12'
-                                     style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
-                                    <h4>Personal Orders</h4>
+                                <div id='collapseOrders' class='col-lg-12' style='border:1px grey solid;padding:2px;max-height:400px;overflow-y: scroll;margin-bottom:10px'>
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
@@ -684,8 +683,7 @@
                                                 <td> <?php echo $order->uc_created; ?> </td>
                                                 <td> <?php echo $order->uc_shipping; ?> </td>
                                                 <td> <?php echo $order->cs_status; ?> </td>
-                                                <td><a href="<?php site_url('cart/receipt/' . $orders->uc_cart_id); ?>"
-                                                       target="_blank">View</a></td>
+                                                <td> <a href="<?php echo site_url('cart/receipt/' . $orders->uc_cart_id); ?>" target="_blank">View</a></td>
                                             </tr>
                                             <?php
                                         }
@@ -720,7 +718,8 @@
             <section id="user-gallery" class="tab-pane fade">
                 <div class="container">
                     <div class="space-20"></div>
-                    <h3>User Account</h3>
+                    <h3>Your Gallery</h3>
+                    <h5>Note: Images must have a price greater than $0.00 to be available for purchase and displayed in the Snagged Social gallery.</h5>
                     <div class="space-60"></div>
                     <div id="user_gallery">
 
@@ -808,7 +807,7 @@
         <section id="instagram" class="tab-pane fade">
                         <div class="container">
                             <div class="space-20"></div>
-                            <h3>Your Instagram</h3>
+                            <h3>Your Instagram Feed</h3>
                             <div class="space-60"></div>
                             <div class="space-60"></div>
                             <div class="row photos">
