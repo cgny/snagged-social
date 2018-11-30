@@ -8,10 +8,8 @@
 
 $shipping = "";
 if($cart->uc_status < 3)
-{
-    $shipping = "<button data-id='$cart_id' class='set_as_shipped' id='shipping_$cart_id'>Set as Shipped</button>";
-    $shipping .= "<br>";
-    $shipping .= "<select id='carrier_$cart_id' class=''>";
+{;
+    $shipping  = "<select id='carrier_$cart_id' class=''>";
     $shipping .= "<option value=''>Select Carrier</option>";
 
     foreach($carriers as $carrier)
@@ -20,4 +18,6 @@ if($cart->uc_status < 3)
     }
 
     $shipping .= "</select>";
+    $shipping .= "<br>";
+    $shipping .= "<button data-id='$cart_id' data-cart_id='". $cart->uc_cart_id ."' class='set_as_shipped' id='shipping_$cart_id'>Set as Shipped</button>";
 }

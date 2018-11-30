@@ -32,7 +32,7 @@ class Admin extends CI_Controller
 	function index()
 	{
 		$data['payouts'] = $this->admin->getAllPayouts(10);
-		$data['carts'] = $this->admin->getAllCarts(10);
+		$data['carts'] = $this->admin->getAllCarts(10, 1);
 		$data['accounts'] = $this->admin->getAllAccounts(10);
 		$data['statuses'] = $this->cart->getCartStatuses();
         $data['carriers'] = $this->admin->getShippingCarriers();
@@ -72,7 +72,7 @@ class Admin extends CI_Controller
 
 	function showOrders()
 	{
-		$data['carts'] = $this->admin->getAllCarts();
+		$data['carts'] = $this->admin->getAllCarts(null,1);
 		$data['statuses'] = $this->cart->getCartStatuses();
         $data['carriers'] = $this->admin->getShippingCarriers();
 
@@ -104,13 +104,13 @@ class Admin extends CI_Controller
 		$fields['status'] = ($status) ? $status : null;
 		$fields['ship_date'] = ($tracking) ? date("Y-m-d") : null;
         $fields['carrier'] = ($carrier) ? $carrier : null;
+        $cart_id = ($cart_id) ? $cart_id : null;
 		if($tracking)
         {
             $fields['tracking'] = $tracking;
             $this->admin->sendShippingNotification( $cart_id );
         }
 
-        $cart_id = ($cart_id) ? $cart_id : null;
 
 		$upd = $this->cart->updateStatus($fields, $cart_id);
 		$e_msg = false;

@@ -236,7 +236,7 @@ class Stripe_model extends CI_Model{
                         $status->failure_message[] = $photo->stripe_user_id . '|' . $e->getMessage();
                         $this->error->sendError(__FILE__, __LINE__, $e->getMessage());
                     }
-                    $this->logPayout($item->c_cart_id, $pay, $item->p_a_id, $item->c_p_id, $item->c_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
+                    $this->logPayout($item->uc_id, $pay, $item->p_a_id, $item->c_p_id, $item->c_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
                 }
             }
 

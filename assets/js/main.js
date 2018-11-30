@@ -669,7 +669,8 @@ jQuery(document).ready(function ($) {
     });
 
     $('.set_as_shipped').click(function(){
-        var cart_id = $(this).attr('data-id');
+        var cart_id = $(this).attr('data-cart_id');
+        var c_id = $(this).attr('data-id');
 
         if( $('#carrier_'+cart_id).val() == "")
         {
@@ -686,7 +687,8 @@ jQuery(document).ready(function ($) {
 
         var formData = {
             "cart_id"   : cart_id,
-            "carrier"   : $('#carrier_'+cart_id).val(),
+            "c_id"      : c_id,
+            "carrier"   : $('#carrier_'+c_id).val(),
             "tracking"  : tracking,
             "status"    : 3
         };

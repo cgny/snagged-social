@@ -279,7 +279,7 @@ class Cart_model extends CI_Model{
 		}
 		if(isset($fields['payment_date']))
 		{
-			$update['uc_payment_date'] = $fields['uc_payment_date'];
+			$update['uc_payment_date'] = $fields['payment_date'];
 		}
 		if(isset($fields['shipping']))
 		{
@@ -298,8 +298,7 @@ class Cart_model extends CI_Model{
             $update['uc_carrier'] = $fields['carrier'];
         }
 		$upd = $this->db->update('ss_user_cart', $update );
-        $this->error->dbError(true);
-        print_r( $upd );
+        $this->error->dbError();
         return $upd;
 	}
 
@@ -341,8 +340,8 @@ class Cart_model extends CI_Model{
         $cart = $this->getCart( $cartId )->result();
         $to = $cart[0]->uc_email;
         $subject = "Snagged Social Receipt - Order #".$cart[0]->uc_id;
-        $msg = "<h3>Snagged Social</h3>"
-                . "<br><br>Receipt"
+        $msg = "<h2>Snagged Social</h2>"
+                . "<h3>Receipt</h3>"
                 . "<br>"
                 . "<b>Email</b>: ".$cart[0]->uc_email."<br>"
                 . "<b>Payment Date</b>: ".$cart[0]->uc_payment_date."<br>"

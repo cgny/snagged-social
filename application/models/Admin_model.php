@@ -9,9 +9,9 @@ class Admin_model extends CI_Model
 		return $this->db->update('ss_cart',$data);
 	}
 
-	function getAllCarts($limit = false, $user_id = false)
+	function getAllCarts($limit = false, $status = false,$user_id = false)
 	{
-		$this->db->select("a_active,a_admin,a_email,a_first_name,a_last_name,a_ig_username,a_ig_id,cs_status,uc_id,uc_created,uc_updated,uc_status,uc_shipping,uc_payment_date,uc_ship_date");
+		$this->db->select("a_active,a_admin,a_email,a_first_name,a_last_name,a_ig_username,uc_cart_id,a_ig_id,cs_status,uc_id,uc_created,uc_updated,uc_status,uc_shipping,uc_payment_date,uc_ship_date");
 		$this->db->join("ss_accounts","ss_user_cart.uc_a_id = ss_accounts.a_id","left");
 		$this->db->join("ss_cart_statuses","ss_cart_statuses.cs_id = ss_user_cart.uc_status");
 		if($limit)
@@ -22,6 +22,12 @@ class Admin_model extends CI_Model
 		{
 			$this->db->where('uc_a_id',$user_id);
 		}
+
+		if($status)
+        {
+            $this->db->where('uc_status >',$status);
+        }
+
         $this->db->order_by('uc_id',"desc");
 		return $this->db->get('ss_user_cart')->result();
 	}
@@ -69,20 +75,21 @@ class Admin_model extends CI_Model
 
     function sendShippingNotification( $cart_id )
     {
+        echo "SHIP";
         $cart = $this->cart->getCart( $cart_id )->result();
-        $this->error->dbError(true);
+        $this->error->dbError();
         $to = $cart[0]->uc_email;
         $subject = "Snagged Social Shipment - Order #".$cart[0]->uc_id. " Order Has Shipped";
-        $msg = "<h3>Snagged Social</h3>"
-            . "<br><br>Shipment Update"
+        $msg = "<h2>Snagged Social</h2>"
+            . "<h3>Shipment Update</h3>"
             . "<br>"
             . "<b>Your order is on the way!</b>"
             . "<br>"
             . "<b>Shipping Date</b>: ".$cart[0]->uc_ship_date."<br>"
             . "<b>Shipping Details</b>: ".$cart[0]->uc_ship_notes."<br>"
             . "<b>Carrier</b>: ".$cart[0]->sc_name."<br>"
-            . "<b>Tracking</b>: ".$cart[0]->uc_tracking ."<br>"
-            . "<b>Tracking URL</b>: <a href='". $cart[0]->sc_url . $cart[0]->uc_tracking ."' target='_blank'>". $cart[0]->sc_url . $cart[0]->uc_tracking ."</a><br>";
+            . "<b>Tracking</b>: ".$cart[0]->uc_tracking_code ."<br>"
+            . "<b>Tracking URL</b>: <a href='". $cart[0]->sc_url . $cart[0]->uc_tracking_code ."' target='_blank'>". $cart[0]->sc_url . $cart[0]->uc_tracking_code ."</a><br>";
 
         $this->load->library('email');
 
