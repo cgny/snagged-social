@@ -51,8 +51,9 @@ class Admin_model extends CI_Model
     {
         if(empty($c_id))
         {
-            return alse;
+            return false;
         }
+        $this->db->where('ap_c_id',$c_id);
         $this->db->join('ss_accounts','ss_accounts.a_id = ss_payments.ap_a_id');
         return $this->db->get("ss_payments");
     }
