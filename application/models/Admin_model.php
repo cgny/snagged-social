@@ -49,9 +49,9 @@ class Admin_model extends CI_Model
 
     function getPayoutsByCartId($c_id)
     {
-        if(!empty($c_id))
+        if(empty($c_id))
         {
-            return $c_id;
+            return alse;
         }
         $this->db->join('ss_accounts','ss_accounts.a_id = ss_payments.ap_a_id');
         return $this->db->get("ss_payments");
