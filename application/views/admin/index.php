@@ -22,7 +22,7 @@
 			{
 			    $cart_id = $cart->uc_id;
 			    $payouts = $this->admin->getPayoutsByCartId( $cart_id );
-                $payout_transfers = "<tr class='payments_$cart_id payments_table'>
+                $payout_transfers = "<tr id='payments_$cart_id' class='payments_table'>
                                                 <th scope=\"col\">#</th>
                                                 <th scope=\"col\">Username</th>
                                                 <th scope=\"col\">Photo</th>
@@ -34,7 +34,7 @@
                 foreach($payouts as $payout)
                 {
                     $success = ($payout->ap_sucess == 1) ? "Yes" : "No";
-                    $payout_transfers .= '<tr class="payments_'.$cart_id.' payments_table">
+                    $payout_transfers .= '<tr id="payments_'.$cart_id.'" id="payments_table">
                                               <td scope="row">'. $payout->ap_id .'</td>
                                               <td>'. $payout->a_ig_username .'</td>
                                               <td>'. $payout->ap_p_id .'</td>
@@ -45,7 +45,7 @@
                                               <td>'. $success .'</td>			      
                                             </tr>';
 
-                    $payout_transfers .= "<tr class=\"payments_'.$cart_id.' payments_table\" style=\'border:2px black solid\'>
+                    $payout_transfers .= "<tr id='payments_$cart_id' class='payments_table' style=\'border:2px black solid\'>
                                                <td>
                                                 ". $payout->ap_error ."
                                                 </td>
