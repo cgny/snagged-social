@@ -663,7 +663,7 @@ jQuery(document).ready(function ($) {
 
 
 
-    $('.view_payments').click(function(){
+    $('.view_payouts').click(function(){
 
         var id = $(this).attr('data-id');
         $('.payments_'+id).toggle();
