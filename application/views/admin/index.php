@@ -20,7 +20,7 @@
 			<?php
 			foreach($carts as $cart)
 			{
-			    $cart_id = $cart->c_id;
+			    $cart_id = $cart->uc_id;
 			    $payouts = $this->admin->getPayoutsByCartId( $cart_id );
                 $payout_transfers = "<tr class='payments_$cart_id payments_table'>
                                                 <th scope=\"col\">#</th>

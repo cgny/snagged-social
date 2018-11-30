@@ -466,7 +466,3 @@ li a {
 .modal-backdrop{
 	z-index:1 !important;
 }
-
-.payments_table{
-    display: none;
-}

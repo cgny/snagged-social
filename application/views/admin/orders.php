@@ -2,6 +2,45 @@
 	<div id="nav" class="col-lg-12">
 	<h3>Orders</h3>
 
+        <?php
+
+        $delayed = $unpaid = $shipped = $paid = 0;
+        foreach($carts as $cart)
+        {
+            if($cart->uc_status == 1)
+            {
+                $unpaid++;
+            }
+            elseif($cart->uc_status == 2)
+            {
+                $paid++;
+            }
+            elseif($cart->uc_status == 3)
+            {
+                $shipped++;
+            }
+            elseif($cart->uc_status == 4)
+            {
+                $delayed++;
+            }
+        }
+
+        ?>
+        <div class="row">
+            <div class="col-lg-3">
+                <h4>Unpaid (<?php echo $unpaid; ?>)</h4>
+            </div>
+            <div class="col-lg-3">
+                <h4>Paid (<?php echo $paid; ?>)</h4>
+            </div>
+            <div class="col-lg-3">
+                <h4>Shipped (<?php echo $shipped; ?>)</h4>
+            </div>
+            <div class="col-lg-3">
+                <h4>Delayed (<?php echo $delayed; ?>)</h4>
+            </div>
+        </div>
+
         <table class="table table-striped ">
             <thead>
             <tr>
@@ -20,8 +59,8 @@
             <?php
             foreach($carts as $cart)
             {
-                $cart_id = $cart->c_id;
-                $payouts = $this->admin->getPayoutsByCartId($cart->c_id);
+                $cart_id = $cart->uc_id;
+                $payouts = $this->admin->getPayoutsByCartId( $cart_id );
                 $payout_transfers = "<tr class='payments_table payments_$cart_id' style='border:2px black solid'>
                                                 <th scope=\"col\">#</th>
                                                 <th scope=\"col\">Username</th>

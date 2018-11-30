@@ -16,7 +16,11 @@
 
 	<!-- Plugin-CSS -->
 	<link rel="stylesheet" href="<?php echo CSS_INCLUDE; ?>bootstrap.min.css">
-
+    <style>
+        .payments_table{
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <h1 style="text-align:center">Snagged Social - Admin</h1>
