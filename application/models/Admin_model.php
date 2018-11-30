@@ -58,4 +58,18 @@ class Admin_model extends CI_Model
         return $this->db->get("ss_payments");
     }
 
+    function getShippingCarriers($sc_name = false)
+    {
+        if(!empty($Sc_name))
+        {
+            $this->db->where('sc_name',$sc_name);
+        }
+        return $this->db->get('ss_shipping_carriers');
+    }
+
+    function sendShippingNotification($cart_id)
+    {
+
+    }
+
 }

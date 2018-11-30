@@ -6,12 +6,11 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
                 <th scope="col">Username</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Email</th>
-                <th scope="col">Last 4</th>
+                <th scope="col">Photo</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Payout</th>
+                <th scope="col">Success</th>
             </tr>
             </thead>
             <tbody>

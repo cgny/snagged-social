@@ -165,11 +165,11 @@ class Cart_model extends CI_Model{
 		return $this->db->get('ss_user_cart');
 	}
         
-        function getUserCart($id)
-        {
-		$this->db->where('uc_cart_id',$id);
-		return $this->db->get('ss_user_cart');
-        }
+    function getUserCart($id)
+    {
+    $this->db->where('uc_cart_id',$id);
+    return $this->db->get('ss_user_cart');
+    }
 
 	function getCartTotal()
 	{
@@ -281,6 +281,14 @@ class Cart_model extends CI_Model{
 		{
 			$update['uc_ship_date'] = date("Y-m-d");
 		}
+        if(isset($fields['tracking']))
+        {
+            $update['uc_tracking'] = $fields['tracking'];
+        }
+        if(isset($fields['carrier']))
+        {
+            $update['uc_carrier'] = $fields['carrier'];
+        }
 		return $this->db->update('ss_user_cart', $update );
 	}
 
@@ -307,7 +315,7 @@ class Cart_model extends CI_Model{
         if(!empty($cartId))
         {
             $c_id = $this->error->scrubSQL($cartId);
-            $cart = $this->cart->getUserCart($c_id);
+            $cart = $this->getUserCart($c_id);
             if($cart->num_rows() != 1)
             {
                 throw new Exception('Invalid Cart Id');
