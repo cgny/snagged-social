@@ -28,20 +28,17 @@
                                                 <th scope=\"col\">Photo</th>
                                                 <th scope=\"col\">Qty</th>
                                                 <th scope=\"col\">Payout</th>
-                                                <th scope=\"col\">Date</th>
                                                 <th scope=\"col\">Success</th>
                                             </tr>";
                 foreach($payouts as $payout)
                 {
-                    $success = ($payout->ap_sucess == 1) ? "Yes" : "No";
+                    $success = ($payout->ap_sudcess == 1) ? "Yes" : "No";
                     $payout_transfers .= '<tr  data-id="2" id="" id="payments_table payments_'.$cart_id.'">
                                               <td scope="row">'. $payout->ap_id .'</td>
                                               <td>'. $payout->a_ig_username .'</td>
                                               <td>'. $payout->ap_p_id .'</td>
                                               <td>'. $payout->ap_qty .'</td>
-                                              <td>'. $payout->ap_amount .'</td>
-                                              <td>'. $payout->uc_updated .'</td>
-                                              <td>'. $payout->uc_payment_date .'</td>			      
+                                              <td>'. $payout->ap_amount .'</td>		      
                                               <td>'. $success .'</td>			      
                                             </tr>';
 
