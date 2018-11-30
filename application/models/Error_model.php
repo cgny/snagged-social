@@ -9,15 +9,17 @@ class Error_model extends CI_Model{
 		if(empty($error['message']))
 		{
 			return false;
-
 		}
 		if(!empty($error['message']))
 		{
-			mail('christian@cgnewyork.com','SS error',$error['message']);
+			$qry = $this->db->last_query();
+			mail('christian@cgnewyork.com','SS error',$error['message'].' '.$qry);
 		}
 		if(ENVIRONMENT == 'development' || $force == true)
 		{
 			echo $error['message'];
+            $qry = $this->db->last_query();
+            mail('christian@cgnewyork.com','SS error',$error['message'].' '.$qry);
 		}
 		return true;
 	}

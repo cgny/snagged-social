@@ -663,11 +663,63 @@ jQuery(document).ready(function ($) {
 
 
 
-    $('.view_payments').click(function(){
-
+    $('.view_payouts').click(function(){
         var id = $(this).attr('data-id');
-        $('#payments_'+id).toggle();
+        $('.payments_'+id).toggle();
+    });
 
+    $('.set_as_shipped').click(function(){
+        var cart_id = $(this).attr('data-cart_id');
+        var c_id = $(this).attr('data-id');
+
+        if( $('#carrier_'+cart_id).val() == "")
+        {
+            alert('Select Carrier');
+            return false;
+        }
+
+        var tracking = prompt("Tracking number");
+        if(tracking == "")
+        {
+            alert("Add Tracking Number");
+            return false;
+        }
+
+        var formData = {
+            "cart_id"   : cart_id,
+            "c_id"      : c_id,
+            "carrier"   : $('#carrier_'+c_id).val(),
+            "tracking"  : tracking,
+            "status"    : 3
+        };
+
+        var result = "";
+        var result_class = "";
+
+        $.ajax({
+            type : 'POST',
+            url  : base_url + 'admin/updateCart',
+            data : formData,
+            dataType : 'json',
+            encode : true
+        }).done(function (data) {
+            // handle errors
+            if (!data.success) {
+                if (data.errors.message) {
+                    result = "Update Failed.";
+                    result_class = "alert-danger";
+                }
+            } else {
+                // display success message
+                result = "Update Successful!";
+                result_class = "alert-success";
+            }
+
+            alert(result_class);
+        }).fail(function (data) {
+            // for debug
+            ////console.log(data);
+        });
     });
 
     /*

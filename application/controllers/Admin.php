@@ -16,7 +16,7 @@ class Admin extends CI_Controller
             echo json_encode($data);
 			exit;
 		}
-		$account = $this->account->getAccountById($this->account->isLogged());
+		$account = $this->account->getAccountById( $account_id );
 		if($account->a_admin == 1)
 		{
 			$this->admin_user = $account;
@@ -31,14 +31,25 @@ class Admin extends CI_Controller
 	
 	function index()
 	{
-		$data['carts'] = $this->admin->getAllCarts(10);
+		$data['payouts'] = $this->admin->getAllPayouts(10);
+		$data['carts'] = $this->admin->getAllCarts(10, 1);
 		$data['accounts'] = $this->admin->getAllAccounts(10);
 		$data['statuses'] = $this->cart->getCartStatuses();
+        $data['carriers'] = $this->admin->getShippingCarriers();
 
 		$this->load->view('admin/header');
 		$this->load->view('admin/index', $data);
 		$this->load->view('admin/footer');
 	}
+
+	function showPayouts()
+    {
+        $data['payouts'] = $this->admin->getAllPayouts();
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/payouts', $data);
+        $this->load->view('admin/footer');
+    }
 
 	function showAccounts()
 	{
@@ -61,8 +72,9 @@ class Admin extends CI_Controller
 
 	function showOrders()
 	{
-		$data['carts'] = $this->admin->getAllCarts();
+		$data['carts'] = $this->admin->getAllCarts(null,1);
 		$data['statuses'] = $this->cart->getCartStatuses();
+        $data['carriers'] = $this->admin->getShippingCarriers();
 
 		$this->load->view('admin/header');
 		$this->load->view('admin/orders', $data);
@@ -74,6 +86,7 @@ class Admin extends CI_Controller
 		$cart_id = $this->input->get('cart_id');
 		$data['order'] = $this->cart->getCart($cart_id);
 		$data['statuses'] = $this->cart->getCartStatuses();
+		$data['carriers'] = $this->admin->getShippingCarriers();
 
 		$this->load->view('admin/header');
 		$this->load->view('admin/order', $data);
@@ -82,17 +95,26 @@ class Admin extends CI_Controller
 
 	function updateCart()
 	{
-
-		$status = $this->input->post('status');
-		$shipping = $this->input->post('shipping');
+        $cart_id    = $this->input->post('cart_id');
+		$status     = $this->input->post('status');
+		$tracking   = $this->input->post('tracking');
+		$carrier    = $this->input->post('carrier');
 
 		$fields = [];
 		$fields['status'] = ($status) ? $status : null;
-		$fields['shipping'] = ($shipping) ? $shipping : null;
+		$fields['ship_date'] = ($tracking) ? date("Y-m-d") : null;
+        $fields['carrier'] = ($carrier) ? $carrier : null;
+        $cart_id = ($cart_id) ? $cart_id : null;
+		if($tracking)
+        {
+            $fields['tracking'] = $tracking;
+            $this->admin->sendShippingNotification( $cart_id );
+        }
 
-		$upd = $this->cart->updateStatus($fields);
 
-		echo json_encode( array("data" => array('success' => $upd)));
+		$upd = $this->cart->updateStatus($fields, $cart_id);
+		$e_msg = false;
+		echo json_encode( array("data" => array('success' => $upd, "error" => array("message" => $e_msg))));
 
 	}
 

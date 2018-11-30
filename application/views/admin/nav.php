@@ -9,6 +9,9 @@
 		<a href="<?php echo site_url('/admin/showOrders'); ?>"><button>Orders</button></a>
 		<br>
 		<br>
+        <a href="<?php echo site_url('/admin/showPayouts'); ?>"><button>Payouts</button></a>
+        <br>
+        <br>
 		<a href="<?php echo site_url(''); ?>"><button>Site</button></a>
 		<br>
 		<br>
