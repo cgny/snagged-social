@@ -257,13 +257,20 @@ class Cart_model extends CI_Model{
 
 	}
 
-	function updateStatus($fields)
+	function updateStatus($fields, $cart_id = false)
 	{
 		if(empty($fields))
 		{
 			return false;
 		}
-		$this->db->where('uc_cart_id',$this->getCartId());
+		if(!empty($cart_id))
+        {
+            $this->db->where('uc_cart_id', $cart_id );
+        }
+        else
+        {
+            $this->db->where('uc_cart_id', $this->getCartId() );
+        }
         $update['uc_updated'] = date("Y-m-d H:i:s");
 
 		if(isset($fields['status']))
