@@ -47,13 +47,13 @@ class Admin_model extends CI_Model
         return $this->db->get("ss_payments");
     }
 
-    function getPayoutsByCartId($c_id)
+    function getPayoutsByCartId($uc_id)
     {
-        if(empty($c_id))
+        if(empty($uc_id))
         {
             return false;
         }
-        $this->db->where('ap_c_id',$c_id);
+        $this->db->where('ap_uc_id',$uc_id);
         $this->db->join('ss_accounts','ss_accounts.a_id = ss_payments.ap_a_id');
         return $this->db->get("ss_payments");
     }

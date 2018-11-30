@@ -41,6 +41,15 @@ class Admin extends CI_Controller
 		$this->load->view('admin/footer');
 	}
 
+	function showPayouts()
+    {
+        $data['payouts'] = $this->admin->getAllPayouts();
+
+        $this->load->view('admin/header');
+        $this->load->view('admin/payouts', $data);
+        $this->load->view('admin/footer');
+    }
+
 	function showAccounts()
 	{
 		$data['accounts'] = $this->admin->getAllAccounts();
