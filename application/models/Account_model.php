@@ -300,7 +300,7 @@ class Account_model extends CI_Model{
                     JOIN ss_photo_sizes ON ( c_ps_id = ps_id )
                     JOIN ss_user_cart ON ( uc_cart_id = c_cart_id )
                     JOIN ss_cart_statuses ON ( ss_cart_statuses.cs_id = ss_user_cart.uc_status )
-                    LEFT JOIN ss_payments ON (ap_c_id = ss_user_cart.uc_id)
+                    LEFT JOIN ss_payments ON (ap_uc_id = ss_user_cart.uc_id)
                     WHERE p_id
                     IN 
                     (SELECT p_id 
