@@ -60,7 +60,8 @@
             foreach($carts as $cart)
             {
                 $cart_id = $cart->uc_id;
-                $payouts = $this->admin->getPayoutsByCartId( $cart_id );
+                $payouts = $this->admin->getPayoutsByCartId( $cart_id ); echo " [ $cart_id - ".count($payouts) ." ] ";
+                print_r($payouts);
                 $payout_transfers = "<tr data-id='1' class='payments_$cart_id payments_table' id='' style='border:2px black solid'>
                                                 <th scope=\"col\">#</th>
                                                 <th scope=\"col\">Username</th>
