@@ -35,7 +35,7 @@ class Admin extends CI_Controller
 		$data['carts'] = $this->admin->getAllCarts(10);
 		$data['accounts'] = $this->admin->getAllAccounts(10);
 		$data['statuses'] = $this->cart->getCartStatuses();
-        $data['carriers'] = $this->cart->getShippingCarriers();
+        $data['carriers'] = $this->admin->getShippingCarriers();
 
 		$this->load->view('admin/header');
 		$this->load->view('admin/index', $data);
@@ -74,7 +74,7 @@ class Admin extends CI_Controller
 	{
 		$data['carts'] = $this->admin->getAllCarts();
 		$data['statuses'] = $this->cart->getCartStatuses();
-        $data['carriers'] = $this->cart->getShippingCarriers();
+        $data['carriers'] = $this->admin->getShippingCarriers();
 
 		$this->load->view('admin/header');
 		$this->load->view('admin/orders', $data);
@@ -86,7 +86,7 @@ class Admin extends CI_Controller
 		$cart_id = $this->input->get('cart_id');
 		$data['order'] = $this->cart->getCart($cart_id);
 		$data['statuses'] = $this->cart->getCartStatuses();
-		$data['carriers'] = $this->cart->getShippingCarriers();
+		$data['carriers'] = $this->admin->getShippingCarriers();
 
 		$this->load->view('admin/header');
 		$this->load->view('admin/order', $data);
