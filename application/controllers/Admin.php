@@ -31,6 +31,7 @@ class Admin extends CI_Controller
 	
 	function index()
 	{
+		$data['payouts'] = $this->admin->getAllPayouts(10);
 		$data['carts'] = $this->admin->getAllCarts(10);
 		$data['accounts'] = $this->admin->getAllAccounts(10);
 		$data['statuses'] = $this->cart->getCartStatuses();
