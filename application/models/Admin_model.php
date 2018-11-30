@@ -70,7 +70,7 @@ class Admin_model extends CI_Model
     function sendShippingNotification( $cart_id )
     {
         $cart = $this->cart->getCart( $cart_id )->result();
-        $this->error->dbError();
+        $this->error->dbError(true);
         $to = $cart[0]->uc_email;
         $subject = "Snagged Social Shipment - Order #".$cart[0]->uc_id. " Order Has Shipped";
         $msg = "<h3>Snagged Social</h3>"

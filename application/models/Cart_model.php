@@ -298,7 +298,7 @@ class Cart_model extends CI_Model{
             $update['uc_carrier'] = $fields['carrier'];
         }
 		$upd = $this->db->update('ss_user_cart', $update );
-        $this->error->dbError();
+        $this->error->dbError(true);
         print_r( $upd );
         return $upd;
 	}
