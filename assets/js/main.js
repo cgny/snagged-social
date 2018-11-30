@@ -680,6 +680,7 @@ jQuery(document).ready(function ($) {
         var tracking = prompt("Tracking number");
 
         var formData = {
+            "cart_id"   : cart_id,
             "carrier"   : $('#carrier_'+cart_id).val(),
             "tracking"  : tracking,
             "status"    : 3

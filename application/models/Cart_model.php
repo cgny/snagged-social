@@ -155,6 +155,7 @@ class Cart_model extends CI_Model{
 		$id = $this->error->scrubSQL($id);
 		$this->db->join("ss_cart","ss_user_cart.uc_cart_id = ss_cart.c_cart_id","left");
 		$this->db->join("ss_photo_sizes","ss_photo_sizes.ps_id = ss_cart.c_ps_id","left");
+        $this->db->join("ss_carriers","ss_carriers.sc_id = ss_user_cart.uc_carrier","left");
 		$this->db->join("ss_photos","ss_photos.p_id = ss_cart.c_p_id");
 		if(empty($id))
 		{

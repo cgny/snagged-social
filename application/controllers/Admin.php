@@ -95,10 +95,10 @@ class Admin extends CI_Controller
 
 	function updateCart()
 	{
-
-		$status = $this->input->post('status');
-		$tracking = $this->input->post('tracking');
-		$carrier = $this->input->post('carrier');
+        $cart_id    = $this->input->post('cart_id');
+		$status     = $this->input->post('status');
+		$tracking   = $this->input->post('tracking');
+		$carrier    = $this->input->post('carrier');
 
 		$fields = [];
 		$fields['status'] = ($status) ? $status : null;
@@ -106,6 +106,7 @@ class Admin extends CI_Controller
 		if($tracking)
         {
             $fields['tracking'] = $tracking;
+            $this->admin->sendShippingNotification( $cart_id );
         }
 		if($carrier)
         {
@@ -113,7 +114,6 @@ class Admin extends CI_Controller
         }
 
 		$upd = $this->cart->updateStatus($fields);
-
 		echo json_encode( array("data" => array('success' => $upd)));
 
 	}

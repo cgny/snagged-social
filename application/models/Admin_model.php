@@ -64,12 +64,45 @@ class Admin_model extends CI_Model
         {
             $this->db->where('sc_name',$sc_name);
         }
-        return $this->db->get('ss_shipping_carriers');
+        return $this->db->get('ss_shipping_carriers')->result();
     }
 
     function sendShippingNotification($cart_id)
     {
+        $cart = $this->cart->getCart( $cart_id )->result();
+        $to = $cart[0]->uc_email;
+        $subject = "Snagged Social Receipt - Order #".$cart[0]->uc_id;
+        $msg = "<h3>Snagged Social</h3>"
+            . "<br><br>Shipment Update"
+            . "<br>"
+            . "<b>Your order is on the way!</b>"
+            . "<br>"
+            . "<b>Shipping Date</b>: ".$cart[0]->uc_ship_date."<br>"
+            . "<b>Shipping Details</b>: ".$cart[0]->uc_ship_notes."<br>"
+            . "<b>Carrier</b>: ".$cart[0]->sc_name."<br>"
+            . "<b>Tracking</b>: ".$cart[0]->uc_tracking ."<br>"
+            . "<b>Tracking URL</b>: <a href='". $cart[0]->sc_url . $cart[0]->uc_tracking ."' target='_blank'>". $cart[0]->sc_url . $cart[0]->uc_tracking ."</a><br>";
 
+        $this->load->library('email');
+
+        $config['protocol'] = 'sendmail';
+        $config['mailpath'] = '/usr/sbin/sendmail';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+        $config['mailtype'] = "html";
+
+        $this->email->initialize($config);
+
+
+        $this->email->to($to);
+        $this->email->from('contact@snaggedsocial.com','Snagged Social');
+        $this->email->bcc('contact@snaggedsocial.com,christian@cgnewyork.com');
+
+        $this->email->subject($subject);
+        $this->email->message($msg);
+        if(!$this->email->send()){
+            // print_r($this->email->print_debugger());
+        }
     }
 
 }
