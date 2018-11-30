@@ -678,6 +678,11 @@ jQuery(document).ready(function ($) {
         }
 
         var tracking = prompt("Tracking number");
+        if(tracking == "")
+        {
+            alert("Add Tracking Number");
+            return false;
+        }
 
         var formData = {
             "cart_id"   : cart_id,

@@ -284,7 +284,7 @@ class Cart_model extends CI_Model{
 		}
         if(isset($fields['tracking']))
         {
-            $update['uc_tracking'] = $fields['tracking'];
+            $update['uc_tracking_code'] = $fields['tracking'];
         }
         if(isset($fields['carrier']))
         {

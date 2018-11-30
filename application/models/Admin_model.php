@@ -71,7 +71,7 @@ class Admin_model extends CI_Model
     {
         $cart = $this->cart->getCart( $cart_id )->result();
         $to = $cart[0]->uc_email;
-        $subject = "Snagged Social Receipt - Order #".$cart[0]->uc_id;
+        $subject = "Snagged Social Shipment - Order #".$cart[0]->uc_id. " Order Has Shipped";
         $msg = "<h3>Snagged Social</h3>"
             . "<br><br>Shipment Update"
             . "<br>"

@@ -6,8 +6,8 @@
  * Time: 8:15 PM
  */
 
-$shipping = $cart->uc_ship_date;
-if(empty($cart->uc_ship_date) && $cart->cs_status != "Unpaid")
+$shipping = "";
+if($cart->uc_status < 3)
 {
     $shipping = "<button data-id='$cart_id' class='set_as_shipped' id='shipping_$cart_id'>Set as Shipped</button>";
     $shipping .= "<br>";
