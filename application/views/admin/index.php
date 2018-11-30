@@ -22,7 +22,7 @@
 			{
 			    $cart_id = $cart->uc_id;
 			    $payouts = $this->admin->getPayoutsByCartId( $cart_id );
-                $payout_transfers = "<tr id='' class='payments_table payments_$cart_id'>
+                $payout_transfers = "<tr  data-id='1' id='' class='payments_table payments_$cart_id'>
                                                 <th scope=\"col\">#</th>
                                                 <th scope=\"col\">Username</th>
                                                 <th scope=\"col\">Photo</th>
@@ -34,7 +34,7 @@
                 foreach($payouts as $payout)
                 {
                     $success = ($payout->ap_sucess == 1) ? "Yes" : "No";
-                    $payout_transfers .= '<tr id="" id="payments_table payments_'.$cart_id.'">
+                    $payout_transfers .= '<tr  data-id="2" id="" id="payments_table payments_'.$cart_id.'">
                                               <td scope="row">'. $payout->ap_id .'</td>
                                               <td>'. $payout->a_ig_username .'</td>
                                               <td>'. $payout->ap_p_id .'</td>
@@ -45,15 +45,12 @@
                                               <td>'. $success .'</td>			      
                                             </tr>';
 
-                    $payout_transfers .= "<tr id='' class='payments_table payments_$cart_id' style=\'border:2px black solid\'>
+                    $payout_transfers .= "<tr data-id='3' id='' class='payments_table payments_$cart_id' style='border:2px black solid'>
                                                <td>
                                                 ". $payout->ap_error ."
                                                 </td>
                                             </tr>";
                 }
-                        $payout_transfers .= "
-                    </tbody>
-                </table>";
 
 				$shipping = $cart->uc_ship_date;
 				if(empty($cart->uc_ship_date) && $cart->cs_status != "Unpaid")

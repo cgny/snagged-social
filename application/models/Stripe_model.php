@@ -236,7 +236,7 @@ class Stripe_model extends CI_Model{
                         $status->failure_message[] = $photo->stripe_user_id . '|' . $e->getMessage();
                         $this->error->sendError(__FILE__, __LINE__, $e->getMessage());
                     }
-                    $this->logPayout($item->c_cart_id, $pay, $item->c_a_id, $item->c_p_id, $item->uc_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
+                    $this->logPayout($item->c_cart_id, $pay, $item->p_a_id, $item->c_p_id, $item->c_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
                 }
             }
 
@@ -271,12 +271,12 @@ class Stripe_model extends CI_Model{
             return $payout;
         }
 	
-        function logPayout($cart_id, $amount, $account_id, $photo_id, $cart_id, $qty, $success, $transfer_err, $ap_stripe_id="")
+        function logPayout($cart_id, $amount, $account_id, $photo_id, $item_cart_id, $qty, $success, $transfer_err, $ap_stripe_id="")
         {
             $insert = array(
                 "ap_a_id"       => $account_id,
                 "ap_uc_id"      => $cart_id,
-                "ap_c_id"       => $cart_id,
+                "ap_c_id"       => $item_cart_id,
                 "ap_p_id"       => $photo_id,
                 "ap_qty"        => $qty,
                 "ap_amount"     => $amount,

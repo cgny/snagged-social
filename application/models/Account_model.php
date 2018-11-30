@@ -294,7 +294,7 @@ class Account_model extends CI_Model{
 		$sales = $this->db->query("SELECT p_id,p_high_url,ps_size,p_price,ap_amount,ap_success,
                     DATE_FORMAT(uc_payment_date, '%d/ %m/ %Y') as uc_payment_date,
                     DATE_FORMAT(uc_shipping, '%d/ %m/ %Y') as uc_shipping,
-                    uc_id,c_qty,uc_status,cs_status,uc_cart_id
+                    uc_id,c_qty,uc_status,cs_status,uc_cart_id,p_a_id
                     FROM ss_photos
                     JOIN ss_cart ON ( p_id = c_p_id ) 
                     JOIN ss_photo_sizes ON ( c_ps_id = ps_id )
