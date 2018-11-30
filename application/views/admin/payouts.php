@@ -17,7 +17,7 @@
             <tbody>
             <?php
 
-            foreach($payouts as $payout)
+            foreach($payouts->result() as $payout)
             {
                 $payout_success = ($payout->ap_success == 1) ? "Yes" : "No";
                 echo '<tr>
