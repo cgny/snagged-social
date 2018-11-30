@@ -158,110 +158,96 @@ class Stripe_model extends CI_Model{
 	}
 
 	function processPayment($token, $amount, $stripe_email = "")
-	{
-		$stripe = new \Stripe\Stripe;
-		$stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
+    {
+        $stripe = new \Stripe\Stripe;
+        $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
 
-		$account = $this->account->getAccountById( $this->account->isLogged(true) );
-		
-		if(!empty($account))
-		{
-			if(!empty($account->stripe_id))
-			{
-				$create_charge['customer'] = $account->stripe_id;
-			}
-						
-		}
-		else
-		{
-            try{
-				if(!empty($stripe_email))
-				{
-					$this->createStripeCustomer( $stripe_email );
-				}
-			}
-			catch(Exception $e)
-			{
-				$this->error->sendError(__FILE__,__LINE__,$e->getMessage());
-				//print_r($e->getMessage());
-			}
-		}
-                
-		$create_charge = array(
-			"amount" => ( $amount * 100), //remove decimal
-			"currency" => "usd",
-			"source" => $token, // obtained with Stripe.js
-			'description' => 'Snagged Social Order'
-		);
-		
-		try{
-			$charge = new \Stripe\Charge;
-			$status = $charge->create(
-				$create_charge
-			);
-		}
-		catch(Exception $e)
-		{
-		    $status = new stdClass();
-			$status->failure_code = $e->getMessage();
-		}                
-                
-                
-		$status->cart_id = $this->cart->getCartId();
-                
-		if(empty($status->failure_code))
-		{
-                        $this->cart->updateCart(array('uc_email' => $stripe_email));
-                        // update cart set paid
-						$this->cart->updateStatus(array('status' => 2, 'uc_payment_date' => date("Y-m-d")));
-						//send recept
-						$this->cart->emailReceipt($status->cart_id);			
-						//prepare payouts to artists
-						$cart = $this->cart->getCart()->result();
-                        //print_r($cart);
-                        $payout = true;
-			
-			foreach($cart as $item)
-			{
-				$photo = $this->account->getPhotoOnAccount($item->c_p_id);
-				$pay = (($item->c_qty * $photo->p_price) - (($item->c_qty * $photo->p_price) * BUSINESS_FEE ));
-				if($payout)
-				{
+        $account = $this->account->getAccountById($this->account->isLogged(true));
+
+        if (!empty($account)) {
+            if (!empty($account->stripe_id)) {
+                $create_charge['customer'] = $account->stripe_id;
+            }
+
+        } else {
+            try {
+                if (!empty($stripe_email)) {
+                    $this->createStripeCustomer($stripe_email);
+                }
+            } catch (Exception $e) {
+                $this->error->sendError(__FILE__, __LINE__, $e->getMessage());
+                //print_r($e->getMessage());
+            }
+        }
+
+        $create_charge = array(
+            "amount" => ($amount * 100), //remove decimal
+            "currency" => "usd",
+            "source" => $token, // obtained with Stripe.js
+            'description' => 'Snagged Social Order'
+        );
+
+        try {
+            $charge = new \Stripe\Charge;
+            $status = $charge->create(
+                $create_charge
+            );
+            $code = false;
+        } catch (Exception $e) {
+            $status = new stdClass();
+            $code = $status->failure_code = $e->getMessage();
+        }
+
+
+        $status->cart_id = $this->cart->getCartId();
+
+        if (empty($status->failure_code)) {
+            $this->cart->updateMasterCart(array('uc_email' => $stripe_email, 'uc_status' => 2));
+            // update user cart set paid
+            $this->cart->updateStatus(array('status' => 2, 'payment_date' => date("Y-m-d H:i:s")));
+            // update cart set paid
+            $this->cart->updateCart(array('c_status' => 2, 'c_payment_date' => date("Y-m-d H:i:s")));
+            //send recept
+            $this->cart->emailReceipt($status->cart_id);
+            //prepare payouts to artists
+            $cart = $this->cart->getCart()->result();
+            //print_r($cart);
+            $payout = true;
+
+            foreach ($cart as $item) {
+                $photo = $this->account->getPhotoOnAccount($item->c_p_id);
+                $pay = (($item->c_qty * $photo->p_price) - (($item->c_qty * $photo->p_price) * BUSINESS_FEE));
+                if ($payout) {
                     $transfer_err = "";
-					try
-					{
-						if(!empty($photo->stripe_user_id))
-						{
-                            $payout = $this->sendPayout($pay, $photo->stripe_user_id, $photo->p_price ." x ". $item->c_qty ." ID " .$item->c_p_id, $photo->a_currency);
-                            if(empty($payout))
-                            {
+                    try {
+                        if (!empty($photo->stripe_user_id)) {
+                            $payout = $this->sendPayout($pay, $photo->stripe_user_id, $photo->p_price . " x " . $item->c_qty . " ID " . $item->c_p_id, $photo->a_currency);
+                            if (empty($payout)) {
                                 $success = false;
-                            }
-                            else
-                            {
+                            } else {
                                 $success = true;
                             }
-						}
-						else
-						{
-							$this->sendMissingStripeIdEmail($photo->stripe_user_id);
-						}
-					}
-					catch(Exception $e)
-					{
+                        } else {
+                            $this->sendMissingStripeIdEmail($photo->stripe_user_id);
+                        }
+                    } catch (Exception $e) {
                         $transfer_err = $e->getMessage();
                         $success = -1;
-						$status->failure_message[] = $photo->stripe_user_id . '|' . $e->getMessage();
-						$this->error->sendError(__FILE__,__LINE__,$e->getMessage());
-					}
-					$this->logPayout($item->c_cart_id, $pay, $item->c_a_id, $item->c_p_id, $item->uc_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
-				}
-			}
-			
-			// make new cart id
-			$this->cart->getCartId(true);
+                        $status->failure_message[] = $photo->stripe_user_id . '|' . $e->getMessage();
+                        $this->error->sendError(__FILE__, __LINE__, $e->getMessage());
+                    }
+                    $this->logPayout($item->c_cart_id, $pay, $item->c_a_id, $item->c_p_id, $item->uc_id, $item->c_qty, $success, $transfer_err, $photo->stripe_user_id);
+                }
+            }
 
-		}
+            // make new cart id
+            $this->cart->getCartId(true);
+
+        }
+        else
+        {
+            $this->cart->updateMasterCart(array('uc_notes' => $code));
+        }
         return $status;
 	}
 	

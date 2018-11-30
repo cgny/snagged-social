@@ -39,7 +39,7 @@
                                               <td>'. $payout->a_ig_username .'</td>
                                               <td>'. $payout->ap_p_id .'</td>
                                               <td>'. $payout->ap_qty .'</td>
-                                              <td>'. $payout->cs_status .'</td>
+                                              <td>'. $payout->ap_amount .'</td>
                                               <td>'. $payout->uc_updated .'</td>
                                               <td>'. $payout->uc_payment_date .'</td>			      
                                               <td>'. $success .'</td>			      

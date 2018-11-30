@@ -189,7 +189,7 @@ class Cart_model extends CI_Model{
                         . "uc_updated,"
                         . "uc_status,"
                         . "DATE_FORMAT(uc_shipping, '%d/ %m/ %Y') as uc_shipping");
-		$this->db->join("ss_accounts","ss_user_cart.uc_a_id = ss_accounts.a_id");
+		$this->db->join("ss_accounts","ss_user_cart.uc_a_id = ss_accounts.a_id","left");
 		$this->db->join("ss_cart_statuses","ss_cart_statuses.cs_id = ss_user_cart.uc_status");
 		if($limit)
 		{
@@ -224,7 +224,7 @@ class Cart_model extends CI_Model{
 		$u = $this->db->update('ss_user_cart', $update);
 	}
 
-	function updateCart($data)
+	function updateMasterCart($data)
 	{
 		$data = array_filter($data);
 		if(empty($data))
@@ -240,7 +240,7 @@ class Cart_model extends CI_Model{
 
 	}
 
-	function updateMasterCart($data)
+	function updateCart($data)
 	{
 		$data = array_filter($data);
 		if(empty($data))
@@ -263,14 +263,13 @@ class Cart_model extends CI_Model{
 			return false;
 		}
 		$this->db->where('uc_cart_id',$this->getCartId());
+        $update['uc_updated'] = date("Y-m-d H:i:s");
 
-		$update['uc_updated'] = date("Y-m-d H:i:s");
 		if(isset($fields['status']))
 		{
 			$update['uc_status'] = $fields['status'];
 		}
-		$update['uc_updated'] = date("Y-m-d H:i:s");
-		if(isset($fields['uc_payment_date']))
+		if(isset($fields['payment_date']))
 		{
 			$update['uc_payment_date'] = $fields['uc_payment_date'];
 		}
@@ -278,11 +277,11 @@ class Cart_model extends CI_Model{
 		{
 			$update['uc_shipping'] = $fields['shipping'];
 		}
-		if(isset($fields['uc_ship_date']))
+		if(isset($fields['ship_date']))
 		{
 			$update['uc_ship_date'] = date("Y-m-d");
 		}
-		$this->db->update('ss_user_cart', $update );
+		return $this->db->update('ss_user_cart', $update );
 	}
 
 	function getCartStatuses()
@@ -290,117 +289,117 @@ class Cart_model extends CI_Model{
 		return $this->db->get('ss_cart_statuses')->result();
 	}
         
-        function showCartStatus($status)
+    function showCartStatus($status)
+    {
+        $s = $this->getCartStatuses();
+        foreach($s as $stat)
         {
-            $s = $this->getCartStatuses();
-            foreach($s as $stat)
+            if($stat->cs_id == $status)
             {
-                if($stat->cs_id == $status)
-                {
-                    return $stat->cs_status;
-                }
-            }
-            return "Unpaid";
-        }	
-        
-        function emailReceipt($cartId="")
-        {
-            if(!empty($cartId))
-            {
-                $c_id = $this->error->scrubSQL($cartId);
-                $cart = $this->cart->getUserCart($c_id); 
-                if($cart->num_rows() != 1)
-                {
-                    throw new Exception('Invalid Cart Id');
-                }
-            }
-            else
-            {
-                $cartId = $this->getCartId();
-            }
-            
-            
-            $cart = $this->getCart( $cartId )->result();
-            $to = $cart[0]->uc_email;
-            $subject = "Snagged Social Receipt - Order #".$cart[0]->uc_id;
-            $msg = "<h3>Snagged Social</h3>"
-                    . "<br><br>Receipt"
-                    . "<br>"
-                    . "<b>Email</b>: ".$cart[0]->uc_email."<br>"
-                    . "<b>Payment Date</b>: ".$cart[0]->uc_payment_date."<br>"
-                    . "<b>Shipping Details</b>: ".$cart[0]->uc_ship_notes."<br>"
-                    . "<b>Shipping Cost</b>: ".$cart[0]->uc_shipping."<br>";
-            
-            $items = "<hr><h3>Items</h3>";
-            $total = 0;
-
-            $items .= '<table class="table table-striped">';
-            $items .= '<thead>';
-            $items .= '<tr>';
-            $items .= '<th scope="col">Image ID</th>';
-            $items .= '<th scope="col">Image</th>';
-            $items .= '<th scope="col">Price</th>';
-            $items .= '<th scope="col">Qty</th>';
-            $items .= '<th scope="col">Size Cost</th>';
-            $items .= '<th scope="col">Base Material Cost</th>';
-            $items .= '<th scope="col">Total</th>';
-            $items .= '</tr>';
-            $items .= '</thead>';
-            $items .= '<tbody>';
-
-            foreach($cart as $k => $item)
-            {
-                $items .= '<tr>';
-                    $items .= '<td>'.  $item->p_id .'</td>';
-                    $items .= '<td><img src="'. $item->p_url .'" style="max-height:200px;max-width:60px;width:auto" /> </td>';
-                    $items .= '<td>$'. $item->p_price .'</td>';
-                    $items .= '<td>'. $item->c_qty .'</td>';
-                    $items .= '<td>$'. $item->ps_price .'</td>';
-                    $items .= '<td>$'. number_format(MAT_PRICE,2) .'</td>';
-                    $items .= '<td>$'. $item->c_final_price .'</td>';
-                $items .= '</tr>';
-                $total += $item->c_final_price;
-            }
-
-            $items .= '</tbody>';
-            $items .= '</table>';
-            
-            $items .= "<b>Total Item Price</b>: $".$total."<br>";
-            $items .= "<b>Final Price</b>: $". ($cart[0]->uc_shipping+$total)."<br>";
-            
-            $msg .= $items ."<hr><br>";
-            
-            $msg .= "<b>Ship to Address</b><br>"
-                    . $cart[0]->uc_full_name."<br>"
-                    . $cart[0]->uc_street_number."<br>"
-                    . $cart[0]->uc_street."<br>"
-                    . $cart[0]->uc_city .",". $cart[0]->uc_state."<br>"
-                    . $cart[0]->uc_country."<br>"
-                    . $cart[0]->uc_zip."<br>"
-                    . "<br><br>"
-                    . "Check your order status - <a targe='_blank' href='".site_url('cart/receipt/'.$this->getCartId())."'>".site_url('cart/receipt/'.$this->getCartId())."</a>";
-        
-            $this->load->library('email');
-            
-            $config['protocol'] = 'sendmail';
-            $config['mailpath'] = '/usr/sbin/sendmail';
-            $config['charset'] = 'iso-8859-1';
-            $config['wordwrap'] = TRUE;
-            $config['mailtype'] = "html";
-
-            $this->email->initialize($config);
-
-
-            $this->email->to($to);
-            $this->email->from('contact@snaggedsocial.com','Snagged Social');
-            $this->email->bcc('contact@snaggedsocial.com,christian@cgnewyork.com');
-
-            $this->email->subject($subject);
-            $this->email->message($msg);
-            if(!$this->email->send()){
-               // print_r($this->email->print_debugger());
+                return $stat->cs_status;
             }
         }
+        return "Unpaid";
+    }
+
+    function emailReceipt($cartId="")
+    {
+        if(!empty($cartId))
+        {
+            $c_id = $this->error->scrubSQL($cartId);
+            $cart = $this->cart->getUserCart($c_id);
+            if($cart->num_rows() != 1)
+            {
+                throw new Exception('Invalid Cart Id');
+            }
+        }
+        else
+        {
+            $cartId = $this->getCartId();
+        }
+
+
+        $cart = $this->getCart( $cartId )->result();
+        $to = $cart[0]->uc_email;
+        $subject = "Snagged Social Receipt - Order #".$cart[0]->uc_id;
+        $msg = "<h3>Snagged Social</h3>"
+                . "<br><br>Receipt"
+                . "<br>"
+                . "<b>Email</b>: ".$cart[0]->uc_email."<br>"
+                . "<b>Payment Date</b>: ".$cart[0]->uc_payment_date."<br>"
+                . "<b>Shipping Details</b>: ".$cart[0]->uc_ship_notes."<br>"
+                . "<b>Shipping Cost</b>: ".$cart[0]->uc_shipping."<br>";
+
+        $items = "<hr><h3>Items</h3>";
+        $total = 0;
+
+        $items .= '<table class="table table-striped">';
+        $items .= '<thead>';
+        $items .= '<tr>';
+        $items .= '<th scope="col">Image ID</th>';
+        $items .= '<th scope="col">Image</th>';
+        $items .= '<th scope="col">Price</th>';
+        $items .= '<th scope="col">Qty</th>';
+        $items .= '<th scope="col">Size Cost</th>';
+        $items .= '<th scope="col">Base Material Cost</th>';
+        $items .= '<th scope="col">Total</th>';
+        $items .= '</tr>';
+        $items .= '</thead>';
+        $items .= '<tbody>';
+
+        foreach($cart as $k => $item)
+        {
+            $items .= '<tr>';
+                $items .= '<td>'.  $item->p_id .'</td>';
+                $items .= '<td><img src="'. $item->p_url .'" style="max-height:200px;max-width:60px;width:auto" /> </td>';
+                $items .= '<td>$'. $item->p_price .'</td>';
+                $items .= '<td>'. $item->c_qty .'</td>';
+                $items .= '<td>$'. $item->ps_price .'</td>';
+                $items .= '<td>$'. number_format(MAT_PRICE,2) .'</td>';
+                $items .= '<td>$'. $item->c_final_price .'</td>';
+            $items .= '</tr>';
+            $total += $item->c_final_price;
+        }
+
+        $items .= '</tbody>';
+        $items .= '</table>';
+
+        $items .= "<b>Total Item Price</b>: $".$total."<br>";
+        $items .= "<b>Final Price</b>: $". ($cart[0]->uc_shipping+$total)."<br>";
+
+        $msg .= $items ."<hr><br>";
+
+        $msg .= "<b>Ship to Address</b><br>"
+                . $cart[0]->uc_full_name."<br>"
+                . $cart[0]->uc_street_number."<br>"
+                . $cart[0]->uc_street."<br>"
+                . $cart[0]->uc_city .",". $cart[0]->uc_state."<br>"
+                . $cart[0]->uc_country."<br>"
+                . $cart[0]->uc_zip."<br>"
+                . "<br><br>"
+                . "Check your order status - <a targe='_blank' href='".site_url('cart/receipt/'.$this->getCartId())."'>".site_url('cart/receipt/'.$this->getCartId())."</a>";
+
+        $this->load->library('email');
+
+        $config['protocol'] = 'sendmail';
+        $config['mailpath'] = '/usr/sbin/sendmail';
+        $config['charset'] = 'iso-8859-1';
+        $config['wordwrap'] = TRUE;
+        $config['mailtype'] = "html";
+
+        $this->email->initialize($config);
+
+
+        $this->email->to($to);
+        $this->email->from('contact@snaggedsocial.com','Snagged Social');
+        $this->email->bcc('contact@snaggedsocial.com,christian@cgnewyork.com');
+
+        $this->email->subject($subject);
+        $this->email->message($msg);
+        if(!$this->email->send()){
+           // print_r($this->email->print_debugger());
+        }
+    }
 	
 
 }
