@@ -297,7 +297,10 @@ class Cart_model extends CI_Model{
         {
             $update['uc_carrier'] = $fields['carrier'];
         }
-		return $this->db->update('ss_user_cart', $update );
+		$upd = $this->db->update('ss_user_cart', $update );
+        $this->error->dbError();
+        print_r( $upd );
+        return $upd;
 	}
 
 	function getCartStatuses()

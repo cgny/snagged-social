@@ -9,7 +9,6 @@ class Error_model extends CI_Model{
 		if(empty($error['message']))
 		{
 			return false;
-
 		}
 		if(!empty($error['message']))
 		{
