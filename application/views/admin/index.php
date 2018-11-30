@@ -21,7 +21,7 @@
 			foreach($carts as $cart)
 			{
 			    $cart_id = $cart->uc_id;
-			    $payouts = $this->admin->getPayoutsByCartId( $cart_id );
+			    $payouts = $this->admin->getPayoutsByCartId( $cart_id )->result();
                 $payout_transfers = "<tr  data-id='1' id='' class='payments_table payments_$cart_id'>
                                                 <th scope=\"col\">#</th>
                                                 <th scope=\"col\">Username</th>
