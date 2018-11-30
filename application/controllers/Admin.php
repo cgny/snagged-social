@@ -114,7 +114,8 @@ class Admin extends CI_Controller
         }
 
 		$upd = $this->cart->updateStatus($fields);
-		echo json_encode( array("data" => array('success' => $upd)));
+		$e_msg = false;
+		echo json_encode( array("data" => array('success' => $upd, "error" => array("message" => $e_msg))));
 
 	}
 
