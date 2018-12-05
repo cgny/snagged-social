@@ -232,10 +232,8 @@ class Cart_model extends CI_Model{
 		{
 			return false;
 		}
-		foreach($data as $k => $v)
-		{
-			$data[$k] = $this->error->scrubSQL($v);
-		}
+		$data = $this->data->cleanData($data);
+
 		$this->db->where('uc_cart_id',$this->getCartId());
 		$this->db->update('ss_user_cart', $data );
 
@@ -248,10 +246,8 @@ class Cart_model extends CI_Model{
 		{
 			return false;
 		}
-		foreach($data as $k => $v)
-		{
-			$data[$k] = $this->error->scrubSQL($v);
-		}
+        $data = $this->data->cleanData($data);
+		
 		$this->db->where('c_cart_id',$this->getCartId());
 		$this->db->update('ss_cart', $data );
 

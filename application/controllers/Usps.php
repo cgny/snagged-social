@@ -22,11 +22,11 @@ class Usps extends CI_Controller
 			'uc_street' => $this->input->post('to_street'),
 			'uc_city' => $this->input->post('to_city'),
 			'uc_state' => $this->input->post('to_state'),
-			'uc_country' => $this->input->post('to_countyr'),
+			'uc_country' => $this->input->post('to_country'),
 			'uc_zip' => $this->input->post('to_zip'),
 		);
 		
-		$this->cart->updateCart($update);
+		$this->cart->updateMasterCart($update);
 		
 		$data['errors']['message'] = false;
 		$this->usps->calculateRate($to_country, $to_zip);
