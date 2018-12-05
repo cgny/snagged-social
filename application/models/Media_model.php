@@ -226,6 +226,7 @@ class Media_model extends CI_Model{
         curl_close($ch);
 
         $info = curl_getinfo($ch);
+        print_r($info);
         if(!isset($info['http_code']))
         {
             return false;
