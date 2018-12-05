@@ -110,7 +110,9 @@ class Admin_model extends CI_Model
         $this->email->message($msg);
         if(!$this->email->send()){
             // print_r($this->email->print_debugger());
+            return false;
         }
+        return true;
     }
 
 }
