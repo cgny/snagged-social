@@ -770,7 +770,7 @@
                                                     <tr>
                                                         <td> <?php echo $gallery_photo->p_id; ?> </td>
                                                         <td> <img style="width:250px" class="" data-p_id="<?php echo $gallery_photo->p_id; ?>" src="<?php echo $gallery_photo->p_url; ?>" alt=""> </td>
-                                                        <td> <input type="text" id="photo_price_'<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
+                                                        <td> <input type="text" id="photo_price_<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
                                                         <td> <button data-p_ig_id="<?php echo $gallery_photo->p_ig_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
                                                         <td> <button data-p_ig_id="<?php echo $gallery_photo->p_ig_id; ?>" class="photo-select-save select-remove is-button">Delete From Gallery</button> </td>
                                                         <td> <button data-p_ig_id="<?php echo $gallery_photo->p_ig_id; ?>" class="photo-select-active select-<?php echo ($gallery_photo->p_active == 1) ? "inactive" : "active"; ?> is-button"><?php echo ($gallery_photo->p_active == 1) ? "Set Inactive" : "Set Active"; ?></button> </td>
