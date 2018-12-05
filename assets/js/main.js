@@ -299,6 +299,7 @@ jQuery(document).ready(function ($) {
             {
                 removeSave(p_ig_id);
                 $(this).removeClass('select-remove');
+                $(this).parent().parent().remove();
             }
         }
         else
@@ -309,6 +310,28 @@ jQuery(document).ready(function ($) {
             }
         }
 	loadMedia();
+    });
+
+
+    $( document ).on( "click", ".photo-select-active", function() {
+        var p_ig_id = $(this).attr('data-p_ig_id');
+        if($(this).hasClass('select-inactive'))
+        {
+            var c = confirm('Do you want to set this photo inactive?');
+            if(c)
+            {
+                //inactive
+                setActiveInactive(p_ig_id,0);
+                $(this).removeClass('select-inactive').addClass('select-active').html('Set Active');
+            }
+        }
+        else
+        {
+            //active
+            setActiveInactive(p_ig_id,1);
+            $(this).removeClass('select-active').addClass('select-inactive').html('Set Inactive');
+        }
+        loadMedia();
     });
 
 
@@ -943,9 +966,6 @@ jQuery(document).ready(function ($) {
     function removeSave(id)
     {
         var success = false;
-        var c = confirm("Remove from your media showcase?")
-        if(c)
-        {
 
             var formData = {
                 'p_ig_id' : id
@@ -973,10 +993,48 @@ jQuery(document).ready(function ($) {
                 // for debug
                 //console.log(data);
             });
-
-        }
         return success;
     }
+
+    function setActiveInactive(id,active)
+    {
+        var success = false;
+
+            var formData = {
+                'p_ig_id'   : id,
+                'active'    : active
+            };
+            $.ajax({
+                type : 'POST',
+                url  : base_url + 'media/setActiveInactive',
+                data : formData,
+                dataType : 'json',
+                encode : true
+            }).done(function (data) {
+                // handle errors
+                if (!data.success) {
+                    if (data.errors.message) {
+                        $('#message-field').addClass('has-error');
+                        $('#message-field').find('.col-lg-10').append('<span class="help-block">' + data.errors.message + '</span>');
+                    }
+                } else {
+                    var is_active = "Inactive";
+                    if(active == 1)
+                    {
+                        is_active = "Active";
+                    }
+                    success = true;
+                    alert('Set to '+is_active);
+                    loadMedia();
+                    getUpdatedGallery();
+                }
+            }).fail(function (data) {
+                // for debug
+                //console.log(data);
+            });
+        return success;
+    }
+
 
     function getTotal() {
         var items = $('.item_totals');
@@ -1192,12 +1250,20 @@ jQuery(document).ready(function ($) {
 
                 for(var x in data.photos)
                 {
+                    var is_active = "inacive";
+                    var set_active = "Set Inactive";
+                    if(data.photos[x].p_active == 0)
+                    {
+                        is_active = "active";
+                        var set_active = "Set Active";
+                    }
                     table += '<tr>'+
                                 '<td> '+ data.photos[x].p_id +'</td>'+
                                 '<td> <img style="width:250px" class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""> </td>'+
                                 '<td> <input type="text" id="photo_price_'+ data.photos[x].p_id +'" data-p_id="'+ data.photos[x].p_id +'" value="'+ data.photos[x].p_price +'" /> <button data-p_id="'+ data.photos[x].p_id +'" class="update_price">Update</button> </td>'+
-                                '<td> <button data-p_ig_id="'+ data.photos[x].p_id +'" class="resync_photo">Resync from Instagram</button> </td>'+
-                                '<td> <button data-p_ig_id="'+ data.photos[x].p_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>'+
+                                '<td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="resync_photo">Resync from Instagram</button> </td>'+
+                                '<td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>'+
+                                '<td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-active select-'+ is_active +' is-button">'+ set_active +'</button> </td>'+
                                 '<td> <a href=""'+ data.photos[x].p_url +'" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>'+
                                 '</tr>';
                         }

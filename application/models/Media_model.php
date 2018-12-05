@@ -102,6 +102,16 @@ class Media_model extends CI_Model{
 		}
 	}
 
+    function setActiveInactive($p_ig_id,$active)
+    {
+        if(!empty($account_id = $this->account->isLogged()))
+        {
+            $this->db->where('p_ig_id',$p_ig_id);
+            $this->db->where('p_a_id',$account_id);
+            return $this->db->update('ss_photos',array('p_active' => $active));
+        }
+    }
+
 	function updateMedia($p_id,$data)
 	{
 		$update = array(

@@ -275,4 +275,22 @@ class Media extends CI_Controller
         $this->media->checkValidMedia();
     }
 
+    function setActiveInactive()
+    {
+        if($this->account->isLogged() == false)
+        {
+            //redirect('/user/logout');
+            exit;
+        }
+        $media_id = $this->input->post('p_ig_id');
+        $active = $this->input->post('active');
+        $data = $this->media->setActiveInactive($media_id,$active);
+        $success = false;
+        if($data == true)
+        {
+            $success = true;
+        }
+        echo json_encode(array("success" => $success ));
+    }
+
 }

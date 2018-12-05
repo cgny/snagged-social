@@ -753,7 +753,8 @@
                                                     <th scope="col">Img</th>
                                                     <th scope="col">Price</th>
                                                     <th scope="col">IG Resync/Update</th>
-                                                    <th scope="col">Remove</th>
+                                                    <th scope="col">Active/Inactive</th>
+                                                    <th scope="col">Delete</th>
                                                     <th scope="col">Link</th>
                                                 </tr>
                                                 </thead>
@@ -769,9 +770,10 @@
                                                     <tr>
                                                         <td> <?php echo $gallery_photo->p_id; ?> </td>
                                                         <td> <img style="width:250px" class="" data-p_id="<?php echo $gallery_photo->p_id; ?>" src="<?php echo $gallery_photo->p_url; ?>" alt=""> </td>
-                                                        <td> <input type="text" id="photo_price_'<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
-                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
-                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_g_id; ?>" class="photo-select-save select-remove is-button">Remove From Media</button> </td>
+                                                        <td> <input type="text" id="photo_price_<?php echo $gallery_photo->p_id; ?>" data-p_id="<?php echo $gallery_photo->p_id; ?>" value="<?php echo $gallery_photo->p_price; ?>" /> <button data-p_id="<?php echo $gallery_photo->p_id; ?>" class="update_price">Update</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_ig_id; ?>" class="resync_photo">Resync from Instagram</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_ig_id; ?>" class="photo-select-save select-remove is-button">Delete From Gallery</button> </td>
+                                                        <td> <button data-p_ig_id="<?php echo $gallery_photo->p_ig_id; ?>" class="photo-select-active select-<?php echo ($gallery_photo->p_active == 1) ? "inactive" : "active"; ?> is-button"><?php echo ($gallery_photo->p_active == 1) ? "Set Inactive" : "Set Active"; ?></button> </td>
                                                         <td> <a href="<?php echo $gallery_photo->p_url; ?>" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>
                                                     </tr>
                                                     <?php
