@@ -75,7 +75,6 @@ class Admin_model extends CI_Model
 
     function sendShippingNotification( $cart_id )
     {
-        echo "SHIP";
         $cart = $this->cart->getCart( $cart_id )->result();
         $this->error->dbError();
         $to = $cart[0]->uc_email;

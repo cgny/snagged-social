@@ -52,7 +52,7 @@ class Media_model extends CI_Model{
 		return true;
 	}
 
-	function getSSMedia($user_id = null,$price_set = true, $limit = 200)
+	function getSSMedia($user_id = null,$price_set = true, $limit = 200, $show_all = false)
 	{
 		if($user_id)
 		{
@@ -62,7 +62,10 @@ class Media_model extends CI_Model{
 		{
 			$this->db->limit($limit);		
 		}
-        $this->db->where('p_deleted',0);
+        if($show_all == false)
+        {
+            $this->db->where('p_deleted',0);
+        }
         if($price_set == true)
         {
             $this->db->where('p_price > ',0);
@@ -192,5 +195,47 @@ class Media_model extends CI_Model{
             }
             return $this->db->get('ss_photo_sizes')->result();
 	}
+
+	function checkValidMedia()
+    {
+        $medias = $this->getSSMedia();
+        foreach($medias as $media)
+        {
+            $response = $this->curlFetchMedia($media->p_url);
+            if($response == false)
+            {
+                $this->updateMedia($media->p_id,array('p_deleted' => 1));
+            }
+
+        }
+    }
+
+    function curlFetchMedia($url)
+    {
+        $ch = curl_init( $url );
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
+        curl_close($ch);
+        if(!isset($info['http_code']))
+        {
+            return false;
+        }
+        elseif(isset($info['http_code']) && $info['http_code'] != 200)
+        {
+            return false;
+        }
+        elseif(isset($info['http_code']) && $info['http_code'] == 200)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }

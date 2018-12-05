@@ -678,6 +678,8 @@ jQuery(document).ready(function ($) {
             return false;
         }
 
+        var btn = $(this);
+
         var tracking = prompt("Tracking number");
         if(tracking == "")
         {
@@ -702,20 +704,22 @@ jQuery(document).ready(function ($) {
             data : formData,
             dataType : 'json',
             encode : true
-        }).done(function (data) {
+        }).done(function (data)
+        {
             // handle errors
-            if (!data.success) {
-                if (data.errors.message) {
-                    result = "Update Failed.";
-                    result_class = "alert-danger";
+            if (!data.success)
+            {
+                if (data.error.message)
+                {
+                    alert(data.error.message);
                 }
-            } else {
-                // display success message
-                result = "Update Successful!";
-                result_class = "alert-success";
             }
-
-            alert(result_class);
+            else
+            {
+                // display success message
+                btn.parent().next().html('Shipped');
+                btn.parent().html('');
+            }
         }).fail(function (data) {
             // for debug
             ////console.log(data);
