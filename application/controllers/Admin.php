@@ -114,13 +114,14 @@ class Admin extends CI_Controller
             }
             $cart_id = ($cart_id) ? $cart_id : null;
             $upd = $this->cart->updateStatus($fields, $cart_id);
+            $ship = false;
             if($tracking)
             {
-                $this->admin->sendShippingNotification( $cart_id );
+                $ship = $this->admin->sendShippingNotification( $cart_id );
             }
             $e_msg = false;
         }
-		echo json_encode( array('success' => $upd, "error" => array("message" => $e_msg)));
+		echo json_encode( array('success' => $upd, "shipped"=> $ship, "error" => array("message" => $e_msg)));
 
 	}
 
