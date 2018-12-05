@@ -88,7 +88,8 @@ class Admin_model extends CI_Model
             . "<b>Shipping Details</b>: ".$cart[0]->uc_ship_notes."<br>"
             . "<b>Carrier</b>: ".$cart[0]->sc_name."<br>"
             . "<b>Tracking</b>: ".$cart[0]->uc_tracking_code ."<br>"
-            . "<b>Tracking URL</b>: <a href='". $cart[0]->sc_url . $cart[0]->uc_tracking_code ."' target='_blank'>". $cart[0]->sc_url . $cart[0]->uc_tracking_code ."</a><br>";
+            . "<b>Tracking URL</b>: <a href='". $cart[0]->sc_url . $cart[0]->uc_tracking_code ."' target='_blank'>". $cart[0]->sc_url . $cart[0]->uc_tracking_code ."</a><br>"
+            . "Check your order status - <a targe='_blank' href='".site_url('cart/receipt/'. $cart[0]->uc_cart_id ) ."'>". site_url('cart/receipt/'.  $cart[0]->uc_cart_id ) ."</a>";
 
         $this->load->library('email');
 
