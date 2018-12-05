@@ -300,15 +300,7 @@ class Account_model extends CI_Model{
                     JOIN ss_user_cart ON ( uc_cart_id = c_cart_id )
                     JOIN ss_cart_statuses ON ( ss_cart_statuses.cs_id = ss_user_cart.uc_status )
                     LEFT JOIN ss_payments ON ( ap_uc_id = ss_user_cart.uc_id AND ap_a_id = $account_id )
-                    WHERE p_id
-                    IN 
-                    (
-                      	SELECT p_id 
-                    	FROM ss_photos 
-                    	JOIN ss_accounts ON (a_id = p_a_id )
-                     	WHERE p_a_id = $account_id
-                     ) 
-                    AND uc_status > 1 
+                    WHERE uc_status > 1 
                     AND p_a_id = $account_id ORDER BY uc_created DESC")->result();
 		return $sales;
 	}
