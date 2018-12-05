@@ -204,7 +204,8 @@ class Media_model extends CI_Model{
         foreach($medias as $media)
         {
             $response = $this->CurlFetchMedia($media->p_url);
-            $imgs[$media->p_id] = $response;
+            $imgs[$media->p_id]['r'] = $response;
+            $imgs[$media->p_id]['url'] = $media->p_url;
             /*
             if($response == false)
             {
