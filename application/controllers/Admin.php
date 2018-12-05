@@ -106,9 +106,12 @@ class Admin extends CI_Controller
 
             $fields = [];
             $fields['status'] = ($status) ? $status : null;
-            $fields['ship_date'] = ($tracking) ? date("Y-m-d") : null;
-            $fields['carrier'] = ($carrier) ? $carrier : null;
-            $fields['tracking'] = $tracking;
+            if($tracking)
+            {
+                $fields['ship_date'] = ($tracking) ? date("Y-m-d") : null;
+                $fields['carrier'] = ($carrier) ? $carrier : null;
+                $fields['tracking'] = $tracking;
+            }
             $cart_id = ($cart_id) ? $cart_id : null;
             $upd = $this->cart->updateStatus($fields, $cart_id);
             if($tracking)
