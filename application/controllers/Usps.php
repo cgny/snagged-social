@@ -26,7 +26,7 @@ class Usps extends CI_Controller
 			'uc_zip' => $this->input->post('to_zip'),
 		);
 		
-		$this->cart->updateCart($update);
+		$this->cart->updateMasterCart($update);
 		
 		$data['errors']['message'] = false;
 		$this->usps->calculateRate($to_country, $to_zip);
