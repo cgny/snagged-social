@@ -155,9 +155,4 @@ class Admin extends CI_Controller
 		echo json_encode( array('success' => $upd));
 	}
 
-	function checkValidMedia()
-    {
-        $this->media->checkValidMedia();
-    }
-
 }
