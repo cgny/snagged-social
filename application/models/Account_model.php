@@ -295,11 +295,11 @@ class Account_model extends CI_Model{
                     DATE_FORMAT(uc_shipping, '%d/ %m/ %Y') as uc_shipping,
                     uc_id,c_qty,uc_status,cs_status,uc_cart_id,p_a_id
                     FROM ss_photos
-                    JOIN ss_cart ON ( p_id = c_p_id ) 
+                    JOIN ss_cart ON ( p_id = c_p_id AND c_a_id = $account_id  ) 
                     JOIN ss_photo_sizes ON ( c_ps_id = ps_id )
                     JOIN ss_user_cart ON ( uc_cart_id = c_cart_id )
                     JOIN ss_cart_statuses ON ( ss_cart_statuses.cs_id = ss_user_cart.uc_status )
-                    LEFT JOIN ss_payments ON (ap_uc_id = ss_user_cart.uc_id)
+                    LEFT JOIN ss_payments ON ( ap_uc_id = ss_user_cart.uc_id AND ap_a_id = $account_id )
                     WHERE p_id
                     IN 
                     (SELECT p_id 
