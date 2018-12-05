@@ -98,7 +98,7 @@ class Admin extends CI_Controller
         $cart_id    = $this->input->post('cart_id');
         $upd = false;
         $e_msg = "No Cart Id";
-        if(empty($cart_id))
+        if(!empty($cart_id))
         {
             $status     = $this->input->post('status');
             $tracking   = $this->input->post('tracking');
