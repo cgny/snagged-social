@@ -613,7 +613,7 @@
                                                 <td> <?php echo $sale->uc_payment_date; ?> </td>
                                                 <td> <?php echo $sale->cs_status; ?> </td>
                                                 <td> <?php echo $sale->p_price; ?> </td>
-                                                <td> <?php echo ($sales->c_qty * $sales->p_price); ?> </td>
+                                                <td> <?php echo ($sale->c_qty * $sale->p_price); ?> </td>
                                                 <td> <?php echo $sale->ap_amount; ?> </td>
                                                 <td> <?php echo $success; ?> </td>
                                             </tr>
