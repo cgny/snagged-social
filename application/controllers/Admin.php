@@ -96,22 +96,30 @@ class Admin extends CI_Controller
 	function updateCart()
 	{
         $cart_id    = $this->input->post('cart_id');
-		$status     = $this->input->post('status');
-		$tracking   = $this->input->post('tracking');
-		$carrier    = $this->input->post('carrier');
-
-		$fields = [];
-		$fields['status'] = ($status) ? $status : null;
-		$fields['ship_date'] = ($tracking) ? date("Y-m-d") : null;
-        $fields['carrier'] = ($carrier) ? $carrier : null;
-        $cart_id = ($cart_id) ? $cart_id : null;
-		$upd = $this->cart->updateStatus($fields, $cart_id);
-        if($tracking)
+        $upd = false;
+        $e_msg = "No Cart Id";
+        if(empty($cart_id))
         {
-            $fields['tracking'] = $tracking;
-            $this->admin->sendShippingNotification( $cart_id );
+            $status     = $this->input->post('status');
+            $tracking   = $this->input->post('tracking');
+            $carrier    = $this->input->post('carrier');
+
+            $fields = [];
+            $fields['status'] = ($status) ? $status : null;
+            if($tracking)
+            {
+                $fields['ship_date'] = ($tracking) ? date("Y-m-d") : null;
+                $fields['carrier'] = ($carrier) ? $carrier : null;
+                $fields['tracking'] = $tracking;
+            }
+            $cart_id = ($cart_id) ? $cart_id : null;
+            $upd = $this->cart->updateStatus($fields, $cart_id);
+            if($tracking)
+            {
+                $this->admin->sendShippingNotification( $cart_id );
+            }
+            $e_msg = false;
         }
-		$e_msg = false;
 		echo json_encode( array('success' => $upd, "error" => array("message" => $e_msg)));
 
 	}
