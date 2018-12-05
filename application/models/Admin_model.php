@@ -104,7 +104,7 @@ class Admin_model extends CI_Model
 
         $this->email->to($to);
         $this->email->from('contact@snaggedsocial.com','Snagged Social');
-        $this->email->bcc('contact@snaggedsocial.com,christian@cgnewyork.com');
+        //$this->email->bcc('contact@snaggedsocial.com,christian@cgnewyork.com');
 
         $this->email->subject($subject);
         $this->email->message($msg);
