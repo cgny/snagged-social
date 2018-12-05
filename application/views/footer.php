@@ -102,8 +102,8 @@
                      $('do_addCard').removeClass('btn-primary').addClass('btn btn-success').text('Reload').attr('id','refresh');
                      $('#stripe_auth').show();
                  }else{
-                     console.log(data.errors.message);
-                     $("#add_card_form_errors").text('An Error Occured! : Code: ' + data.errors.code).css({'color':'red'});
+                     console.log(data.error.message);
+                     $("#add_card_form_errors").text('An Error Occured! : Code: ' + data.error.code).css({'color':'red'});
                  }
 
              },'json');

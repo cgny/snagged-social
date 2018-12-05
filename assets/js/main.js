@@ -649,7 +649,7 @@ jQuery(document).ready(function ($) {
             }
 			
 			$('#update_result').html(result).addClass(result_class);
-            window.load( base_url+'/#user-account' );
+            window.open( base_url+'/#user-account' );
         }).fail(function (data) {
             // for debug
             ////console.log(data);
