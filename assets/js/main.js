@@ -704,19 +704,22 @@ jQuery(document).ready(function ($) {
             data : formData,
             dataType : 'json',
             encode : true
-        }).done(function (data) {
+        }).done(function (data)
+        {
             // handle errors
-            if (!data.success) {
-                if (data.errors.message) {
-                    alert(data.errors.message);
+            if (!data.success)
+            {
+                if (data.error.message)
+                {
+                    alert(data.error.message);
                 }
-            } else {
-                // display success message
-                btn.parent().html('');
-                btn.parent().next().html('Shipped');
             }
-
-            alert(result_class);
+            else
+            {
+                // display success message
+                btn.parent().next().html('Shipped');
+                btn.parent().html('');
+            }
         }).fail(function (data) {
             // for debug
             ////console.log(data);

@@ -114,7 +114,7 @@ class Admin extends CI_Controller
 
 		$upd = $this->cart->updateStatus($fields, $cart_id);
 		$e_msg = false;
-		echo json_encode( array("data" => array('success' => $upd, "error" => array("message" => $e_msg))));
+		echo json_encode( array('success' => $upd, "error" => array("message" => $e_msg)));
 
 	}
 
@@ -133,7 +133,7 @@ class Admin extends CI_Controller
 		);
 
 		$upd = $this->admin->updateItem($item_id, $data);
-		echo json_encode( array("data" => array('success' => $upd)));
+		echo json_encode( array('success' => $upd));
 	}
 
 	function doUpdateAccount()
@@ -152,7 +152,7 @@ class Admin extends CI_Controller
 		);
 
 		$upd = $this->account->updateAccount($a_id, $data);
-		echo json_encode( array("data" => array('success' => $upd)));
+		echo json_encode( array('success' => $upd));
 	}
 
 	function checkValidMedia()

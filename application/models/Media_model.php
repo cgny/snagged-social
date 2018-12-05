@@ -199,34 +199,27 @@ class Media_model extends CI_Model{
 	function checkValidMedia()
     {
         $medias = $this->getSSMedia();
-
-        $imgs = [];
         foreach($medias as $media)
         {
             $response = $this->curlFetchMedia($media->p_url);
-            $imgs[$media->p_id]['r'] = $response;
-            $imgs[$media->p_id]['url'] = $media->p_url;
-            /*
             if($response == false)
             {
                 $this->updateMedia($media->p_id,array('p_deleted' => 1));
             }
-            */
+
         }
-        print_r($imgs);
     }
 
     function curlFetchMedia($url)
     {
         $ch = curl_init( $url );
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POST, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
 
         $info = curl_getinfo($ch);
         curl_close($ch);
-        print_r($info);
         if(!isset($info['http_code']))
         {
             return false;
