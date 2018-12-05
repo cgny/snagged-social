@@ -65,6 +65,8 @@
                 <th scope="col">Username</th>
                 <th scope="col">Photo</th>
                 <th scope="col">Qty</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
                 <th scope="col">Payout</th>
                 <th scope="col">Success</th>
             </tr>
@@ -80,6 +82,8 @@
 			      <td>'. $payout->a_ig_username .'</td>
 			      <td>'. $payout->ap_p_id .'</td>
 			      <td>'. $payout->ap_qty .'</td>
+			      <td>'. $payout->p_price .'</td>
+			      <td>'. ($payout->ap_qty * $payout->p_price) .'</td>
 			      <td>'. $payout->ap_amount .'</td>
 			     <td>'. $payout_success .'</td>
 			    </tr>';
