@@ -306,7 +306,6 @@ class Account_model extends CI_Model{
                       	SELECT p_id 
                     	FROM ss_photos 
                     	JOIN ss_accounts ON (a_id = p_a_id )
-                     	JOIN ss_photo_sizes ON ( c_ps_id = ps_id )
                      	WHERE p_a_id = $account_id
                      ) 
                     AND uc_status > 1 

@@ -85,7 +85,7 @@
                                                             <td> <?php echo "<img src='". $item->p_url."' style='max-height:200px;max-width:60px;width:auto' />"; ?> </td>
                                                             <td> $<?php echo $item->p_price; ?> </td>
                                                             <td> <?php echo $item->c_qty; ?> </td>
-                                                            <td> (<?pphp echo $item->ps_size; ?>)  $<?php echo $item->ps_price; ?> </td>
+                                                            <td> (<?php echo $item->ps_size; ?>)  $<?php echo $item->ps_price; ?> </td>
                                                             <td> $<?php echo number_format(MAT_PRICE,2); ?> </td>
                                                             <td> $<?php echo $item->c_final_price; ?> </td>
                                                         </tr>
