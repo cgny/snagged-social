@@ -290,23 +290,19 @@ class Account_model extends CI_Model{
 	function findMySales()
 	{
 		$account_id = $this->isLogged();
-		$sales = $this->db->query("SELECT p_id,p_high_url,ps_size,p_price,ap_amount,ap_success,
+		$qry = "SELECT p_id,p_high_url,ps_size,p_price,ap_amount,ap_success,
                     DATE_FORMAT(uc_payment_date, '%d/ %m/ %Y') as uc_payment_date,
                     DATE_FORMAT(uc_shipping, '%d/ %m/ %Y') as uc_shipping,
                     uc_id,c_qty,uc_status,cs_status,uc_cart_id,p_a_id
                     FROM ss_photos
-                    JOIN ss_cart ON ( p_id = c_p_id ) 
-                    JOIN ss_photo_sizes ON ( c_ps_id = ps_id )
-                    JOIN ss_user_cart ON ( uc_cart_id = c_cart_id )
+                    JOIN ss_payments ON (  ap_a_id = $account_id AND ap_p_id = p_id )
+                    JOIN ss_user_cart ON ( ap_uc_id = ss_user_cart.uc_id)
+                    JOIN ss_cart ON ( p_id = c_p_id AND uc_cart_id = c_cart_id AND ap_c_id = c_id )
+                    JOIN ss_photo_sizes ON ( c_ps_id = ps_id ) 
                     JOIN ss_cart_statuses ON ( ss_cart_statuses.cs_id = ss_user_cart.uc_status )
-                    LEFT JOIN ss_payments ON (ap_uc_id = ss_user_cart.uc_id)
-                    WHERE p_id
-                    IN 
-                    (SELECT p_id 
-                    FROM ss_photos 
-                    JOIN ss_accounts ON (a_id = p_a_id ) WHERE p_a_id = $account_id) 
-                    AND uc_status > 1 
-                    AND p_a_id = $account_id ORDER BY uc_created DESC")->result();
+                    WHERE uc_status > 1 
+                    AND p_a_id = $account_id ORDER BY uc_created DESC";
+		$sales = $this->db->query($qry)->result();
 		return $sales;
 	}
         
