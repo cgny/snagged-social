@@ -104,8 +104,7 @@ class Account_model extends CI_Model{
         $result['error']['message'] = true;
         $result['error']['code'] = -1;
 
-        $account = $this->account->getAccountById( $account_id );
-        if(empty($account) || strlen($account) < 10)
+        if(strlen($acct_info->a_phone) < 10)
 		{
             $result['error']['code'] = $result['error']['message'] = "Please add a phone number on your account";
 			return $result;
