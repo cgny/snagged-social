@@ -203,7 +203,7 @@ class Media_model extends CI_Model{
         $imgs = [];
         foreach($medias as $media)
         {
-            $response = $this->CurlFetchMedia($media->p_url);
+            $response = $this->curlFetchMedia($media->p_url);
             $imgs[$media->p_id]['r'] = $response;
             $imgs[$media->p_id]['url'] = $media->p_url;
             /*
@@ -223,9 +223,9 @@ class Media_model extends CI_Model{
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
-        curl_close($ch);
 
         $info = curl_getinfo($ch);
+        curl_close($ch);
         print_r($info);
         if(!isset($info['http_code']))
         {
