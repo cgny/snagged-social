@@ -12,8 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Place favicon.ico in the root directory -->
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="shortcut icon" type="image/ico" href="images/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+    <link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" />
 
     <link rel="stylesheet" href="<?php echo CSS_INCLUDE; ?>bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo CSS_INCLUDE; ?>owl.carousel.min.css">
