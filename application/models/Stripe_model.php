@@ -52,18 +52,30 @@ class Stripe_model extends CI_Model{
         $cust = new \Stripe\Customer();
 
         try{
-            $customer = $cust->create(
-            array(
-                'email'         => $email,
-                'description'   => $description,
-                )
-            );
+            if(!empty($account->stripe_id))
+            {
+                //update customer
+                $cu = \Stripe\Customer::retrieve( $account->stripe_id );
+                $cu->description = $description;
+                $cu->email = $email; // obtained with Stripe.js
+                $cu->save();
+            }
+            else
+            {
+                //create customer
+                $customer = $cust->create(
+                    array(
+                        'email'         => $email,
+                        'description'   => $description,
+                    )
+                );
 
-            $this->account->updateAccount($account->a_id,
-                array(
-                    'stripe_id' => $customer->id
-                )
-            );
+                $this->account->updateAccount($account->a_id,
+                    array(
+                        'stripe_id' => $customer->id
+                    )
+                );
+            }
             $success = true;
             $error = false;
         }
@@ -156,6 +168,59 @@ class Stripe_model extends CI_Model{
             "error"     => $error
         );
 	}
+
+    function updateStripeAccount( $stripe = "" )
+    {
+        if(empty($stripe))
+        {
+            $stripe = new \Stripe\Stripe;
+            $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
+        }
+
+        $account = $this->account->getAccountById( $this->account->isLogged() );
+
+        try {
+            $acct = \Stripe\Account::retrieve($account->stripe_user_id);
+        }
+        catch (Exception $e)
+        {
+            throw new Exception("Account Not Found");
+        }
+
+        try{
+            $acct->tos_acceptance->email = $account->a_email;
+            $acct->tos_acceptance->country = $account->a_country;
+            $acct->tos_acceptance->business_name = $account->business_name;
+            $acct->tos_acceptance->business_url = $account->business_url;
+            $acct->tos_acceptance->legal_entity = array(
+                'phone_number' => $account->a_phone,
+                'address' => array(
+                    'line1'         => $account->a_address_1,
+                    'line2'         => $account->a_address_2,
+                    'city'          => $account->a_city,
+                    'state'         => $account->a_state,
+                    'postal_code'   => $account->a_postal_code,
+                ),
+                'business_tax_id' => $account->a_tax_id
+            );
+            $acct->save();
+
+            $account = true;
+            $success = true;
+            $error = false;
+        }
+        catch (Exception $e)
+        {
+            $success = $account = false;
+            $error = $e->getMessage();
+        }
+
+        return array(
+            "account"   => $account,
+            "success"   => $success,
+            "error"     => $error
+        );
+    }
 
 	function processPayment($token, $amount, $stripe_email = "")
     {

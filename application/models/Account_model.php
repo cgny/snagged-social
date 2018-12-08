@@ -121,10 +121,12 @@ class Account_model extends CI_Model{
 			{
                 $result['acct_success'] = $new_account['error'];
 			}
+            $result['acct_update'] = false;
         }
         else
 		{
             $result['acct_success'] = "Exists";
+            $result['acct_update'] = $this->stripe->updateStripeAccount();
 		}
 
 		if(empty($acct_info->stripe_id))
