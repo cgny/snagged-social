@@ -291,7 +291,13 @@ class Account_model extends CI_Model{
 		$account = $this->getAccountById( $a_id );
 		if(!empty($account->stripe_user_id))
 		{
-            $this->stripe->updateStripeAccount( );
+            $stripe = new \Stripe\Stripe;
+            $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
+            
+            $this->stripe->updateStripeAccount( $stripe );
+            $this->error->dbError(false, __FILE__, __LINE__, __FUNCTION__);
+
+            $this->stripe->createStripeCustomer( false, $stripe);
             $this->error->dbError(false, __FILE__, __LINE__, __FUNCTION__);
 		}
 
