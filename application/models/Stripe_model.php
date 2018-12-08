@@ -16,10 +16,13 @@ class Stripe_model extends CI_Model{
         return $this->db->get('ss_accounts')->row();
     }
 
-    function createStripeCustomer( $email = "")
+    function createStripeCustomer( $email = "", $stripe = "")
     {
-        $stripe = new \Stripe\Stripe;
-        $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
+        if(empty($stripe))
+        {
+            $stripe = new \Stripe\Stripe;
+            $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
+        }
 
         $account = $this->account->getAccountById( $this->account->isLogged() );
         if(empty($account))
