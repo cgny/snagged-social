@@ -119,6 +119,7 @@ class Account_model extends CI_Model{
             }
             else
 			{
+                $this->error->logError(__FILE__, __LINE__, __FUNCTION__, $new_account['error']);
                 $result['acct_success'] = $new_account['error'];
 			}
             $result['acct_update'] = false;
@@ -171,7 +172,7 @@ class Account_model extends CI_Model{
 			} catch( \Error $e) {
 				$result['error']['message'] = $e->getMessage();
 				$result['error']['code'] = $e->getCode();
-				$this->Error->getException(__FUNCTION__,__LINE__,__FILE__,$e,true);
+                $this->error->logError(__FILE__, __LINE__, __FUNCTION__, $e->getMessage());
 			}
 
 		}else{
@@ -285,12 +286,13 @@ class Account_model extends CI_Model{
 
 		$this->db->where('a_id', $a_id);
 		$upd = $this->db->update('ss_accounts', $data);
-		$this->error->dbError();
+        $this->error->dbError(false, __FILE__, __LINE__, __FUNCTION__);
 
 		$account = $this->getAccountById( $a_id );
 		if(!empty($account->stripe_user_id))
 		{
             $this->stripe->updateStripeAccount( );
+            $this->error->dbError(false, __FILE__, __LINE__, __FUNCTION__);
 		}
 
 		return $upd;
@@ -312,6 +314,7 @@ class Account_model extends CI_Model{
                     WHERE uc_status > 1 
                     AND p_a_id = $account_id ORDER BY uc_created DESC";
 		$sales = $this->db->query($qry)->result();
+        $this->error->dbError(false, __FILE__, __LINE__, __FUNCTION__, $qry);
 		return $sales;
 	}
         

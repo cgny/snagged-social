@@ -109,38 +109,40 @@ class Stripe_model extends CI_Model{
         $ssn_last_4 = (empty($ssn_last_4)) ? null : $ssn_last_4;
 
 		$acct = new \Stripe\Account;
+		$acct_array = array(
+            'email' => $email,
+            'country' => $account->a_country,
+            'type' => 'custom',
+            'business_name' => $account->a_business_name,
+            'business_url' => $account->business_url,
+            'legal_entity' => array(
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'ssn_last_4' => $ssn_last_4,
+                'phone_number' => $account->a_phone,
+                'address' => array(
+                    'line1' => $account->a_address_1,
+                    'line2' => $account->a_address_2,
+                    'city' => $account->a_city,
+                    'state' => $account->a_state,
+                    'postal_code' => $account->a_postal_code,
+                ),
+                'type' => "individual",
+                'dob' => array(
+                    'month' => $account->a_dob_m,
+                    'day' => $account->a_dob_d,
+                    'year' => $account->a_dob_y,
+                ),
+                'business_tax_id' => $account->a_tax_id,
+                'business_vat_id' => $account->a_vat_id,
+
+            ),
+            'default_currency' => $account->a_currency,
+        );
+
 		try {
             $new_account = $acct->create(
-                array(
-                    'email' => $email,
-                    'country' => $account->a_country,
-                    'type' => 'custom',
-                    'business_name' => $account->a_business_name,
-                    'business_url' => $account->business_url,
-                    'legal_entity' => array(
-                        'first_name' => $first_name,
-                        'last_name' => $last_name,
-                        'ssn_last_4' => $ssn_last_4,
-                        'phone_number' => $account->a_phone,
-                        'address' => array(
-                            'line1' => $account->a_address_1,
-                            'line2' => $account->a_address_2,
-                            'city' => $account->a_city,
-                            'state' => $account->a_state,
-                            'postal_code' => $account->a_postal_code,
-                        ),
-                        'type' => "individual",
-                        'dob' => array(
-                            'month' => $account->a_dob_m,
-                            'day' => $account->a_dob_d,
-                            'year' => $account->a_dob_y,
-                        ),
-                        'business_tax_id' => $account->a_tax_id,
-                        'business_vat_id' => $account->a_vat_id,
-
-                    ),
-                    'default_currency' => $account->a_currency,
-                )
+                $acct_array
             );
 
             $acct = \Stripe\Account::retrieve( $new_account->id );
@@ -165,7 +167,8 @@ class Stripe_model extends CI_Model{
         return array(
             "account"   => $account,
             "success"   => $success,
-            "error"     => $error
+            "error"     => $error,
+            "acct"      => $acct_array
         );
 	}
 
@@ -211,8 +214,9 @@ class Stripe_model extends CI_Model{
         }
         catch (Exception $e)
         {
-            $success = $account = false;
             $error = $e->getMessage();
+            $this->error->logError( __FILE__, __LINE__, __FUNCTION__, $error);
+            $success = $account = false;
         }
 
         return array(
@@ -240,7 +244,7 @@ class Stripe_model extends CI_Model{
                     $this->createStripeCustomer($stripe_email);
                 }
             } catch (Exception $e) {
-                $this->error->sendError(__FILE__, __LINE__, $e->getMessage());
+                $this->error->logError( __FILE__, __LINE__, __FUNCTION__, $e->getMessage());
                 //print_r($e->getMessage());
             }
         }
@@ -330,6 +334,7 @@ class Stripe_model extends CI_Model{
 
             if(empty($payout))
             {
+                $this->error->logError( __FILE__, __LINE__, __FUNCTION__, "Unsuccessul Transfer", $stripe_id);
                 throw new Exception("Unsuccessul Transfer");
             }
 
@@ -350,6 +355,7 @@ class Stripe_model extends CI_Model{
                 "ap_error"      => $transfer_err
             );
             $this->db->insert("ss_payments",$insert);
+            $this->error->dbError(false, __FILE__, __LINE__, __FUNCTION__, $insert);
         }
         
         function sendMissingStripeIdEmail($account_id)
