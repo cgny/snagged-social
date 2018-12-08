@@ -286,6 +286,13 @@ class Account_model extends CI_Model{
 		$this->db->where('a_id', $a_id);
 		$upd = $this->db->update('ss_accounts', $data);
 		$this->error->dbError();
+
+		$account = $this->getAccountById( $a_id );
+		if(!empty($account->stripe_user_id))
+		{
+            $this->stripe->updateStripeAccount( );
+		}
+
 		return $upd;
 	}
 
