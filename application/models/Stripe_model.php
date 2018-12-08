@@ -52,18 +52,30 @@ class Stripe_model extends CI_Model{
         $cust = new \Stripe\Customer();
 
         try{
-            $customer = $cust->create(
-            array(
-                'email'         => $email,
-                'description'   => $description,
-                )
-            );
+            if(!empty($account->stripe_id))
+            {
+                //update customer
+                $cu = \Stripe\Customer::retrieve( $account->stripe_id );
+                $cu->description = $description;
+                $cu->email = $email;
+                $cu->save();
+            }
+            else
+            {
+                //create customer
+                $customer = $cust->create(
+                    array(
+                        'email'         => $email,
+                        'description'   => $description,
+                    )
+                );
 
-            $this->account->updateAccount($account->a_id,
-                array(
-                    'stripe_id' => $customer->id
-                )
-            );
+                $this->account->updateAccount($account->a_id,
+                    array(
+                        'stripe_id' => $customer->id
+                    )
+                );
+            }
             $success = true;
             $error = false;
         }
@@ -97,38 +109,40 @@ class Stripe_model extends CI_Model{
         $ssn_last_4 = (empty($ssn_last_4)) ? null : $ssn_last_4;
 
 		$acct = new \Stripe\Account;
+		$acct_array = array(
+            'email' => $email,
+            'country' => $account->a_country,
+            'type' => 'custom',
+            'business_name' => $account->a_business_name,
+            'business_url' => $account->business_url,
+            'legal_entity' => array(
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'ssn_last_4' => $ssn_last_4,
+                'phone_number' => $account->a_phone,
+                'address' => array(
+                    'line1' => $account->a_address_1,
+                    'line2' => $account->a_address_2,
+                    'city' => $account->a_city,
+                    'state' => $account->a_state,
+                    'postal_code' => $account->a_postal_code,
+                ),
+                'type' => "individual",
+                'dob' => array(
+                    'month' => $account->a_dob_m,
+                    'day' => $account->a_dob_d,
+                    'year' => $account->a_dob_y,
+                ),
+                'business_tax_id' => $account->a_tax_id,
+                'business_vat_id' => $account->a_vat_id,
+
+            ),
+            'default_currency' => $account->a_currency,
+        );
+
 		try {
             $new_account = $acct->create(
-                array(
-                    'email' => $email,
-                    'country' => $account->a_country,
-                    'type' => 'custom',
-                    'business_name' => $account->a_business_name,
-                    'business_url' => $account->business_url,
-                    'legal_entity' => array(
-                        'first_name' => $first_name,
-                        'last_name' => $last_name,
-                        'ssn_last_4' => $ssn_last_4,
-                        'phone_number' => $account->a_phone,
-                        'address' => array(
-                            'line1' => $account->a_address_1,
-                            'line2' => $account->a_address_2,
-                            'city' => $account->a_city,
-                            'state' => $account->a_state,
-                            'postal_code' => $account->a_postal_code,
-                        ),
-                        'type' => "individual",
-                        'dob' => array(
-                            'month' => $account->a_dob_m,
-                            'day' => $account->a_dob_d,
-                            'year' => $account->a_dob_y,
-                        ),
-                        'business_tax_id' => $account->a_tax_id,
-                        'business_vat_id' => $account->a_vat_id,
-
-                    ),
-                    'default_currency' => $account->a_currency,
-                )
+                $acct_array
             );
 
             $acct = \Stripe\Account::retrieve( $new_account->id );
@@ -153,9 +167,82 @@ class Stripe_model extends CI_Model{
         return array(
             "account"   => $account,
             "success"   => $success,
-            "error"     => $error
+            "error"     => $error,
+            "acct"      => $acct_array
         );
 	}
+
+    function updateStripeAccount( $stripe = "" )
+    {
+        if(empty($stripe))
+        {
+            $stripe = new \Stripe\Stripe;
+            $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
+        }
+
+        $account = $this->account->getAccountById( $this->account->isLogged() );
+
+        try {
+            $acct = \Stripe\Account::retrieve($account->stripe_user_id);
+        }
+        catch (Exception $e)
+        {
+            throw new Exception("Account Not Found");
+        }
+
+        try{
+            if(!empty($account->a_email))
+            $acct->email = $account->a_email;
+
+            if(!empty($account->business_name))
+            $acct->business_name = $account->business_name;
+
+            if(!empty($account->business_url))
+            $acct->business_url = $account->business_url;
+
+            if(!empty($account->a_phone))
+            $acct->legal_entity->phone_number = $account->a_phone;
+
+            if(!empty($account->a_tax_id))
+            $acct->legal_entity->business_tax_id = $account->a_tax_id;
+
+            if(!empty($account->a_address_1))
+            $acct->legal_entity->address->line1 = $account->a_address_1;
+
+            if(!empty($account->a_address_2))
+            $acct->legal_entity->address->line2 = $account->a_address_2;
+
+            if(!empty($account->a_city))
+            $acct->legal_entity->address->city = $account->a_city;
+
+            if(!empty($account->a_state))
+            $acct->legal_entity->address->state = $account->a_state;
+
+            if(!empty($account->a_postal_code))
+            $acct->legal_entity->address->postal_code = $account->a_postal_code;
+
+            if(!empty($account->a_country))
+            $acct->legal_entity->address->country = $account->a_country;
+
+            $acct->save();
+
+            $account = true;
+            $success = true;
+            $error = false;
+        }
+        catch (Exception $e)
+        {
+            $error = $e->getMessage();
+            $this->error->logError( __FILE__, __LINE__, __FUNCTION__, $error);
+            $success = $account = false;
+        }
+
+        return array(
+            "account"   => $account,
+            "success"   => $success,
+            "error"     => $error
+        );
+    }
 
 	function processPayment($token, $amount, $stripe_email = "")
     {
@@ -175,7 +262,7 @@ class Stripe_model extends CI_Model{
                     $this->createStripeCustomer($stripe_email);
                 }
             } catch (Exception $e) {
-                $this->error->sendError(__FILE__, __LINE__, $e->getMessage());
+                $this->error->logError( __FILE__, __LINE__, __FUNCTION__, $e->getMessage());
                 //print_r($e->getMessage());
             }
         }
@@ -265,6 +352,7 @@ class Stripe_model extends CI_Model{
 
             if(empty($payout))
             {
+                $this->error->logError( __FILE__, __LINE__, __FUNCTION__, "Unsuccessul Transfer", $stripe_id);
                 throw new Exception("Unsuccessul Transfer");
             }
 
@@ -285,6 +373,7 @@ class Stripe_model extends CI_Model{
                 "ap_error"      => $transfer_err
             );
             $this->db->insert("ss_payments",$insert);
+            $this->error->dbError(false, __FILE__, __LINE__, __FUNCTION__, $insert);
         }
         
         function sendMissingStripeIdEmail($account_id)

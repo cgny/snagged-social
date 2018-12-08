@@ -347,7 +347,7 @@
                                             $currency_field = "<select id='currency' class='form-control'>";
                                             foreach($currencies['currency'] as $code => $currency)
                                             {
-                                                if($user->a_currency == $currency)
+                                                if($user->a_currency == $code)
                                                 {
                                                     $cu_sel = "selected";
                                                 }
@@ -356,7 +356,7 @@
                                                     $cu_sel = "";
                                                 }
 
-                                                if( empty( $user->a_currency ) && $currency == "USD")
+                                                if( empty( $user->a_currency ) && $code == "USD")
                                                 {
                                                     $cu_sel = "selected";
                                                 }
@@ -875,7 +875,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">Last 4 SSN (US Only)</label>
                                     <div class="col-lg-1">
-                                        <input type="text" maxlength="4" size="20" class="form-control" name="ssn_last_4" id="ssn_last_4" placeholder=""/>
+                                        <input type="text" maxlength="4" size="20" class="form-control" name="ssn_last_4" id="ssn_last_4" placeholder=""/> (Not saved)
                                     </div>
                                 </div>
 
