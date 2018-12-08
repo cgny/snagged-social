@@ -585,6 +585,8 @@
                                             <th scope="col">Qty</th>
                                             <th scope="col">Purchased</th>
                                             <th scope="col">Status</th>
+                                            <th scope="col">Price</th>
+                                            <th scope="col">Total</th>
                                             <th scope="col">Profit</th>
                                             <th scope="col">Payout</th>
                                         </tr>
@@ -600,6 +602,7 @@
                                             {
                                                 $success = "Sent";
                                             }
+                                            $total = ($sale->c_qty * $sale->p_price);
 
                                             ?>
                                             <tr>
@@ -610,7 +613,9 @@
                                                 <td> <?php echo $sale->c_qty; ?> </td>
                                                 <td> <?php echo $sale->uc_payment_date; ?> </td>
                                                 <td> <?php echo $sale->cs_status; ?> </td>
-                                                <td> <?php echo $sale->ap_amount; ?> </td>
+                                                <td>$ <?php echo $sale->p_price; ?> </td>
+                                                <td>$ <?php echo number_format($total,2); ?> </td>
+                                                <td>$ <?php echo $sale->ap_amount; ?> </td>
                                                 <td> <?php echo $success; ?> </td>
                                             </tr>
                                             <?php

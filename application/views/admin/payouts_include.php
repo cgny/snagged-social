@@ -15,6 +15,8 @@ foreach($carts as $cart)
                                                 <th scope=\"col\">Username</th>
                                                 <th scope=\"col\">Photo</th>
                                                 <th scope=\"col\">Qty</th>
+                                                <th scope=\"col\">Price</th>
+                                                <th scope=\"col\">Total</th>
                                                 <th scope=\"col\">Payout</th>
                                                 <th scope=\"col\">Success</th>
                                             </tr>";
@@ -26,7 +28,9 @@ foreach($carts as $cart)
                                               <td>'. $payout->a_ig_username .'</td>
                                               <td>'. $payout->ap_p_id .'</td>
                                               <td>'. $payout->ap_qty .'</td>
-                                              <td>'. $payout->ap_amount .'</td>		      
+                                              <td>$'. $payout->p_price .'</td>		      
+                                              <td>$'. ($payout->p_price * $payout->ap_qty) .'</td>		      
+                                              <td>$'. $payout->ap_amount .'</td>		      
                                               <td>'. $success .'</td>			      
                                             </tr>';
 
