@@ -939,8 +939,9 @@
                                         <div class="form-group">
 									        <label class="col-lg-2 control-label">Current Card</label>
 									        <div class="col-lg-3">
-                                                <span id="last4"><?php echo $user->stripe_card_num; ?></span>
-									        </div>
+                                                <?php $last4 = ( $user->stripe_card_num ) ? $user->stripe_card_num : "No card added"; ?>
+                                                <input type="text" readonly="readonly" maxlength="4" size="20" class="form-control"  name="last4" id="last4" placeholder="" value="<?php echo $last4; ?>" />
+                                            </div>
 								        </div>
 
                                 <div class="form-group">
