@@ -690,7 +690,7 @@
                                                 <td> <?php echo $order->uc_created; ?> </td>
                                                 <td> <?php echo $order->uc_shipping; ?> </td>
                                                 <td> <?php echo $order->cs_status; ?> </td>
-                                                <td> <a href="<?php echo site_url('cart/receipt/' . $orders->uc_cart_id); ?>" target="_blank">View</a></td>
+                                                <td> <a href="<?php echo site_url('cart/receipt/' . $order->uc_cart_id); ?>" target="_blank">View</a></td>
                                             </tr>
                                             <?php
                                         }
