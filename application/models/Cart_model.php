@@ -187,10 +187,10 @@ class Cart_model extends CI_Model{
                         . "cs_status,"
                         . "uc_id,"
                         . "uc_a_id,"
-                        . "DATE_FORMAT(uc_created, '%d/ %m/ %Y') as uc_created,"
+                        . "DATE_FORMAT(uc_created, '%m/ %d/ %Y') as uc_created,"
                         . "uc_updated,"
                         . "uc_status,"
-                        . "DATE_FORMAT(uc_shipping, '%d/ %m/ %Y') as uc_shipping");
+                        . "DATE_FORMAT(uc_shipping, '%m/ %d/ %Y') as uc_shipping");
 		$this->db->join("ss_accounts","ss_user_cart.uc_a_id = ss_accounts.a_id","left");
 		$this->db->join("ss_cart_statuses","ss_cart_statuses.cs_id = ss_user_cart.uc_status");
 		if($limit)
@@ -201,6 +201,7 @@ class Cart_model extends CI_Model{
 		if($user_id)
 		{
 			$this->db->where('uc_a_id',$user_id);
+            $this->db->where('uc_status >',1);
 		}
 		$this->db->where('uc_cart_id !=','');
 		$r = $this->db->get('ss_user_cart')->result();
