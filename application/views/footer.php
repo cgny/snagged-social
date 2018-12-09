@@ -67,7 +67,6 @@
              $("#add_card_form_errors").text(response.error.message);
              $('#clockBack').fadeOut();
          } else {
-             $("#add_card_form_errors").text('Adding...');
              var form$ = $("#add_card");
              // token contains id, last4, and card type
              var token = response['id'];
@@ -89,6 +88,7 @@
              {
                  $("#add_card_form_errors").html('').css({'color':'green'});
              }
+             $("#add_card_form_errors").text('Adding Card...');
 
              $.post('<?php echo site_url(); ?>/account/addCard',{
                  stripeToken:stripeToken,
