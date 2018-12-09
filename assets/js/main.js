@@ -622,6 +622,11 @@ jQuery(document).ready(function ($) {
             return false;
         }
 
+        if (!formData.phone || formData.phone.length < 10) {
+            $('#phone').addClass('alert-danger');
+            return false;
+        }
+
         $('#update_result').html('Working...');
 
 		$('#email').removeClass('alert-danger');
