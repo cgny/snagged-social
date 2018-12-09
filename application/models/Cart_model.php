@@ -186,6 +186,7 @@ class Cart_model extends CI_Model{
                         . "uc_cart_id,"
                         . "cs_status,"
                         . "uc_id,"
+                        . "uc_a_id,"
                         . "DATE_FORMAT(uc_created, '%d/ %m/ %Y') as uc_created,"
                         . "uc_updated,"
                         . "uc_status,"
@@ -201,7 +202,9 @@ class Cart_model extends CI_Model{
 		{
 			$this->db->where('uc_a_id',$user_id);
 		}
-		return $this->db->get('ss_user_cart')->result();
+		$this->db->where('uc_cart_id !=','');
+		$r = $this->db->get('ss_user_cart')->result();
+		return $r;
 	}
 
 	function getCartItem($id)
