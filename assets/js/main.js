@@ -622,6 +622,8 @@ jQuery(document).ready(function ($) {
             return false;
         }
 
+        $('#update_result').html('Working...');
+
 		$('#email').removeClass('alert-danger');
 		$('#business_name').removeClass('alert-danger');
 		$('#email').removeClass('alert-danger');
@@ -761,6 +763,7 @@ jQuery(document).ready(function ($) {
     
     function getInstagramMedia()
     {
+        $('#instagram .row.photos').html('Loading...');
         $.ajax({
             type : 'POST',
             url  : base_url + 'media/recentMedia',
@@ -769,7 +772,6 @@ jQuery(document).ready(function ($) {
             encode : true
         }).done(function (data) {
             // handle errors
-            $('#instagram .row.photos').html('Loading...');
             if (!data.success) {
                 if (data.errors.message) {
                     $('#message-field').addClass('has-error');
@@ -1286,6 +1288,7 @@ jQuery(document).ready(function ($) {
 	
 	function getUpdatedGallery() {
 		//getGallery
+        $('#gallery .row.photos').html('Loading...');
 		 $.ajax({
                 type : 'POST',
                 url  : base_url + 'media/getGallery',
