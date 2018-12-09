@@ -946,7 +946,7 @@
                                 <div class="form-group">
                                     <label class="col-lg-2 control-label">Submit</label>
                                     <div class="col-lg-6">
-                                        Buy Adding your card, you agree to <a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripes agreement.</a>
+                                        Buy Adding your card, you agree to <b><a href="https://stripe.com/us/connect-account/legal" target="_blank">Stripes agreement.</a></b>
                                         <br>
                                         <button class="btn btn-primary" id="do_addCard"  onClick="return false;" type="submit">Add Card</button>
                                     </div>

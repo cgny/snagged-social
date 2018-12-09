@@ -293,7 +293,7 @@ class Account_model extends CI_Model{
 		{
             $stripe = new \Stripe\Stripe;
             $stripe->setApiKey(STRIPE_SECRET_TEST_KEY);
-            
+
             $this->stripe->updateStripeAccount( $stripe );
             $this->error->dbError(false, __FILE__, __LINE__, __FUNCTION__);
 

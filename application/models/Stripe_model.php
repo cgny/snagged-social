@@ -195,37 +195,59 @@ class Stripe_model extends CI_Model{
 
         try{
             if(!empty($account->a_email))
-            $acct->email = $account->a_email;
+            {
+                $acct->email = $account->a_email;
+            }
 
             if(!empty($account->business_name))
-            $acct->business_name = $account->business_name;
+            {
+                $acct->business_name = $account->business_name;
+            }
 
             if(!empty($account->business_url))
-            $acct->business_url = $account->business_url;
+            {
+                $acct->business_url = $account->business_url;
+            }
 
             if(!empty($account->a_phone))
-            $acct->legal_entity->phone_number = $account->a_phone;
+            {
+                $acct->legal_entity->phone_number = $account->a_phone;
+            }
 
             if(!empty($account->a_tax_id))
-            $acct->legal_entity->business_tax_id = $account->a_tax_id;
+            {
+                $acct->legal_entity->business_tax_id = $account->a_tax_id;
+            }
 
             if(!empty($account->a_address_1))
-            $acct->legal_entity->address->line1 = $account->a_address_1;
+            {
+                $acct->legal_entity->address->line1 = $account->a_address_1;
+            }
 
             if(!empty($account->a_address_2))
-            $acct->legal_entity->address->line2 = $account->a_address_2;
+            {
+                $acct->legal_entity->address->line2 = $account->a_address_2;
+            }
 
             if(!empty($account->a_city))
-            $acct->legal_entity->address->city = $account->a_city;
+            {
+                $acct->legal_entity->address->city = $account->a_city;
+            }
 
             if(!empty($account->a_state))
-            $acct->legal_entity->address->state = $account->a_state;
+            {
+                $acct->legal_entity->address->state = $account->a_state;
+            }
 
             if(!empty($account->a_postal_code))
-            $acct->legal_entity->address->postal_code = $account->a_postal_code;
+            {
+                $acct->legal_entity->address->postal_code = $account->a_postal_code;
+            }
 
             if(!empty($account->a_country))
-            $acct->legal_entity->address->country = $account->a_country;
+            {
+                $acct->legal_entity->address->country = $account->a_country;
+            }
 
             $acct->save();
 
