@@ -82,12 +82,14 @@ class Cart_model extends CI_Model{
 		if(empty($item->num_rows()))
 		{
 			$data = array(
-				'c_a_id' => $this->account->isLogged(true),
-				'c_p_id' => $p_id,
-				'c_ps_id' => $size_id,
-				'c_cart_id' => $this->getCartId(),
-				'c_base_price' => ($media->p_price+MAT_PRICE+$size->ps_price),
-				'c_final_price' => ($media->p_price+MAT_PRICE+$size->ps_price)
+				'c_a_id'            => $this->account->isLogged(true),
+				'c_p_id'            => $p_id,
+				'c_ps_id'           => $size_id,
+				'c_cart_id'         => $this->getCartId(),
+				'c_photo_price'     => $media->p_price,
+				'c_photo_size_price' => $size->ps_price,
+				'c_base_price'      => ($media->p_price+MAT_PRICE+$size->ps_price),
+				'c_final_price'     => ($media->p_price+MAT_PRICE+$size->ps_price)
 			);
 			return $this->db->insert('ss_cart',$data);
 		}
