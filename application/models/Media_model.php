@@ -60,7 +60,8 @@ class Media_model extends CI_Model{
 		}
 		else
 		{
-			$this->db->limit($limit);		
+			$this->db->limit($limit);
+            $this->db->where('p_active',1);
 		}
         if($show_all == false)
         {
@@ -70,7 +71,6 @@ class Media_model extends CI_Model{
         {
             $this->db->where('p_price > ',0);
         }
-        $this->db->where('p_active',1);
 		$this->db->join("ss_accounts","ss_accounts.a_id = ss_photos.p_a_id");
 		$this->db->order_by('p_created','DESC');
 		return $this->db->get('ss_photos')->result();
