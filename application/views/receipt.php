@@ -57,7 +57,7 @@
                                                 <br>
                                                 <h5 id=""><?php echo !empty($cart->uc_ship_date) ? $cart->uc_ship_date : "Processing - Ships within 3 days." ?></h5>
                                                 <br>
-                                                <h5 id=""><?php echo !empty($cart->uc_tracking_code) ? $cart->uc_tracking_code : "-"; ?></h5>
+                                                <h5 id=""><?php echo !empty($cart->uc_tracking_code) ? $cart->uc_tracking_code." <a href='". $cart->sc_url . $cart->uc_tracking_code ."' target='_blank'>". $cart->sc_url . $cart->uc_tracking_code ."</a>" : "-"; ?></h5>
                                                 <br>
                                                 <h5 id=""><?php echo !empty($cart->uc_ship_notes) ? $cart->uc_ship_notes : "-"; ?></h5>
                                                 <br>
