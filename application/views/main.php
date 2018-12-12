@@ -1126,7 +1126,7 @@
                                         <a id="calculate_shipping" class="btn btn-success">Calculate shipping</a>
                                         <div class="space-20"></div>
                                         <label for="ship_cost">Shipping Cost</label><br>
-                                        <span type="text" id="ship_cost" class="cart_info">0.00</span>
+                                        <span type="text" id="ship_cost" class="cart_info">$0.00</span>
                                         <div class="space-20"></div>
                                         <label for="ship_info">Shipping Service</label><br>
                                         <span type="text" id="ship_info" class="cart_info"></span>
