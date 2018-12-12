@@ -28,8 +28,8 @@ foreach($carts as $cart)
                                               <td>'. $payout->a_ig_username .'</td>
                                               <td>'. $payout->ap_p_id .'</td>
                                               <td>'. $payout->ap_qty .'</td>
-                                              <td>$'. $payout->p_price .'</td>		      
-                                              <td>$'. ($payout->p_price * $payout->ap_qty) .'</td>		      
+                                              <td>$'. $payout->c_photo_price .'</td>		      
+                                              <td>$'. ($payout->c_photo_price * $payout->ap_qty) .'</td>		      
                                               <td>$'. $payout->ap_amount .'</td>		      
                                               <td>'. $success .'</td>			      
                                             </tr>';
