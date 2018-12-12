@@ -50,6 +50,7 @@ class Admin_model extends CI_Model
         }
         $this->db->order_by("ap_id","desc");
         $this->db->join('ss_accounts','ss_accounts.a_id = ss_payments.ap_a_id');
+        $this->db->join('ss_cart','c_p_id = ap_p_id AND c_id = ap_c_id');
         return $this->db->get("ss_payments");
     }
 

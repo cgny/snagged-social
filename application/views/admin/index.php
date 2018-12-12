@@ -6,7 +6,8 @@
 			<thead>
 			<tr>
 				<th scope="col">#</th>
-				<th scope="col">Username</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Email</th>
 				<th scope="col">Created</th>
 				<th scope="col">Shipping $</th>
 				<th scope="col">Shipping Date</th>

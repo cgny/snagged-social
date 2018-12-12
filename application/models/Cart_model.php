@@ -78,7 +78,7 @@ class Cart_model extends CI_Model{
 	{
 		$item = $this->checkItemInCart($p_id,$size_id);
 		$media = $this->media->getMedia($p_id);
-                $size = $this->media->getPhotoSizes($size_id);
+		$size = $this->media->getPhotoSizes($size_id);
 		if(empty($item->num_rows()))
 		{
 			$data = array(
