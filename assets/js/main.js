@@ -80,6 +80,9 @@ jQuery(document).ready(function ($) {
             return false;
         }
 
+        $('#ship_loading').show();
+        $('#calculate_shipping').hide();
+
         var formData = {
                             'to_first_name' : $('#first_name').val(),
                             'to_last_name' : $('#last_name').val(),
@@ -101,6 +104,9 @@ jQuery(document).ready(function ($) {
             dataType : 'json',
             encode : true
         }).done(function (data) {
+
+            $('#ship_loading').hide();
+            $('#calculate_shipping').show();
             // handle errors
             if (!data.success) {
                 if (data.errors.message) {
