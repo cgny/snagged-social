@@ -68,6 +68,7 @@ jQuery(document).ready(function ($) {
             if($(y).val() == "")
             {
                 $(y).addClass('alert-danger');
+                proceed = false;
             }
             else
             {
