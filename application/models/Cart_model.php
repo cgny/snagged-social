@@ -170,8 +170,9 @@ class Cart_model extends CI_Model{
         
     function getUserCart($id)
     {
-    $this->db->where('uc_cart_id',$id);
-    return $this->db->get('ss_user_cart');
+        $this->db->join("ss_shipping_carriers","ss_shipping_carriers.sc_id = ss_user_cart.uc_carrier","left");
+        $this->db->where('uc_cart_id',$id);
+        return $this->db->get('ss_user_cart');
     }
 
 	function getCartTotal()
