@@ -205,6 +205,10 @@ class Cart_model extends CI_Model{
 		{
 			$this->db->where('uc_a_id',$user_id);
             $this->db->where('uc_status >',1);
+            if(empty($limit))
+            {
+                $this->db->order_by('uc_created',"desc");
+            }
 		}
 		$this->db->where('uc_cart_id !=','');
 		$r = $this->db->get('ss_user_cart')->result();
