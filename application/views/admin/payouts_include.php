@@ -9,7 +9,7 @@
 foreach($carts as $cart)
 {
     $cart_id = $cart->uc_id;
-    $payouts = $this->admin->getPayoutsByCartId( $cart_id )->result();
+    $cart_payouts = $this->admin->getPayoutsByCartId( $cart_id )->result();
     $payout_transfers = "<tr data-id='1' class='payments_$cart_id payments_table' id='' style='border:2px black solid'>
                                                 <th scope=\"col\">#</th>
                                                 <th scope=\"col\">Username</th>
@@ -20,7 +20,7 @@ foreach($carts as $cart)
                                                 <th scope=\"col\">Payout</th>
                                                 <th scope=\"col\">Success</th>
                                             </tr>";
-    foreach($payouts as $payout)
+    foreach($cart_payouts as $payout)
     {
         $success = ($payout->ap_success == 1) ? "Yes" : "No";
         $payout_transfers .= '<tr  data-id="2" id="" class="payments_'.$cart_id.' payments_table" style="border:2px black solid">
