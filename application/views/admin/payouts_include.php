@@ -46,9 +46,9 @@ foreach($carts as $cart)
     echo '<tr>
                       <th scope="row">'. $cart->uc_id .'</th>
                       <td>
-                            '. $cart->uc_full_name .'
-                            '. $cart->uc_street_number .' '. $cart->uc_street .'
-                            '. $cart->uc_city .'  '. $cart->uc_state .' 
+                            '. $cart->uc_full_name .'<br>
+                            '. $cart->uc_street_number .' '. $cart->uc_street .'<br>
+                            '. $cart->uc_city .'  '. $cart->uc_state .' <br>
                             '. $cart->uc_country .', '. $cart->uc_zip .' 
                       
                       </td>
