@@ -11,7 +11,9 @@ class Admin_model extends CI_Model
 
 	function getAllCarts($limit = false, $status = false,$user_id = false)
 	{
-		$this->db->select("a_active,a_admin,a_email,a_first_name,a_last_name,a_ig_username,uc_cart_id,a_ig_id,cs_status,uc_id,uc_created,uc_updated,uc_status,uc_shipping,uc_payment_date,uc_ship_date");
+		$this->db->select("a_active,a_admin,a_email,a_first_name,a_last_name,a_ig_username,uc_cart_id,a_ig_id,cs_status,
+		uc_full_name,uc_street,uc_street_number,uc_city,uc_state,uc_country,uc_zip,uc_email,
+		uc_id,uc_created,uc_updated,uc_status,uc_shipping,uc_payment_date,uc_ship_date");
 		$this->db->join("ss_accounts","ss_user_cart.uc_a_id = ss_accounts.a_id","left");
 		$this->db->join("ss_cart_statuses","ss_cart_statuses.cs_id = ss_user_cart.uc_status");
 		if($limit)
