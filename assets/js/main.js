@@ -1056,7 +1056,9 @@ jQuery(document).ready(function ($) {
         $('#sub_total').text('$'+ total.toFixed(2) );
         
         //grand total
-        total = total + parseFloat($('#ship_cost').html());        
+        var sc = $('#ship_cost').html()
+        sc = sc.replace('$','');
+        total = total + parseFloat( sc );
         $('#cart_total').text('$'+ total.toFixed(2) );
         
         if(items.length > 0){
