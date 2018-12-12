@@ -113,7 +113,7 @@ jQuery(document).ready(function ($) {
                     $('#stripe_button').attr('data-amount',(g_total.toFixed(2)*100));
                     $('#ship_cost').html(data.rate[0]);
                     $('#cart_total').html( '$'+g_total );
-                    $('#ship_info').html(data.service[0]);
+                    $('#ship_info').html( data.service );
                     var duration = false;
                     if(data.hasOwnProperty('duration'))
                     {
