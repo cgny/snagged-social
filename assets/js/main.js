@@ -906,7 +906,7 @@ jQuery(document).ready(function ($) {
                            '<div class="col-xs-3 text-right">'+
                            '<h4 class="item_prices" id="price_'+data.items[x].c_id+'" data-price="'+ (MAT_PRICE + parseInt(data.items[x].p_price) + parseInt(data.items[x].ps_price)).toFixed(2) +'">'+ 
                              '$ '+ parseFloat(MAT_PRICE + parseFloat(data.items[x].p_price) + parseFloat(data.items[x].ps_price)).toFixed(2) 
-                           +'<br> size +($'+data.items[x].ps_price+')</h4>'+
+                           +'<br> size +$'+data.items[x].ps_price+'</h4>'+
                            '</div>'+
                            '<div class="col-xs-2 text-right">'+
                            '<b>'+
