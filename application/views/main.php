@@ -1124,6 +1124,7 @@
 
 <div class="space-20"></div>
                                         <a id="calculate_shipping" class="btn btn-success">Calculate shipping</a>
+                                        <img id="ship_loading" src="/assets/images/ajax-loader.gif" />
                                         <div class="space-20"></div>
                                         <label for="ship_cost">Shipping Cost</label><br>
                                         <span type="text" id="ship_cost" class="cart_info">$0.00</span>
