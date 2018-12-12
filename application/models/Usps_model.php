@@ -135,7 +135,7 @@ class Usps_model extends CI_Model{
 			if($rate > $this->rate)
 			{
 				$this->rate = $rate;
-				$this->service = $info->Package->Postage->MailService;
+				$this->service =  html_entity_decode( $info->Package->Postage->MailService );
 			}
 		}
 		else
@@ -149,7 +149,7 @@ class Usps_model extends CI_Model{
 					//get lowest
 					$this->highest_rate = $last_rate = $rate;
 					$this->duration = $service->SvcCommitments;
-					$this->service = $service->SvcDescription;
+					$this->service = html_entity_decode( $service->SvcDescription );
 				}
 			}
 			//get highest of the low

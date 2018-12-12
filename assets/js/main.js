@@ -89,7 +89,7 @@ jQuery(document).ready(function ($) {
                             'to_country' : $('#to_country').val()
                         };
 
-        $('#ship_cost').html('0.00');
+        $('#ship_cost').html('$0.00');
         $('#ship_duration, #ship_info').html('');
         var total = getTotal();
 
@@ -111,9 +111,9 @@ jQuery(document).ready(function ($) {
                     $('#stipe_div').removeClass('hide');
                     var g_total = parseFloat(data.rate[0]) + parseFloat(total);
                     $('#stripe_button').attr('data-amount',(g_total.toFixed(2)*100));
-                    $('#ship_cost').html(data.rate[0]);
+                    $('#ship_cost').html('$'+data.rate[0]);
                     $('#cart_total').html( '$'+g_total );
-                    $('#ship_info').html(data.service[0]);
+                    $('#ship_info').html( data.service );
                     var duration = false;
                     if(data.hasOwnProperty('duration'))
                     {
