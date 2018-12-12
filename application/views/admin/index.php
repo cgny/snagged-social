@@ -78,13 +78,13 @@
             foreach($payouts->result() as $payout)
             {
                 $payout_success = ($payout->ap_success == 1) ? "Yes" : "No";
-                $total = ($payout->ap_qty * $payout->p_price);
+                $total = ($payout->ap_qty * $payout->c_photo_price);
                 echo '<tr>
 			      <th scope="row">'. $payout->ap_id .'</th>
 			      <td>'. $payout->a_ig_username .'</td>
 			      <td>'. $payout->ap_p_id .'</td>
 			      <td>'. $payout->ap_qty .'</td>
-			      <td>$'. $payout->p_price .'</td>
+			      <td>$'. $payout->c_photo_price .'</td>
 			      <td>$'. number_format($total,2) .'</td>
 			      <td>$'. $payout->ap_amount .'</td>
 			     <td>'. $payout_success .'</td>
