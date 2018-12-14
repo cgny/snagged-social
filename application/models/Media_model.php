@@ -71,6 +71,7 @@ class Media_model extends CI_Model{
         {
             $this->db->where('p_price > ',0);
         }
+        $this->db->where('p_url !=','');
 		$this->db->join("ss_accounts","ss_accounts.a_id = ss_photos.p_a_id");
 		$this->db->order_by('p_created','DESC');
 		return $this->db->get('ss_photos')->result();
@@ -78,6 +79,7 @@ class Media_model extends CI_Model{
 
 	function saveMedia($data)
 	{
+        $data = $this->data->cleanData($data);
 		if(!empty($account_id = $this->account->isLogged()))
 		{
 			$replace = array(
@@ -95,6 +97,7 @@ class Media_model extends CI_Model{
 
 	function removeMedia($p_ig_id)
 	{
+        $p_ig_id = $this->data->cleanData($p_ig_id);
 		if(!empty($account_id = $this->account->isLogged()))
 		{
 			$this->db->where('p_ig_id',$p_ig_id);
@@ -122,6 +125,8 @@ class Media_model extends CI_Model{
 			"p_tags" => $this->getTags($data),
 			"p_caption" => $this->getCaption($data)
 		);
+        $update = $this->data->cleanData($update);
+        $p_id = $this->data->cleanData($p_id);
 		if(!empty($account_id = $this->account->isLogged()))
 		{
 			$this->db->where('p_id', $p_id);
@@ -132,9 +137,15 @@ class Media_model extends CI_Model{
 
 	function updatePrice($p_id,$price)
 	{
+	    if($price < 5)
+        {
+            $price = 5.00;
+        }
 		$data = array(
 			"p_price" => $price
 		);
+		$data = $this->data->cleanData($data);
+        $p_id = $this->data->cleanData($p_id);
 		$this->db->where('p_id',$p_id);
 		return $this->db->update('ss_photos',$data);
 	}
@@ -180,7 +191,7 @@ class Media_model extends CI_Model{
 	
 	function getMedia($id)
 	{
-                $this->db->where('p_deleted',0);
+	    $this->db->where('p_deleted',0);
 		$this->db->where('p_id', $this->db->escape_str($id));
 		$this->db->join("ss_accounts","ss_accounts.a_id = ss_photos.p_a_id");
 		$result = $this->db->get("ss_photos");

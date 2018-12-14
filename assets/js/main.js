@@ -42,8 +42,10 @@ jQuery(document).ready(function ($) {
 
     //loadMedia();
     checkWidth();
+    adjustCarouselimages();
     $(window).resize(function(){
         checkWidth();
+        adjustCarouselimages();
     });
 
     function checkWidth()
@@ -53,6 +55,12 @@ jQuery(document).ready(function ($) {
             $('#userLinks').removeClass('hide');
         }
         $('body, .maincontent, #main_container').width($(window).width());
+    }
+
+    function adjustCarouselimages()
+    {
+        var ml = ($('.owl-item').width() - 640) / 2;
+        $('.owl-item img').css({'margin-left':ml});
     }
     
     $('#ship_country').change(function()
@@ -237,9 +245,15 @@ jQuery(document).ready(function ($) {
             } else {
                 $('#search .row.photos').html('');
                 // display success message
+                var y = 1;
+                var img = "";
                 for(var x in data.photos)
                 {
-                    var img = '<div class="col-xs-12 col-sm-6 col-md-4 gallery_single_item" style="display:block">'+
+                    if(y == 1)
+                    {
+                        img += '<div class="cross-3 col-12-lg">';
+                    }
+                    img += '<div class="col-xs-12 col-sm-6 col-md-4 gallery_single_item" style="display:block">'+
                               '<div class="gallery_item">'+
                               '<div class="gallery_photo">'+
                               '<a href="#single" class="view-img" data-toggle="pill">'+
@@ -256,8 +270,15 @@ jQuery(document).ready(function ($) {
                               '</div>'+
                               '</div>'+
                               '</div>';
-                    $('#search .row.photos').append(img);
+
+                    if(y == 3)
+                    {
+                        y = 0;
+                        img += '</div>';
+                    }
+                    y++;
                 }
+                $('#search .row.photos').html(img);
             }
         }).fail(function (data) {
             // for debug
@@ -519,12 +540,22 @@ jQuery(document).ready(function ($) {
 
 
 
-    $( document ).on( "click", ".update_price", function() {
+    $( document ).on( "click", ".update_price", function()
+    {
         var p_id = $(this).attr('data-p_id');
 
+        var price = parseFloat( $('#photo_price_'+p_id).val() );
+        price = price.toFixed(2);
+        if(price < 5.00)
+        {
+            alert("The price must be $5.00 or greater");
+            loadMedia();
+            getUpdatedGallery();
+            return false;
+        }
         var formData = {
             'p_id' : p_id,
-            'p_price' : $('#photo_price_'+p_id).val()
+            'p_price' : price
         };
 
         if($('#photo_price_'+p_id).val() < 1)
@@ -550,6 +581,8 @@ jQuery(document).ready(function ($) {
             } else {
                 // display success message
                 alert('Updated');
+                loadMedia();
+                getUpdatedGallery();
             }
         }).fail(function (data) {
             // for debug
@@ -1258,6 +1291,7 @@ jQuery(document).ready(function ($) {
                                 '<th scope="col">Price</th>'+
                                 '<th scope="col">IG Resync/Update</th>'+
                                 '<th scope="col">Remove</th>'+
+                                '<th scope="col">Active/Inactive</th>'+
                                 '<th scope="col">Link</th>'+
                             '  </tr>' +
                             '</thead>' +
@@ -1319,8 +1353,13 @@ jQuery(document).ready(function ($) {
                 } else {
 					
 					var html = "";
-					
-					for (var x in data.photos) {
+					var y = 1;
+					for (var x in data.photos)
+					{
+                        if(y == 1)
+                        {
+                            html += '<div class="cross-3 col-12-lg">';
+                        }
 						html += '<div class="col-xs-12 col-sm-6 col-md-4 gallery_single_item">'+
                             '<div class="gallery_item">'+
                                 '<div class="gallery_photo">'+
@@ -1339,6 +1378,12 @@ jQuery(document).ready(function ($) {
                                 '</div>'+
                             '</div>'+
                         '</div>';
+                        if(y == 3)
+                        {
+                            y = 0;
+                            html += "</div>";
+                        }
+                        y++;
 					}
                     $('#gallery .row.photos').html(html);
 					$('#gallery .row.photos .gallery_single_item').css({'display':'block'});

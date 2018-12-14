@@ -15,7 +15,7 @@ class Main extends CI_Controller
 	function index()
 	{
 		//$this->error->restoreDB();
-		$data['main'] = $this->media->getSSMedia("",5);
+		$data['main'] = $this->media->getSSMedia("",true,5);
 		$data['media'] = $this->media->getSSMedia();
 
 		$this->load->view('main.php',$data);

@@ -470,3 +470,8 @@ li a {
 #ship_loading{
     display:none;
 }
+
+.cross-3{
+    float:left;
+    width:100%;
+}
