@@ -21,15 +21,19 @@
                             </div>
                         </div>	
                         <div class="col-xs-12 img-thumbnail">
-                            <div id="full_screen_slider" class=" full_screen_slider fix" style="height:800px;overflow-y:hidden">
+                            <div id="full_screen_slider" class=" full_screen_slider fix" style="height:640px;overflow-y:hidden">
                                 <?php
 								//$main = [];
                                   foreach($main as $m_photo)
                                   {
+                                      if(empty($m_photo->p_url))
+                                      {
+                                          continue;
+                                      }
                                         ?>
                                         <div class="slide_item">
                                                 <a href="#single" class="view-img" data-toggle="pill">
-                                                  <img class="photo-select-cart" data-p_id="<?php echo $m_photo->p_id; ?>" style="max-width:99%;min-height:800px" src="<?php echo $m_photo->p_url; ?>" alt="">
+                                                  <img class="photo-select-cart" data-p_id="<?php echo $m_photo->p_id; ?>" style="max-width:640px;height:640px" src="<?php echo $m_photo->p_url; ?>" alt="">
                                                 </a>
                                         </div>
                                         <?php
@@ -209,9 +213,15 @@
 	                <div class="space-60"></div>
                     <div class="row photos">
 
+
                   <?php
-                    foreach($media as $photo)
+                    $y = 1;
+                    foreach($media as $pk => $photo)
                     {
+                        if($y == 1)
+                        {
+                            echo '<div class="cross-3 col-12-lg">';
+                        }
                   ?>
                        		<div class="col-xs-12 col-sm-6 col-md-4 gallery_single_item">
                             <div class="gallery_item">
@@ -232,7 +242,14 @@
                                 </div>
                             </div>
                         </div>
+
                   <?php
+                        if($y == 3)
+                        {
+                            $y = 0;
+                            echo '</div>';
+                        }
+                        $y++;
                     }
                   ?>
                     </div>
@@ -758,8 +775,8 @@
                                                     <th scope="col">Img</th>
                                                     <th scope="col">Price</th>
                                                     <th scope="col">IG Resync/Update</th>
-                                                    <th scope="col">Active/Inactive</th>
                                                     <th scope="col">Delete</th>
+                                                    <th scope="col">Active/Inactive</th>
                                                     <th scope="col">Link</th>
                                                 </tr>
                                                 </thead>

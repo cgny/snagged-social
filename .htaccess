@@ -1,0 +1,19 @@
+RewriteEngine on
+
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://www.snaggedsocial.com/$1 [L,R=301]
+
+RewriteCond %{HTTPS_HOST} ^www.snaggedsocial.com [nc]
+RewriteRule ^(.*)$ https://www.snaggedsocial.com/$1 [L,R=301]
+
+RewriteCond $1 !^(index\.php|assets|js|img|css|application|sitemap\.html|sitemap\.xml|sitemap.xml\.gz|html|robots\.txt|googlea27b93112d968e50\.html|ror\.xml)
+RewriteRule ^(.*)$ /index.php/$1 [L]
+
+
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|xml|gz|html|csv)$">
+    Header append Vary: Accept-Encoding
+    Allow from all
+  </FilesMatch>
+</IfModule>
