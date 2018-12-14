@@ -743,7 +743,8 @@
                 <div class="container">
                     <div class="space-20"></div>
                     <h3>Your Gallery</h3>
-                    <h5>Note: Images must have a price greater than $0.00 to be available for purchase and displayed in the Snagged Social gallery.</h5>
+                    <br>
+                    <h5>Note: Images must have a price $5.00 or greater to be available for purchase and displayed in the Snagged Social gallery.</h5>
                     <div class="space-60"></div>
                     <div id="user_gallery">
 
