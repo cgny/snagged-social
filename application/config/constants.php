@@ -29,22 +29,24 @@ if(ENVIRONMENT == 'development')
     $local = "";
 }
 
+defined('BASE_URL') OR define('BASE_URL', 'http://'. $local . $domain .'index.php');
+
 defined('IG_CLIENT_ID') OR define('IG_CLIENT_ID', 'd1a16a1571694762a579068848cf9a67');
 defined('IG_CLIENT_SECRET') OR define('IG_CLIENT_SECRET', 'c469488648f14bb1b18e7b9e40f84872');
-defined('BASE_URL') OR define('BASE_URL', 'http://'. $local . $domain .'index.php');
 defined('IG_REDIRECT') OR define('IG_REDIRECT', BASE_URL .'/Auth');
 defined('IG_TOKEN_REDIRECT') OR define('IG_TOKEN_REDIRECT', 'http://'. $local . $domain .'index.php/Auth/getToken');
 defined('IG_AUTH_URL') OR define('IG_AUTH_URL', 'https://api.instagram.com/oauth/authorize/?client_id='. IG_CLIENT_ID .'&redirect_uri='. IG_REDIRECT .'&response_type=code');
 defined('IG_TOKEN_URL') OR define('IG_TOKEN_URL', 'https://api.instagram.com/oauth/access_token?');
 defined('IG_API_URL') OR define('IG_API_URL', 'https://api.instagram.com/v1');
 defined('IG_PG_LIMIT') OR define('IG_PG_LIMIT', 20);
+
 defined('IMAGE_INCLUDE') OR define('IMAGE_INCLUDE', $root . '/assets/images/');
 defined('JS_INCLUDE') OR define('JS_INCLUDE', $root . '/assets/js/');
 defined('CSS_INCLUDE') OR define('CSS_INCLUDE', $root . '/assets/css/');
 
 defined('STRIPE_LIB') OR define('STRIPE_LIB', './application/libraries/stripe/init.php');
-defined('STRIPE_PUB_TEST_KEY') OR define('STRIPE_PUB_TEST_KEY', 'pk_test_nJOeAUZgJRAkIAfR8RZh4ME6');
-defined('STRIPE_SECRET_TEST_KEY') OR define('STRIPE_SECRET_TEST_KEY', 'sk_test_ieznSEJcIBV5hP1ktzr1WVCV');
+defined('STRIPE_PUB_TEST_KEY') OR define('STRIPE_PUB_TEST_KEY', 'pk_live_xp6HncKtt0TAQio0MJ5gXUfn'); //pk_test_nJOeAUZgJRAkIAfR8RZh4ME6
+defined('STRIPE_SECRET_TEST_KEY') OR define('STRIPE_SECRET_TEST_KEY', 'sk_live_eCuh1URQWflGRW8wre9LbVjY'); //sk_test_ieznSEJcIBV5hP1ktzr1WVCV
 defined('STRIPE_PUB_LIVE_KEY') OR define('STRIPE_PUB_LIVE_KEY', 'pk_live_xp6HncKtt0TAQio0MJ5gXUfn');
 defined('STRIPE_SECRET_LIVE_KEY') OR define('STRIPE_SECRET_LIVE_KEY', 'sk_live_eCuh1URQWflGRW8wre9LbVjY');
 
