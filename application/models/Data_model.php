@@ -1,6 +1,7 @@
 <?php
- 
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 
 class Data_model extends CI_Model{
@@ -16,7 +17,14 @@ class Data_model extends CI_Model{
         {
             foreach($data as $k => $v)
             {
-                $data[$k] =  $this->db->escape_str($v);
+                $data[$k] =  $this->cleanData($v);
+            }
+        }
+        elseif(is_object($data))
+        {
+            foreach($data as $k => $v)
+            {
+                $data->$k =  $this->cleanData($v);
             }
         }
         else
