@@ -74,32 +74,18 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $local = array(
-	"hostname" => "localhost",
-	"username" => "root",
-	"password" => "Domain10!",
-	"database" => "db711156557"
+	"hostname" => "",
+	"username" => "",
+	"password" => "",
+	"database" => ""
 );
 
 $live = array(
-    'hostname' => 'db711156557.db.1and1.com',
-    'username' => 'dbo711156557',
-    'password' => '@Dom@in1010!!',
-    'database' => 'db711156557',
+    'hostname' => '',
+    'username' => '',
+    'password' => '',
+    'database' => '',
     );
-
-/*
- *
-	'hostname' => 'db711156557.db.1and1.com',
-	'username' => 'dbo711156557',
-	'password' => '@Dom@in1010!!',
-	'database' => 'db711156557',
-
-
-	'hostname' => $data['h'],
-	'username' => $data['u'],
-	'password' => $data['p'],
-	'database' => $data['d'],
- */
 
 $db['default'] = array(
 	'dsn'	=> '',
