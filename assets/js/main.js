@@ -42,7 +42,7 @@ jQuery(document).ready(function ($) {
 
     //loadMedia();
     checkWidth();
-    adjustCarouselimages();
+    adjustCarouselimagesLoad();
     $(window).resize(function(){
         checkWidth();
         adjustCarouselimages();
@@ -59,8 +59,22 @@ jQuery(document).ready(function ($) {
 
     function adjustCarouselimages()
     {
-        var ml = ($('.owl-item').width() - 640) / 2;
+        var m = $('.owl-stage').width();
+        var l = $('.owl-item').length;
+        var ml = ((m/l)-640)/2;
         $('.owl-item img').css({'margin-left':ml});
+    }
+
+    function adjustCarouselimagesLoad()
+    {
+        var m = $('body').width();
+        if(m<600)
+        {
+            return false;
+        }
+        var l = $('#full_screen_slider img').length;
+        var ml = ((m)-640)/2;
+        $('#full_screen_slider  img').css({'margin-left':ml});
     }
     
     $('#ship_country').change(function()
@@ -343,7 +357,8 @@ jQuery(document).ready(function ($) {
 
     $( document ).on( "click", ".photo-select-active", function() {
         var p_ig_id = $(this).attr('data-p_ig_id');
-        if($(this).hasClass('select-inactive'))
+        var id = this.id;
+        if($('#'+id).hasClass('select-inactive'))
         {
             var c = confirm('Do you want to set this photo inactive?');
             if(c)
@@ -1071,7 +1086,7 @@ jQuery(document).ready(function ($) {
                         is_active = "Active";
                     }
                     success = true;
-                    alert('Set to '+is_active);
+                    alert('Is now set to '+is_active);
                     loadMedia();
                     getUpdatedGallery();
                 }
@@ -1300,7 +1315,7 @@ jQuery(document).ready(function ($) {
 
                 for(var x in data.photos)
                 {
-                    var is_active = "inacive";
+                    var is_active = "inactive";
                     var set_active = "Set Inactive";
                     if(data.photos[x].p_active == 0)
                     {
@@ -1311,9 +1326,9 @@ jQuery(document).ready(function ($) {
                                 '<td> '+ data.photos[x].p_id +'</td>'+
                                 '<td> <img style="width:250px" class="" data-p_id="'+ data.photos[x].p_id +'" src="'+ data.photos[x].p_url +'" alt=""> </td>'+
                                 '<td> <input type="text" id="photo_price_'+ data.photos[x].p_id +'" data-p_id="'+ data.photos[x].p_id +'" value="'+ data.photos[x].p_price +'" /> <button data-p_id="'+ data.photos[x].p_id +'" class="update_price">Update</button> </td>'+
-                                '<td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="resync_photo">Resync from Instagram</button> </td>'+
-                                '<td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>'+
-                                '<td> <button data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-active select-'+ is_active +' is-button">'+ set_active +'</button> </td>'+
+                                '<td> <button id="sync-'+ data.photos[x].p_id +'" data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="resync_photo">Resync from Instagram</button> </td>'+
+                                '<td> <button id="remove-'+ data.photos[x].p_id +'" data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-save select-remove is-button">Remove From Media</button> </td>'+
+                                '<td> <button id="active-'+ data.photos[x].p_id +'" data-p_ig_id="'+ data.photos[x].p_ig_id +'" class="photo-select-active select-'+ is_active +' is-button">'+ set_active +'</button> </td>'+
                                 '<td> <a href=""'+ data.photos[x].p_url +'" data-lightbox="roadtrip"><i class="fa fa-search-plus"></i></a> </td>'+
                                 '</tr>';
                         }
