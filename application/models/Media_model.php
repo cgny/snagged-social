@@ -221,15 +221,18 @@ class Media_model extends CI_Model{
 	function checkValidMedia()
     {
         $medias = $this->getSSMedia();
+        $output = [];
         foreach($medias as $media)
         {
             $response = $this->curlFetchMedia($media->p_url);
+            $output[$media->p_id][$media->p_url] = $response;
             if($response == false)
             {
                 $this->updateMedia($media->p_id,array('p_deleted' => 1));
             }
 
         }
+        return $output;
     }
 
     function curlFetchMedia($url)

@@ -272,7 +272,8 @@ class Media extends CI_Controller
 
     function checkValidMedia()
     {
-        $this->media->checkValidMedia();
+        $return = $this->media->checkValidMedia();
+        echo json_encode(array("result" => $return ));
     }
 
     function setActiveInactive()
